@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.bank.dgb.ibs.app.bbs_board_product.BbsBoardProductRbc">
+
+	<resultMap id="productMap" type="kh.bank.dgb.ibs.app.bbs_board_product.BbsBoardProduct">
+		<id property="boardId" column="board_id" />
+		<result property="productNameEn" column="product_name_en" />
+		<result property="productNameKh" column="product_name_kh" />
+		<result property="productDescEn" column="product_desc_en" />
+		<result property="productDescKh" column="product_desc_kh" />
+		<result property="productInterestRate" column="product_interest_rate" />
+	</resultMap>
+
+	<!-- Same target type as productMap, but sourced from bbs_board's HTML content columns instead
+	     of bbs_board_product's own desc columns — matches the old app's two-resultMap split. -->
+	<resultMap id="termConditionMap" type="kh.bank.dgb.ibs.app.bbs_board_product.BbsBoardProduct">
+		<id property="boardId" column="board_id" />
+		<result property="productNameEn" column="product_name_en" />
+		<result property="productNameKh" column="product_name_kh" />
+		<result property="productDescEn" column="board_html_en" />
+		<result property="productDescKh" column="board_html_kh" />
+		<result property="productInterestRate" column="product_interest_rate" />
+	</resultMap>
+
+	<!-- Fixed set of loan-product category codes, copied verbatim from the old mapper. -->
+	<sql id="loanCategoryCodes">
+		'007006001','007006002','007006003','007006004','007006005','007006006','007006007',
+		'007006008','007006009','007006010','007006011','007006012','007006013','007006014','007006015'
+	</sql>
+
+	<select id="getLoanProducts" resultMap="productMap">
+		SELECT p.board_id, p.product_name_en, p.product_name_kh, p.product_desc_en, p.product_desc_kh, p.product_interest_rate
+		FROM bbs_board_product p
+		INNER JOIN bbs_board b ON p.board_id = b.board_id
+		WHERE b.category_code IN (<include refid="loanCategoryCodes" />)
+	</select>
+
+	<select id="getLoanProductById" resultMap="productMap">
+		SELECT p.board_id, p.product_name_en, p.product_name_kh, p.product_desc_en, p.product_desc_kh, p.product_interest_rate
+		FROM bbs_board_product p
+		INNER JOIN bbs_board b ON p.board_id = b.board_id
+		WHERE b.category_code IN (<include refid="loanCategoryCodes" />)
+			AND p.board_id = #{id}
+	</select>
+
+	<select id="getLoanProductByProductCode" resultMap="productMap">
+		SELECT p.board_id, p.product_name_en, p.product_name_kh, p.product_desc_en, p.product_desc_kh, p.product_interest_rate
+		FROM bbs_board_product p
+		WHERE p.product_code LIKE CONCAT('%', #{productCode})
+	</select>
+
+	<select id="getTermConditionById" resultMap="termConditionMap">
+		SELECT p.board_id, p.product_name_en, p.product_name_kh, b.board_html_en, b.board_html_kh, p.product_interest_rate
+		FROM bbs_board_product p
+		INNER JOIN bbs_board b ON p.board_id = b.board_id
+		WHERE p.board_id = #{boardId}
+	</select>
+
+	<select id="getLoanProductNameKh" resultType="String">
+		SELECT p.product_name_kh
+		FROM bbs_board b
+		INNER JOIN bbs_board_product p ON p.board_id = b.board_id
+		WHERE p.product_code = #{productCode}
+	</select>
+
+</mapper>

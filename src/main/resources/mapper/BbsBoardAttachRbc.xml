@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.bank.dgb.ibs.app.bbs_board_attach.BbsBoardAttachRbc">
+
+	<resultMap id="bbsBoardAttachMap" type="kh.bank.dgb.ibs.app.bbs_board_attach.BbsBoardAttach">
+		<id property="attachId" column="attach_id" />
+		<result property="boardId" column="board_id" />
+		<result property="attachName" column="attach_name" />
+		<result property="attachOriginalName" column="attach_original_name" />
+		<result property="attachExt" column="attach_ext" />
+		<result property="attachSize" column="attach_size" />
+		<result property="attachContentType" column="attach_content_type" />
+		<result property="attachData" column="attach_data" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdDate" column="created_date" />
+		<result property="isDeleted" column="is_deleted" />
+		<result property="deletedBy" column="deleted_by" />
+		<result property="deletedDate" column="deleted_date" />
+	</resultMap>
+
+	<!-- Excludes attach_data (the blob) — matches the old "list" query, which never loaded the
+	     file bytes just to render an attachment list. -->
+	<select id="getAttachByBoardId" resultMap="bbsBoardAttachMap">
+		SELECT attach_id, board_id, attach_name, attach_original_name, attach_ext,
+			attach_size, attach_content_type, created_by, created_date, is_deleted, deleted_by, deleted_date
+		FROM bbs_board_attach
+		WHERE is_deleted = 0
+			AND board_id = #{boardId}
+	</select>
+
+	<select id="getById" resultMap="bbsBoardAttachMap">
+		SELECT attach_id, board_id, attach_name, attach_original_name, attach_ext,
+			attach_size, attach_content_type, attach_data, created_by, created_date, is_deleted, deleted_by, deleted_date
+		FROM bbs_board_attach
+		WHERE is_deleted = 0
+			AND attach_id = #{id}
+	</select>
+
+</mapper>

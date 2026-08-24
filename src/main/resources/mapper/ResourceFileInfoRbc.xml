@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.bank.dgb.ibs.app.resource_file_info.ResourceFileInfoRbc">
+
+	<resultMap id="mapper" type="kh.bank.dgb.ibs.app.resource_file_info.ResourceFileInfo">
+		<id property="id" column="res_file_id" />
+		<result property="fileTypeCode" column="res_file_type_code" />
+		<result property="fileName" column="res_file_name" />
+		<result property="fileExt" column="res_file_ext" />
+		<result property="fileContentType" column="res_file_content_type" />
+		<result property="fileSize" column="res_file_size" />
+		<result property="fileData" column="res_file_data" />
+		<result property="createdBy" column="created_by" />
+		<result property="createdDate" column="created_date" />
+		<result property="updatedBy" column="updated_by" />
+		<result property="updatedDate" column="updated_date" />
+	</resultMap>
+
+	<select id="getLastId" resultType="Long">
+		SELECT COUNT(res_file_id) FROM resource_file_info
+	</select>
+
+	<!-- created_date intentionally not set on insert — matches the old app exactly (see class doc). -->
+	<insert id="addCompanyProfile" parameterType="kh.bank.dgb.ibs.app.resource_file_info.ResourceFileInfo">
+		INSERT INTO resource_file_info
+		(res_file_id, res_file_type_code, res_file_name, res_file_ext, res_file_content_type,
+			res_file_size, res_file_data, created_by, updated_by, updated_date)
+		VALUES
+		(#{id}, #{fileTypeCode}, #{fileName}, #{fileExt}, #{fileContentType},
+			#{fileSize}, #{fileData}, #{createdBy}, #{updatedBy}, NOW())
+	</insert>
+
+	<update id="updateCompanyProfile" parameterType="kh.bank.dgb.ibs.app.resource_file_info.ResourceFileInfo">
+		UPDATE resource_file_info SET
+			res_file_type_code = #{fileTypeCode},
+			res_file_name = #{fileName},
+			res_file_ext = #{fileExt},
+			res_file_content_type = #{fileContentType},
+			res_file_size = #{fileSize},
+			res_file_data = #{fileData},
+			updated_by = #{updatedBy},
+			updated_date = NOW()
+		WHERE res_file_id = #{id}
+	</update>
+
+	<select id="getResourceById" resultMap="mapper">
+		SELECT * FROM resource_file_info WHERE res_file_id = #{id} LIMIT 1
+	</select>
+
+</mapper>

@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: ibs
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ibs-web
+    username: postgres
+    password: ${IBS_DB_PASSWORD:1234}
+    hikari:
+      # Old app never tuned this (JNDI pool was configured on the WildFly side, outside the repo).
+      # Starting conservative; DevOps/whoever owns the DB should revisit under real load.
+      maximum-pool-size: ${IBS_DB_POOL_SIZE:10}
+      connection-timeout: 30000
+  session:
+    store-type: redis
+  data:
+    redis:
+      host: ${IBS_REDIS_HOST:localhost}
+      port: ${IBS_REDIS_PORT:6379}
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+server:
+  port: 8080
+
+ibs:
+  security:
+    # Old app only enforced encryption when set.mode=PRO (a manual per-environment file swap).
+    # Same intent, cleaner mechanism: default off locally/in tests, set true via env var in prod.
+    encryption-required: ${IBS_ENCRYPTION_REQUIRED:false}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # Old app had no health/readiness concept at all. "health" is enough for a Docker
+        # HEALTHCHECK; widen later only if DevOps's monitoring actually wants more (metrics, etc).
+        include: health
+  endpoint:
+    health:
+      # Reports DB/Redis reachability individually rather than one opaque UP/DOWN.
+      show-details: when-authorized
+
+logging:
+  level:
+    root: INFO
+    # Mirrors the old logback.xml, which force-set bizmob.corpbanking to DEBUG regardless of root.
+    kh.bank.dgb.ibs: DEBUG
+
+# Package layout: kh.bank.dgb.ibs.app.<feature_name>/ (snake_case, one folder per feature, e.g.
+# account_inquiry), each holding exactly three classes:
+#   <Feature>Cbc — controller   <Feature>Sbc — service   <Feature>Rbc — MyBatis mapper interface
+# Mapper XML stays flat under resources/mapper/<Feature>Rbc.xml (matches aml-web's convention);
+# only the Kotlin side is split per-feature. See app/account_inquiry/ for the worked template.

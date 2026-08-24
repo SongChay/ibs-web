@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.bank.dgb.ibs.app.faq.FaqRbc">
+
+	<resultMap id="faqMap" type="kh.bank.dgb.ibs.app.faq.Faq">
+		<id property="faqId" column="board_id" />
+		<result property="categoryName" column="category_name" />
+		<result property="categoryNameKh" column="category_name_kh" />
+		<result property="categoryCode" column="category_code" />
+		<result property="titleEn" column="board_title_en" />
+		<result property="contentEn" column="board_html_en" />
+		<result property="titleKh" column="board_title_kh" />
+		<result property="contentKh" column="board_html_kh" />
+		<result property="publishDateTime" column="created_date" />
+	</resultMap>
+
+	<!-- FAQ = bbs_board entries under the fixed parent category '015'. -->
+	<select id="getAll" resultMap="faqMap">
+		SELECT a.board_id, b.category_name, b.category_name_kh, b.category_code,
+			a.board_title_en, a.board_html_en, a.board_title_kh, a.board_html_kh, a.created_date
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '015'
+			AND a.is_deleted = 0
+		<if test="dataGridDTO.searchKeyword != null and dataGridDTO.searchKeyword != ''">
+			AND (
+				a.board_title_en LIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_html_en ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR b.category_name ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR b.category_name_kh ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_title_kh LIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_html_kh ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+			)
+		</if>
+		<if test="dataGridDTO.pageSize != null and dataGridDTO.pageSize > 0">
+			LIMIT #{dataGridDTO.pageSize} OFFSET #{dataGridDTO.start}
+		</if>
+	</select>
+
+	<select id="getTop3Faq" resultMap="faqMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '015'
+			AND a.is_deleted = 0
+		ORDER BY a.created_date DESC
+		LIMIT 3
+	</select>
+
+	<select id="getFaqById" resultMap="faqMap">
+		SELECT a.board_id, b.category_name, b.category_code, a.board_title_en, a.board_html_en,
+			a.board_title_kh, a.board_html_kh, a.created_date
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '015'
+			AND a.is_deleted = 0
+			AND a.board_id = #{faqId}
+	</select>
+
+	<select id="findNextId" resultMap="faqMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '015'
+			AND a.is_deleted = 0
+			AND a.board_id &gt; #{faqId}
+		ORDER BY a.board_id ASC
+		LIMIT 1
+	</select>
+
+	<select id="findPreviousId" resultMap="faqMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '015'
+			AND a.is_deleted = 0
+			AND a.board_id &lt; #{faqId}
+		ORDER BY a.board_id ASC
+		LIMIT 1
+	</select>
+
+	<select id="getCountAll" resultType="Long">
+		SELECT COUNT(a.board_id)
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '015'
+			AND a.is_deleted = 0
+	</select>
+
+	<select id="getCountFilter" resultType="Long">
+		SELECT COUNT(a.board_id)
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '015'
+			AND a.is_deleted = 0
+		<if test="dataGridDTO.searchKeyword != null and dataGridDTO.searchKeyword != ''">
+			AND (
+				a.board_title_en ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_html_en ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR b.category_name ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_title_kh ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_html_kh ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+			)
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.bank.dgb.ibs.app.news_event.NewsEventRbc">
+
+	<resultMap id="newsEventMap" type="kh.bank.dgb.ibs.app.news_event.NewsEvent">
+		<id property="id" column="board_id" />
+		<result property="titleEn" column="board_title_en" />
+		<result property="titleKh" column="board_title_kh" />
+		<result property="contentEn" column="board_html_en" />
+		<result property="contentKh" column="board_html_kh" />
+		<result property="viewCount" column="board_view_count" />
+		<result property="createdDate" column="created_date" />
+		<result property="categoryCode" column="category_code" />
+		<result property="categoryName" column="category_name" />
+		<result property="isBannerDisplayed" column="is_banner_display" />
+	</resultMap>
+
+	<!-- News/events = bbs_board entries under the fixed parent category '004'. -->
+	<select id="getAll" resultMap="newsEventMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh, a.board_html_en, a.board_html_kh,
+			a.board_view_count, a.created_date, b.is_banner_display, c.category_code, c.category_name
+		FROM bbs_board a
+		LEFT JOIN bbs_board_newsevent b ON b.board_id = a.board_id
+		INNER JOIN bbs_category c ON c.category_code = a.category_code
+		WHERE c.parent_category_code = '004'
+			AND a.is_deleted = 0
+		<if test="dataGridDTO.searchKeyword != null and dataGridDTO.searchKeyword != ''">
+			AND (
+				a.board_title_en ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_html_en ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+			)
+		</if>
+		ORDER BY a.created_date DESC
+		<if test="dataGridDTO.pageSize != null and dataGridDTO.pageSize > 0">
+			LIMIT #{dataGridDTO.pageSize} OFFSET #{dataGridDTO.start}
+		</if>
+	</select>
+
+	<select id="findById" resultMap="newsEventMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh, a.board_html_en, a.board_html_kh,
+			a.board_view_count, a.created_date, b.is_banner_display, c.category_name
+		FROM bbs_board a
+		LEFT JOIN bbs_board_newsevent b ON b.board_id = a.board_id
+		INNER JOIN bbs_category c ON c.category_code = a.category_code
+		WHERE c.parent_category_code = '004'
+			AND a.is_deleted = 0
+			AND a.board_id = #{id}
+	</select>
+
+	<select id="findNextId" resultMap="newsEventMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '004'
+			AND a.is_deleted = 0
+			AND a.board_id &gt; #{id}
+		ORDER BY a.board_id ASC
+		LIMIT 1
+	</select>
+
+	<select id="findPreviousId" resultMap="newsEventMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '004'
+			AND a.is_deleted = 0
+			AND a.board_id &lt; #{id}
+		ORDER BY a.board_id DESC
+		LIMIT 1
+	</select>
+
+	<select id="getLatestNotice" resultMap="newsEventMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh, a.board_html_en, a.board_html_kh, a.created_date
+		FROM bbs_board a
+		LEFT JOIN bbs_board_newsevent b ON b.board_id = a.board_id
+		INNER JOIN bbs_category c ON c.category_code = a.category_code
+		WHERE c.parent_category_code = '004'
+			AND a.is_deleted = 0
+		ORDER BY a.created_date DESC
+		LIMIT 1
+	</select>
+
+	<select id="getTop3Notice" resultMap="newsEventMap">
+		SELECT a.board_id, a.board_title_en, a.board_title_kh, a.board_html_en, a.board_html_kh, a.created_date
+		FROM bbs_board a
+		LEFT JOIN bbs_board_newsevent b ON b.board_id = a.board_id
+		INNER JOIN bbs_category c ON c.category_code = a.category_code
+		WHERE c.parent_category_code = '004'
+			AND a.is_deleted = 0
+		ORDER BY a.created_date DESC
+		LIMIT 3
+	</select>
+
+	<update id="updateViewCount">
+		UPDATE bbs_board
+		SET board_view_count = board_view_count + 1
+		WHERE board_id = #{id}
+	</update>
+
+	<select id="getCountAll" resultType="Long">
+		SELECT COUNT(a.board_id)
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '004'
+			AND a.is_deleted = 0
+	</select>
+
+	<select id="getCountFilter" resultType="Long">
+		SELECT COUNT(a.board_id)
+		FROM bbs_board a
+		INNER JOIN bbs_category b ON b.category_code = a.category_code
+		WHERE b.parent_category_code = '004'
+			AND a.is_deleted = 0
+		<if test="dataGridDTO.searchKeyword != null and dataGridDTO.searchKeyword != ''">
+			AND (
+				a.board_title_en ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+				OR a.board_html_en ILIKE CONCAT('%', #{dataGridDTO.searchKeyword}, '%')
+			)
+		</if>
+	</select>
+
+</mapper>
