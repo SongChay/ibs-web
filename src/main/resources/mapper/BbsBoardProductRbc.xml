@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kh.bank.dgb.ibs.app.bbs_board_product.BbsBoardProductRbc">
+<mapper namespace="kh.bank.dgb.ibs.app.local.bbs_board_product.BbsBoardProductRbc">
 
-	<resultMap id="productMap" type="kh.bank.dgb.ibs.app.bbs_board_product.BbsBoardProduct">
+	<resultMap id="productMap" type="kh.bank.dgb.ibs.app.local.bbs_board_product.BbsBoardProduct">
 		<id property="boardId" column="board_id" />
 		<result property="productNameEn" column="product_name_en" />
 		<result property="productNameKh" column="product_name_kh" />
@@ -13,7 +13,7 @@
 
 	<!-- Same target type as productMap, but sourced from bbs_board's HTML content columns instead
 	     of bbs_board_product's own desc columns — matches the old app's two-resultMap split. -->
-	<resultMap id="termConditionMap" type="kh.bank.dgb.ibs.app.bbs_board_product.BbsBoardProduct">
+	<resultMap id="termConditionMap" type="kh.bank.dgb.ibs.app.local.bbs_board_product.BbsBoardProduct">
 		<id property="boardId" column="board_id" />
 		<result property="productNameEn" column="product_name_en" />
 		<result property="productNameKh" column="product_name_kh" />

@@ -22,6 +22,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	// spring-session-data-redis alone has no RedisConnectionFactory bean to attach to — that comes
+	// from spring-boot-starter-data-redis. Without it, Spring Session's Redis autoconfiguration
+	// never activates and silently falls back to plain Tomcat in-memory sessions (confirmed the
+	// hard way: login/session appeared to work fine, but Redis stayed completely empty — same
+	// modularization pattern as the Flyway and MyBatis starters above).
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.springframework.boot:spring-boot-starter-session-data-redis")
 	implementation("org.springframework.session:spring-session-data-redis")
 	// 3.0.x only supports Spring Boot 3.2-3.5 (confirmed the hard way — its MybatisAutoConfiguration
 	// doesn't order correctly after DataSourceAutoConfiguration under Boot 4's autoconfiguration

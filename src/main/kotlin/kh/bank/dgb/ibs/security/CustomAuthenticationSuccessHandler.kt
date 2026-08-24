@@ -6,7 +6,10 @@ import kh.bank.dgb.ibs.common.envelope.ResponseData
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository
+import org.springframework.security.web.context.SecurityContextRepository
 import org.springframework.stereotype.Component
 import tools.jackson.databind.ObjectMapper
 
@@ -23,19 +26,34 @@ data class LoginResponseBody(
  * feature/DAO, not login mechanics — out of scope for this handler.
  *
  * `tkn = session id`, same convention as the old app, so nothing about the wire format changes
- * for existing clients. Session itself is Spring Session/Redis, established automatically once
- * this handler runs (SecurityContext gets persisted to it by Spring Security's session
- * management, same as before).
+ * for existing clients.
+ *
+ * TWO BUGS FIXED HERE, both around session handling that the old app never had to think about
+ * (it ran on Spring Security 4's `SecurityContextPersistenceFilter`, which auto-saved on every
+ * request; Spring Security 6+'s `SecurityContextHolderFilter` only *loads* context, it never
+ * saves):
+ *  1. `request.getSession(false)` returned null and writing the response body committed it
+ *     before anything downstream could add a `Set-Cookie` header — no client ever got a usable
+ *     session at all. Fixed by forcing session creation with `getSession(true)` before writing.
+ *  2. Even with a session created, the authenticated `SecurityContext` was never actually
+ *     persisted into it — every subsequent request came back unauthenticated. Fixed by saving it
+ *     explicitly via `SecurityContextRepository`, the same mechanism `SecurityContextHolderFilter`
+ *     uses to *read* it back on the next request.
  */
 @Component
 class CustomAuthenticationSuccessHandler(
 	private val objectMapper: ObjectMapper,
 ) : AuthenticationSuccessHandler {
 
+	private val securityContextRepository: SecurityContextRepository = HttpSessionSecurityContextRepository()
+
 	override fun onAuthenticationSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+		val session = request.getSession(true)
+		securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response)
+
 		response.status = HttpServletResponse.SC_OK
 		response.contentType = "application/json;charset=UTF-8"
-		val body = LoginResponseBody(userID = authentication.name, tkn = request.getSession(false)?.id.orEmpty())
+		val body = LoginResponseBody(userID = authentication.name, tkn = session.id)
 		objectMapper.writeValue(
 			response.writer,
 			ResponseData(header = ResponseResultUtils.makeResponse(true, ResponseResultCodeType.SUCCESS), body = body),

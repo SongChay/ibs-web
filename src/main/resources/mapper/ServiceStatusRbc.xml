@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kh.bank.dgb.ibs.app.service_status.ServiceStatusRbc">
+<mapper namespace="kh.bank.dgb.ibs.app.local.service_status.ServiceStatusRbc">
 
-	<resultMap id="mapper" type="kh.bank.dgb.ibs.app.service_status.ServiceStatus">
+	<resultMap id="mapper" type="kh.bank.dgb.ibs.app.local.service_status.ServiceStatus">
 		<id property="serviceStatusTypeCode" column="service_status_type_code" />
 		<result property="serviceStatusCode" column="service_status_code" />
 		<result property="serviceStatusFromTime" column="service_status_from_time" />

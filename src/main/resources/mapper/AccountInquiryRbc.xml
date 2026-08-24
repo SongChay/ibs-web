@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kh.bank.dgb.ibs.app.account_inquiry.AccountInquiryRbc">
+<mapper namespace="kh.bank.dgb.ibs.app.local.account_inquiry.AccountInquiryRbc">
 
 	<!--
 		Placeholder query — replace with the real port of whichever mapper this feature

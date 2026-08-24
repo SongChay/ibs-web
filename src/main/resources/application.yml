@@ -49,8 +49,17 @@ logging:
     # Mirrors the old logback.xml, which force-set bizmob.corpbanking to DEBUG regardless of root.
     kh.bank.dgb.ibs: DEBUG
 
-# Package layout: kh.bank.dgb.ibs.app.<feature_name>/ (snake_case, one folder per feature, e.g.
-# account_inquiry), each holding exactly three classes:
+# Package layout: kh.bank.dgb.ibs.app.<backend>.<feature_name>/ (snake_case feature folders),
+# each holding exactly three classes:
 #   <Feature>Cbc — controller   <Feature>Sbc — service   <Feature>Rbc — MyBatis mapper interface
+# <backend> is one of:
+#   local — features backed entirely by this app's own Postgres schema (the 10 DAOs ported in
+#           Phase 2: faq, news_event, bbs_board_attach, bbs_board_product, visited_notice,
+#           prepare_document, purpose_of_transfer, remark_document, resource_file_info,
+#           service_status — plus the account_inquiry worked template).
+#   cbs   — features that call out to the core-banking system (Phase 3's 143 adapters). A feature
+#           needing both (e.g. a CBS transfer that also writes a local audit row) defaults to cbs,
+#           since the CBS call is the primary action.
 # Mapper XML stays flat under resources/mapper/<Feature>Rbc.xml (matches aml-web's convention);
-# only the Kotlin side is split per-feature. See app/account_inquiry/ for the worked template.
+# only the Kotlin side is split by backend/feature. See app/local/account_inquiry/ for the worked
+# Cbc/Sbc/Rbc template.
