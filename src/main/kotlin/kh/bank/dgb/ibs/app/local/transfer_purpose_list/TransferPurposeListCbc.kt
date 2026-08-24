@@ -28,9 +28,12 @@ data class TransferPurposeItem(
  * with `PrepareDocumentRbc` and `RemarkDocumentRbc` (from their own folders) to build one
  * enriched list. That composition is the actual "feature" here, so it gets its own folder with
  * no `Rbc` of its own — the `Sbc` reaches into the three existing ones directly.
+ *
+ * Single old adapter in this file, so the class-level `@RequestMapping` is kept (not removed) and
+ * pointed directly at that adapter's absolute route.
  */
 @RestController
-@RequestMapping("/api/transfer-purposes")
+@RequestMapping("/TRS4105")
 class TransferPurposeListCbc(
 	private val transferPurposeListSbc: TransferPurposeListSbc,
 ) {

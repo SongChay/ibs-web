@@ -1,0 +1,14 @@
+package kh.bank.dgb.ibs.app.cbs.withdrawal_account_list
+
+import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
+import kh.bank.dgb.ibs.common.envelope.RequestData
+import kh.bank.dgb.ibs.common.envelope.ResponseData
+import org.springframework.stereotype.Service
+
+@Service
+class WithdrawalAccountListSbc(
+	private val connector: CoreBankingApiConnector,
+) {
+	fun inquire(request: RequestData<WithdrawalAccountListRequest>): ResponseData<WithdrawalAccountListResponse> =
+		connector.post("CIB11300812", request.header?.languageCode, request.body, WithdrawalAccountListResponse::class.java)
+}

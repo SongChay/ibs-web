@@ -6,7 +6,6 @@ import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 data class FaqListRequest(
@@ -37,22 +36,25 @@ data class FaqDetailRequest(
 	val id: Int,
 )
 
-/** Port of `ADS3001_Adapter_InquiryFaqList` (list) + `ADS3101_Adapter_InquiryFaqDetail` (detail)
- *  — one feature, two endpoints, matching the visited-notice pattern. Both purely local. */
+/** Bundles two unrelated old adapters — `ADS3001_Adapter_InquiryFaqList` (list) and
+ *  `ADS3101_Adapter_InquiryFaqDetail` (detail) — in one feature file. Both purely local. Each
+ *  method carries its own absolute route matching its old adapter (no class-level
+ *  `@RequestMapping`, since the two routes share no common prefix). */
 @RestController
-@RequestMapping("/api/faq")
 class FaqCbc(
 	private val faqSbc: FaqSbc,
 ) {
 
-	@PostMapping
+	/** Port of `ADS3001_Adapter_InquiryFaqList`. */
+	@PostMapping("/ADS3001")
 	fun list(@RequestBody request: RequestData<FaqListRequest>): ResponseData<FaqListResponse> {
 		val body = request.body ?: FaqListRequest()
 		val result = faqSbc.getList(body.currentPage, body.pageSize, body.searchKeyword)
 		return ResponseData(header = ResponseResultUtils.makeResponse(true, ResponseResultCodeType.SUCCESS), body = result)
 	}
 
-	@PostMapping("/detail")
+	/** Port of `ADS3101_Adapter_InquiryFaqDetail`. */
+	@PostMapping("/ADS3101")
 	fun detail(@RequestBody request: RequestData<FaqDetailRequest>): ResponseData<FaqListItem?> {
 		val result = faqSbc.getDetail(request.body!!.id)
 		return ResponseData(header = ResponseResultUtils.makeResponse(true, ResponseResultCodeType.SUCCESS), body = result)

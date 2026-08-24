@@ -30,6 +30,13 @@ import org.springframework.web.bind.annotation.RestController
  *
  * Placeholder logic below — replace with the real port of whichever ABMxxxx adapter this feature
  * corresponds to.
+ *
+ * NOTE: this is a TEMPLATE/placeholder feature only — a fake account-balance lookup written
+ * before the "route == old adapter's literal route" convention (see e.g. `NewsEventCbc`,
+ * `FaqCbc`) was established. It does NOT correspond to any real old adapter/`@Adapter(route=...)`
+ * in the legacy app, so its `/api/account-inquiry` path is left as-is rather than being pointed at
+ * a fabricated legacy route. Do not use this file as a model for wiring a real adapter's route —
+ * copy the pattern from one of the ported features instead.
  */
 @RestController
 @RequestMapping("/api/account-inquiry")
