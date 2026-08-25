@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.security.crypto
+package kh.bank.dgb.ibs.configuration.security.crypto
 
 import java.security.KeyPair
 import java.security.KeyPairGenerator

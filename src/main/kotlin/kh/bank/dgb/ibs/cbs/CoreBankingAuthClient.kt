@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.corebanking
+package kh.bank.dgb.ibs.cbs
 
 /**
  * Boundary to the core-banking system (CBS) for credential verification. Confirmed contract:

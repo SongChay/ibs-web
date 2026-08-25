@@ -1,6 +1,6 @@
-package kh.bank.dgb.ibs.security
+package kh.bank.dgb.ibs.configuration.security
 
-import kh.bank.dgb.ibs.corebanking.CoreBankingAuthClient
+import kh.bank.dgb.ibs.cbs.CoreBankingAuthClient
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

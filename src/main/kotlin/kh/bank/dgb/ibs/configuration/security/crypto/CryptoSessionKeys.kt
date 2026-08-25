@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.security.crypto
+package kh.bank.dgb.ibs.configuration.security.crypto
 
 /**
  * Session attribute names for the RSA→AES handshake, carried over unchanged from the old

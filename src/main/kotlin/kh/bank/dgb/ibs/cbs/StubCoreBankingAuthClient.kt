@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.corebanking
+package kh.bank.dgb.ibs.cbs
 
 import org.springframework.stereotype.Component
 
