@@ -1,6 +1,6 @@
 package kh.bank.dgb.ibs.app.cbs.sub_user_list
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonAlias
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,8 +26,9 @@ data class SubUserListItem(
 	val changeDate: String? = null,
 	val lastLoginDate: String? = null,
 	// Old Vo: getter serialized to the client as "lastLoginHms", setter bound from CBS as
-	// "lastLoginHMS" (different casing) — kept as the CBS wire name here.
-	@JsonProperty("lastLoginHMS")
+	// "lastLoginHMS" (different casing). `@JsonAlias` accepts the CBS input key while
+	// leaving the default property name ("lastLoginHms") as the client-facing output key.
+	@JsonAlias("lastLoginHMS")
 	val lastLoginHms: String? = null,
 	val lastAccessDate: String? = null,
 	val serviceStatusCode: String? = null,
@@ -36,8 +37,9 @@ data class SubUserListItem(
 
 data class SubUserListResponse(
 	// Old Vo: getter serialized to the client as "corporateSubUserInfoList", setter bound from CBS
-	// as "grid01" — kept as the CBS wire name here.
-	@JsonProperty("grid01")
+	// as "grid01". `@JsonAlias` accepts the CBS input key while leaving the default property name
+	// ("corporateSubUserInfoList") as the client-facing output key.
+	@JsonAlias("grid01")
 	val corporateSubUserInfoList: List<SubUserListItem>? = null,
 )
 

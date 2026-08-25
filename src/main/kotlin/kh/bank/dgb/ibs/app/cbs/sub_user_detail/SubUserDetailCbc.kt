@@ -1,5 +1,6 @@
 package kh.bank.dgb.ibs.app.cbs.sub_user_detail
 
+import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonProperty
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.ResponseData
@@ -56,9 +57,14 @@ data class SubUserDetailResponse(
 	val lastLoginDate: String? = null,
 	val lastLoginHms: String? = null,
 	val serviceStatusCode: String? = null,
-	@JsonProperty("grid01")
+	// Old Vo: getter serialized to the client as "userAccountAccessInfoList", setter bound from CBS
+	// as "grid01". `@JsonAlias` accepts the CBS input key while leaving the default property name
+	// as the client-facing output key.
+	@JsonAlias("grid01")
 	val userAccountAccessInfoList: List<SubUserDetailAccountAccessItem>? = null,
-	@JsonProperty("grid02")
+	// Old Vo: getter serialized to the client as "userMenuAccessInfoList", setter bound from CBS
+	// as "grid02" — same treatment.
+	@JsonAlias("grid02")
 	val userMenuAccessInfoList: List<SubUserDetailMenuAccessItem>? = null,
 )
 

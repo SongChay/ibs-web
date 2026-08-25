@@ -20,12 +20,14 @@ data class SaveSubUserRequest(
 	val channelTypeCode: String? = null,
 	val password: String? = null,
 	// Old Vo: getter serialized to CBS as "grid02", setter bound from the client as
-	// "userAccountAccessInfoList" — kept as the CBS wire name here.
-	@JsonProperty("grid02")
+	// "userAccountAccessInfoList" — this same object is both the `@RequestBody` shape and the
+	// exact body forwarded via `connector.post`, so `@param` controls the inbound (client) key and
+	// `@get` controls the outbound-to-CBS key.
+	@param:JsonProperty("userAccountAccessInfoList") @get:JsonProperty("grid02")
 	val userAccountAccessInfoList: List<SaveSubUserAccountAccessItem>? = null,
 	// Old Vo: getter serialized to CBS as "grid01", setter bound from the client as
-	// "userMenuAccessInfoList" — kept as the CBS wire name here.
-	@JsonProperty("grid01")
+	// "userMenuAccessInfoList" — same treatment.
+	@param:JsonProperty("userMenuAccessInfoList") @get:JsonProperty("grid01")
 	val userMenuAccessInfoList: List<SaveSubUserMenuAccessItem>? = null,
 )
 

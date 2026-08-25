@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RestController
 data class RegisterApprovalLineRequest(
 	val userID: String? = null,
 	// Old Vo: getter serialized to CBS as "grid01", setter bound from the client as
-	// "transferTypeList" — kept as the CBS wire name here.
-	@JsonProperty("grid01")
+	// "transferTypeList" — this same object is both the `@RequestBody` shape and the exact body
+	// forwarded via `connector.post`, so `@param` controls the inbound (client) key and `@get`
+	// controls the outbound-to-CBS key.
+	@param:JsonProperty("transferTypeList") @get:JsonProperty("grid01")
 	val transferTypeList: List<TransferTypeItem>? = null,
 	// Old Vo: getter serialized to CBS as "grid02", setter bound from the client as
-	// "approvalLineList" — kept as the CBS wire name here.
-	@JsonProperty("grid02")
+	// "approvalLineList" — same treatment.
+	@param:JsonProperty("approvalLineList") @get:JsonProperty("grid02")
 	val approvalLineList: List<ApprovalLineItem>? = null,
 )
 

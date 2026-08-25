@@ -48,9 +48,9 @@ data class ExecuteTransferFinalApproverRequest(
 	val scheduleDate: String? = null,
 	val scheduleTime: String? = null,
 	val previousApprovalNo: Long? = null,
-	@get:JsonProperty("grid01")
+	@param:JsonProperty("transferList") @get:JsonProperty("grid01")
 	val transferList: List<TransferListItem>? = null,
-	@get:JsonProperty("grid02")
+	@param:JsonProperty("approvalList") @get:JsonProperty("grid02")
 	val approvalList: List<ApprovalLineItem>? = null,
 	val verifyQRCodeVo: VerifyQrCodeRequest? = null,
 )

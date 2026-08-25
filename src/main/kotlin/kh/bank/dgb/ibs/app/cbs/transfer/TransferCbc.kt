@@ -25,9 +25,12 @@ data class ApprovalLineItem(
 )
 
 /** The old `TRS1102_REQ_RegisterTransferVo` read `transferList`/`approvalList` in from its own
- *  client under those names but sent them out to CBS under `grid01`/`grid02` — `@get:JsonProperty`
- *  here only overrides the outbound (CBS-facing) serialization, leaving inbound deserialization
- *  (from our own client) on the default `transferList`/`approvalList` keys. */
+ *  client under those names but sent them out to CBS under `grid01`/`grid02`. A bare
+ *  `@get:JsonProperty` alone does NOT preserve that asymmetry — empirically verified (Jackson 3 +
+ *  jackson-module-kotlin 3.1.5) that it renames BOTH directions, so deserializing a real client
+ *  request under the default `transferList`/`approvalList` keys would silently bind `null`. Needs
+ *  the explicit `@param:JsonProperty` alongside it to pin deserialization to the client-facing name
+ *  while `@get:` alone governs the CBS-facing serialized name. */
 data class TransferRequest(
 	val customerNo: String? = null,
 	val userID: String? = null,
@@ -39,9 +42,9 @@ data class TransferRequest(
 	val scheduleDate: String? = null,
 	val scheduleTime: String? = null,
 	val previousApprovalNo: Long? = null,
-	@get:JsonProperty("grid01")
+	@param:JsonProperty("transferList") @get:JsonProperty("grid01")
 	val transferList: List<TransferListItem>? = null,
-	@get:JsonProperty("grid02")
+	@param:JsonProperty("approvalList") @get:JsonProperty("grid02")
 	val approvalList: List<ApprovalLineItem>? = null,
 )
 

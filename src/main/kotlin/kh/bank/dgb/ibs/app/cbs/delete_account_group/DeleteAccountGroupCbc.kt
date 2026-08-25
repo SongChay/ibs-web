@@ -12,9 +12,11 @@ data class DeleteAccountGroupRequest(
 	val userID: String? = null,
 	val channelTypeCode: String? = null,
 	// Old Vo: getter serialized to CBS as "grid01" (@JsonGetter), setter bound from the client as
-	// "frequentAccountGroupNoList" (@JsonSetter) — collapsed here into the CBS wire name since this
-	// same object now round-trips to CBS directly.
-	@JsonProperty("grid01")
+	// "frequentAccountGroupNoList" (@JsonSetter). A bare @get:JsonProperty alone does NOT preserve
+	// that asymmetry (empirically verified: it renames both directions, so the client's own
+	// "frequentAccountGroupNoList" would silently deserialize to null) — needs the explicit
+	// @param:JsonProperty alongside it to pin deserialization to the client-facing name.
+	@param:JsonProperty("frequentAccountGroupNoList") @get:JsonProperty("grid01")
 	val frequentAccountGroupNoList: List<FrequentAccountGroupNoItem>? = null,
 )
 

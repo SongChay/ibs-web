@@ -12,9 +12,12 @@ data class DeleteFrequentlyUsedAccountRequest(
 	val userID: String? = null,
 	val customerNo: String? = null,
 	val channelTypeCode: String? = null,
-	// Old Vo: getter serialized to CBS as "grid01", setter bound from the client as
-	// "seqNoList" — kept as the CBS wire name here.
-	@JsonProperty("grid01")
+	// Old Vo: getter serialized to CBS as "grid01", setter bound from the client as "seqNoList".
+	// A bare @get:JsonProperty alone does NOT preserve that asymmetry (empirically verified: it
+	// renames both directions, so the client's own "seqNoList" would silently deserialize to
+	// null) — needs the explicit @param:JsonProperty alongside it to pin deserialization to the
+	// client-facing name.
+	@param:JsonProperty("seqNoList") @get:JsonProperty("grid01")
 	val seqNoList: List<SeqNoItem>? = null,
 )
 

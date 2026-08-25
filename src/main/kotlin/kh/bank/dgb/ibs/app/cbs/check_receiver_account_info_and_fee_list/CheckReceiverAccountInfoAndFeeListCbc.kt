@@ -19,14 +19,15 @@ data class CheckReceiverAccountInfoAndFeeRequestItem(
 )
 
 /** The old `TRS1006_REQ_WrapperCheckReceiverAccountInfoAndFeeVo` read this list in from its own
- *  client under `accountList` but sent it out to CBS under `grid01` — `@get:JsonProperty` here
- *  only overrides the outbound (CBS-facing) serialization, leaving inbound deserialization (from
- *  our own client) on the default `accountList` key. */
+ *  client under `accountList` but sent it out to CBS under `grid01`. A bare `@get:JsonProperty`
+ *  with no matching `@param:` does NOT create that asymmetry in Kotlin/Jackson — it renames the
+ *  property for both directions, breaking inbound deserialization from our own client. Both
+ *  `@param:` (inbound, from our client) and `@get:` (outbound, to CBS) are set explicitly here. */
 data class CheckReceiverAccountInfoAndFeeListRequest(
 	val customerNo: String? = null,
 	val accountNo: String? = null,
 	val currencyCode: String? = null,
-	@get:JsonProperty("grid01")
+	@param:JsonProperty("accountList") @get:JsonProperty("grid01")
 	val accountList: List<CheckReceiverAccountInfoAndFeeRequestItem>? = null,
 )
 

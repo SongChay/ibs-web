@@ -1,5 +1,6 @@
 package kh.bank.dgb.ibs.app.cbs.delete_sub_user
 
+import com.fasterxml.jackson.annotation.JsonAlias
 import com.fasterxml.jackson.annotation.JsonProperty
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.ResponseData
@@ -12,9 +13,12 @@ data class DeleteSubUserRequest(
 	val loginUserID: String? = null,
 	val channelTypeCode: String? = null,
 	val customerNo: String? = null,
-	// Old Vo: getter serialized to CBS as "grid01", setter bound from the client as
-	// "subUserIDList" — kept as the CBS wire name here.
-	@JsonProperty("grid01")
+	// Old Vo: getter serialized to CBS as "grid01", setter bound from the client as "subUserIDList".
+	// A bare @get:JsonProperty alone does NOT preserve that asymmetry (empirically verified: it
+	// renames both directions, so the client's own "subUserIDList" would silently deserialize to
+	// null) — needs the explicit @param:JsonProperty alongside it to pin deserialization to the
+	// client-facing name.
+	@param:JsonProperty("subUserIDList") @get:JsonProperty("grid01")
 	val subUserIDList: List<UserIdItem>? = null,
 )
 
@@ -24,8 +28,9 @@ data class UserIdItem(
 
 data class DeleteSubUserResponse(
 	// Old Vo: getter serialized to the client as "subUserIDList", setter bound from CBS as
-	// "grid01" — kept as the CBS wire name here.
-	@JsonProperty("grid01")
+	// "grid01" — kept exactly: accepted from CBS via "grid01" (JsonAlias, deserialize-only),
+	// serialized back to the client under the default "subUserIDList" name.
+	@JsonAlias("grid01")
 	val subUserIDList: List<UserIdItem>? = null,
 )
 

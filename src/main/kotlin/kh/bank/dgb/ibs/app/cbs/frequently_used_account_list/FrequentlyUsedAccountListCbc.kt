@@ -41,12 +41,14 @@ data class FrequentlyUsedAccountItem(
 
 data class FrequentlyUsedAccountListResponse(
 	// Old Vo: getter serialized to the client as "frequentAccountTotal", setter bound from CBS as
-	// "grid01Count" — kept as the CBS wire name here.
-	@JsonProperty("grid01Count")
+	// "grid01Count" — asymmetric, replicated here via separate param/get wire names.
+	@param:JsonProperty("grid01Count")
+	@get:JsonProperty("frequentAccountTotal")
 	val frequentAccountTotal: Long? = null,
 	// Old Vo: getter serialized to the client as "frequentAccountList", setter bound from CBS as
-	// "grid01" — kept as the CBS wire name here.
-	@JsonProperty("grid01")
+	// "grid01" — asymmetric, replicated here via separate param/get wire names.
+	@param:JsonProperty("grid01")
+	@get:JsonProperty("frequentAccountList")
 	val frequentAccountList: List<FrequentlyUsedAccountItem>? = null,
 )
 
