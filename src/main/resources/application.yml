@@ -24,6 +24,14 @@ mybatis:
 
 server:
   port: 8080
+  servlet:
+    # Old app's WAR (rootProject.name = 'ibs', no context-root override) deployed on WildFly at
+    # context path /ibs by default — confirmed against the real SIT client, which calls e.g.
+    # /ibs/RSA, not /RSA. This one setting reproduces that uniformly for every route (all ~133
+    # business adapters plus /login, /security_check, /RSA, /AES, etc.) without touching any
+    # controller. NOTE: this also moves the actuator health endpoint to /ibs/actuator/health —
+    # worth flagging to whoever wires up the container HEALTHCHECK/readiness probe.
+    context-path: /ibs
 
 ibs:
   security:

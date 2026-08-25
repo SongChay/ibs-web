@@ -15,14 +15,18 @@ data class AesHandshakeRequest(
 
 /**
  * Port of the old `/AES` adapter (AES_Adapter.java) — second step of the crypto handshake.
- * Client RSA-encrypts a 128-character AES passphrase with the public key from /rsa and posts
+ * Client RSA-encrypts a 128-character AES passphrase with the public key from /RSA and posts
  * it here; we decrypt it with the session's RSA private key and remember it as the AES key
  * used to encrypt/decrypt every subsequent request/response body.
+ *
+ * Route is `/AES`, uppercase — confirmed against the real client (its compiled JS literally posts
+ * to `/AES`), not the lowercase `/aes` this was originally ported as; Spring's path matching is
+ * case-sensitive, so this mattered.
  */
 @RestController
 class AesHandshakeController {
 
-	@PostMapping("/aes")
+	@PostMapping("/AES")
 	fun exchangeKey(@RequestBody request: AesHandshakeRequest, session: HttpSession) {
 		val privateKey = session.getAttribute(CryptoSessionKeys.RSA_PRIVATE_KEY) as? PrivateKey
 			?: throw UnauthorizedException("No RSA handshake in progress for this session")

@@ -16,15 +16,19 @@ data class RsaHandshakeResponse(
  * Port of the old `/RSA` adapter (RSA_Adapter.java) — first step of the crypto handshake.
  * Issues a fresh RSA keypair, keeps the private key server-side in the session, hands the
  * client the public key (Base64-encoded, X.509 SubjectPublicKeyInfo) to encrypt its AES
- * passphrase with on the next call to /aes.
+ * passphrase with on the next call to /AES.
  *
- * Clears any prior session state first, same as the original — re-hitting /rsa starts a brand
+ * Route is `/RSA`, uppercase — confirmed against the real client (its compiled JS literally posts
+ * to `/RSA`), not the lowercase `/rsa` this was originally ported as; Spring's path matching is
+ * case-sensitive, so this mattered.
+ *
+ * Clears any prior session state first, same as the original — re-hitting /RSA starts a brand
  * new handshake rather than layering on top of an old one.
  */
 @RestController
 class RsaHandshakeController {
 
-	@PostMapping("/rsa")
+	@PostMapping("/RSA")
 	fun issueKeyPair(session: HttpSession): RsaHandshakeResponse {
 		session.attributeNames.toList().forEach(session::removeAttribute)
 
