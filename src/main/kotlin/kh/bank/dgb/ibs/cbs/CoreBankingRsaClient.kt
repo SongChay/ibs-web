@@ -1,0 +1,73 @@
+package kh.bank.dgb.ibs.cbs
+
+import kh.bank.dgb.ibs.common.envelope.RequestData
+import kh.bank.dgb.ibs.common.envelope.RequestUserHeaderVo
+import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
+import org.springframework.web.client.RestClient
+import org.springframework.web.client.RestClientException
+import tools.jackson.databind.node.ObjectNode
+
+data class ChannelRsaKeyResult(
+	val modulus: String,
+	val exponent: String,
+)
+
+/** Requests CBS's own RSA public key (see `CoreBankingRsaProperties`), used to encrypt the
+ *  password before the ATH0001 login call. Returns `null` on any failure — the caller (
+ *  `DefaultCoreBankingAuthClient`) turns that into a login failure, same as the old
+ *  `AuthenticationProviderImpl` throwing out of its RSA sub-call. */
+fun interface CoreBankingRsaClient {
+	fun requestPublicKey(header: RequestUserHeaderVo): ChannelRsaKeyResult?
+}
+
+private data class TerminalRequest(val terminalUniqueNo: String? = null)
+
+/**
+ * Port of the RSA sub-call inside the old `AuthenticationProviderImpl.authenticate` — a plain
+ * REST POST to CBS's RSA endpoint. Response is FLAT JSON (`resultCode`/`publicKeyModulus`/
+ * `publicKeyExponent` at the root), unlike every other CBS call, which goes through the full Maru
+ * envelope via `CoreBankingApiConnector` — kept as its own tiny client for that reason rather than
+ * forced through the generic connector.
+ *
+ * UNVERIFIED like every other CBS integration point in this app — no live CBS reachable from this
+ * environment.
+ */
+@Component
+class DefaultCoreBankingRsaClient(
+	private val restClient: RestClient,
+	private val props: CoreBankingRsaProperties,
+) : CoreBankingRsaClient {
+
+	private val logger = LoggerFactory.getLogger(DefaultCoreBankingRsaClient::class.java)
+
+	override fun requestPublicKey(header: RequestUserHeaderVo): ChannelRsaKeyResult? {
+		val request = RequestData(header = header, body = TerminalRequest(terminalUniqueNo = props.terminalUniqueNo))
+
+		return try {
+			val response = restClient.post()
+				.uri(props.url)
+				.body(request)
+				.retrieve()
+				.body(ObjectNode::class.java)
+				?: return null
+
+			val resultCode = response.get("resultCode")?.asString()
+			if (resultCode != SUCCESS_RESULT_CODE) {
+				logger.warn("CBS RSA handshake failed: resultCode={}", resultCode)
+				return null
+			}
+
+			val modulus = response.get("publicKeyModulus")?.asString()
+			val exponent = response.get("publicKeyExponent")?.asString()
+			if (modulus == null || exponent == null) null else ChannelRsaKeyResult(modulus, exponent)
+		} catch (e: RestClientException) {
+			logger.error("CBS RSA handshake call failed", e)
+			null
+		}
+	}
+
+	companion object {
+		private const val SUCCESS_RESULT_CODE = "00000"
+	}
+}

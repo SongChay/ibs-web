@@ -34,6 +34,27 @@ class ServiceStatusSbc(
 		val description: String?,
 	)
 
+	data class ServiceOffStatus(
+		val off: Boolean,
+		val description: String?,
+	)
+
+	/**
+	 * Port of `ServiceStatusServiceImpl.getServiceStatusOff()` — the whole-app maintenance-window
+	 * gate checked once, at login (see `CustomAuthenticationSuccessHandler`): valid credentials
+	 * still get turned away with a "service unavailable" error while this is on. A DIFFERENT row/
+	 * axis than [getBlockingTime] — that one gates final-approver/payment actions during specific
+	 * hours (`serviceStatusTypeCode` "11"); this one is a simple whole-system on/off flag
+	 * (`serviceStatusTypeCode` "01").
+	 */
+	fun isServiceOff(): ServiceOffStatus {
+		val row = serviceStatusRbc.getServiceStatus(SERVICE_STATUS_TYPE_CODE_ON_OFF)
+		val off = row?.serviceStatusCode.equals(SERVICE_STATUS_OFF_CODE, ignoreCase = true)
+		val description = row?.serviceStatusDescription?.trim()?.takeIf { it.isNotEmpty() }
+			?: ResponseResultCodeType.SERVICE_STATUS_OFF.description
+		return ServiceOffStatus(off = off, description = description)
+	}
+
 	/** Returns `null` if the status row itself isn't found for [serviceStatusTypeCode] (the old
 	 *  app's `SERVICE_STATUS_NOT_FOUND` case) — callers should map that to that same result code. */
 	fun getBlockingTime(serviceStatusTypeCode: String = SERVICE_STATUS_TIME_CODE): BlockingTimeStatus? {
@@ -78,6 +99,11 @@ class ServiceStatusSbc(
 		 *  payment execution hours. All five current callers use this same code; the parameter
 		 *  exists in case a future feature needs a different status row. */
 		const val SERVICE_STATUS_TIME_CODE = "11"
+		/** Port of `BizResultCodeType.SERVICE_STATUS_ON_OFF_CODE` — the whole-app on/off row
+		 *  checked by [isServiceOff]. Coincidentally also "01", like [SERVICE_STATUS_ON_CODE] below
+		 *  — a different axis (row-selector vs. a code *value* within the time-window row), not a
+		 *  duplicate. */
+		private const val SERVICE_STATUS_TYPE_CODE_ON_OFF = "01"
 		private const val SERVICE_STATUS_OFF_CODE = "00"
 		private const val SERVICE_STATUS_ON_CODE = "01"
 		private const val SERVICE_STATUS_NA_CODE = "02"

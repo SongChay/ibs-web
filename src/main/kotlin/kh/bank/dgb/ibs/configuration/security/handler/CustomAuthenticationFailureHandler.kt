@@ -4,19 +4,20 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils
+import kh.bank.dgb.ibs.common.envelope.ResponseUserHeaderVo
+import kh.bank.dgb.ibs.configuration.security.CoreBankingAuthenticationException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.session.SessionAuthenticationException
 import org.springframework.stereotype.Component
 
 /**
- * Port of `CustomAuthenticationFailureHandler` — PARTIAL. The old handler special-cased
- * `CustomAuthenticationException` to surface core-banking-specific error data (password attempt
- * counts, substituted into the result message) — that branch is deferred along with the rest of
- * the login/core-banking integration (see `AuthenticationProviderImpl` in the old app).
+ * Port of `CustomAuthenticationFailureHandler`. Now complete: `CoreBankingAuthenticationException`
+ * (the restored `CustomAuthenticationException` equivalent) surfaces CBS's own result code/message
+ * straight through — already message-substituted with password-attempt counts by
+ * `DefaultCoreBankingAuthClient`, matching the old app's `AuthenticationProviderImpl`.
  * `SessionAuthenticationException` (concurrent-login kick-off during the login POST itself) and
- * the generic fallback are pure security infra and ported now; anything else currently falls
- * through to UNKNOWN_ERROR until the deferred branch is built.
+ * the generic fallback are unchanged.
  */
 @Component
 class CustomAuthenticationFailureHandler(
@@ -24,10 +25,15 @@ class CustomAuthenticationFailureHandler(
 ) : AuthenticationFailureHandler {
 
 	override fun onAuthenticationFailure(request: HttpServletRequest, response: HttpServletResponse, exception: AuthenticationException) {
-		val code = when (exception) {
-			is SessionAuthenticationException -> ResponseResultCodeType.SESSION_MAX_COUNT
-			else -> ResponseResultCodeType.UNKNOWN_ERROR
+		val header = when (exception) {
+			is CoreBankingAuthenticationException -> ResponseUserHeaderVo(
+				result = false,
+				resultCode = exception.resultCode ?: ResponseResultCodeType.UNKNOWN_ERROR.value,
+				resultMessage = exception.resultMessage ?: ResponseResultCodeType.UNKNOWN_ERROR.description,
+			)
+			is SessionAuthenticationException -> ResponseResultUtils.makeResponse(false, ResponseResultCodeType.SESSION_MAX_COUNT)
+			else -> ResponseResultUtils.makeResponse(false, ResponseResultCodeType.UNKNOWN_ERROR)
 		}
-		responseWriter.write(response, ResponseResultUtils.makeResponse(false, code))
+		responseWriter.write(response, header)
 	}
 }

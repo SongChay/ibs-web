@@ -11,6 +11,11 @@ data class LoginRequestBody(
 	val userPwd: String? = null,
 )
 
+/** Carries the request's `languageCode` (from `header`, never encrypted) through to
+ *  `IbsAuthenticationProvider` — the Kotlin equivalent of the old app's
+ *  `UserWebAuthenticationDetails`, which smuggled the same field via `authentication.details`. */
+data class LoginRequestDetails(val languageCode: String? = null)
+
 /**
  * Port of the old `/security_check` login mechanics. The default `UsernamePasswordAuthenticationFilter`
  * reads username/password from request PARAMETERS (form-urlencoded), but this API is JSON-only
@@ -21,12 +26,18 @@ data class LoginRequestBody(
  * Security and hands every downstream filter plain JSON regardless of whether the client
  * encrypted the request — so this filter can just read the body directly via the normal
  * `obtainUsername`/`obtainPassword` extension points, putting real values into
- * principal/credentials the standard way. No `AuthenticationDetailsSource` indirection needed.
+ * principal/credentials the standard way. Only `languageCode` still needs the
+ * `AuthenticationDetailsSource` indirection, since `IbsAuthenticationProvider` (not this filter)
+ * is what needs it, for the CBS RSA-handshake + ATH0001 calls.
  */
 class JsonCredentialsAuthenticationFilter(
 	authenticationManager: AuthenticationManager,
 	private val objectMapper: ObjectMapper,
 ) : UsernamePasswordAuthenticationFilter(authenticationManager) {
+
+	init {
+		setAuthenticationDetailsSource { request -> LoginRequestDetails(languageCode = parsedBody(request).header?.languageCode) }
+	}
 
 	override fun obtainUsername(request: HttpServletRequest): String? = parsedBody(request).body?.userID
 
