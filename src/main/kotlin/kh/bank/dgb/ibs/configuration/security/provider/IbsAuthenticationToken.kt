@@ -1,6 +1,6 @@
-package kh.bank.dgb.ibs.configuration.security
+package kh.bank.dgb.ibs.configuration.security.provider
 
-import kh.bank.dgb.ibs.cbs.Ath0001Response
+import kh.bank.dgb.ibs.cbs.model.Ath0001Response
 import kh.bank.dgb.ibs.common.envelope.ResponseUserHeaderVo
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority

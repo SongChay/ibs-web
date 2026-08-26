@@ -1,5 +1,6 @@
-package kh.bank.dgb.ibs.cbs
+package kh.bank.dgb.ibs.cbs.client
 
+import kh.bank.dgb.ibs.cbs.properties.CoreBankingRsaProperties
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.RequestUserHeaderVo
 import org.slf4j.LoggerFactory

@@ -1,8 +1,8 @@
 package kh.bank.dgb.ibs.configuration.controller
 
 import jakarta.servlet.http.HttpSession
-import kh.bank.dgb.ibs.configuration.security.crypto.CryptoSessionKeys
-import kh.bank.dgb.ibs.configuration.security.crypto.RsaKeyPairGenerator
+import kh.bank.dgb.ibs.configuration.security.handshake.CryptoSessionKeys
+import kh.bank.dgb.ibs.configuration.security.handshake.rsa.RsaKeyPairGenerator
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.Base64

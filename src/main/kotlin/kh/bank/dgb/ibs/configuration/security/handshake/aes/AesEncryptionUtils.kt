@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.configuration.security.crypto
+package kh.bank.dgb.ibs.configuration.security.handshake.aes
 
 import java.security.MessageDigest
 import java.util.HexFormat

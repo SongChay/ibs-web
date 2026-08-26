@@ -1,4 +1,6 @@
-package kh.bank.dgb.ibs.cbs
+package kh.bank.dgb.ibs.cbs.client
+
+import kh.bank.dgb.ibs.cbs.model.Ath0001Result
 
 /**
  * Boundary to the core-banking system (CBS) for the real login flow: RSA-encrypt the submitted

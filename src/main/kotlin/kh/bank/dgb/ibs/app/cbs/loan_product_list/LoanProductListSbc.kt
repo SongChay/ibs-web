@@ -1,7 +1,7 @@
 package kh.bank.dgb.ibs.app.cbs.loan_product_list
 
 import kh.bank.dgb.ibs.app.local.bbs_board_product.BbsBoardProductRbc
-import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
+import kh.bank.dgb.ibs.cbs.client.CoreBankingApiConnector
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import org.springframework.stereotype.Service

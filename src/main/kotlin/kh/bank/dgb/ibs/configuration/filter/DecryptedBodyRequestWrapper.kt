@@ -6,7 +6,7 @@ import jakarta.servlet.ReadListener
 import jakarta.servlet.ServletInputStream
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletRequestWrapper
-import kh.bank.dgb.ibs.configuration.security.crypto.AesEncryptionUtils
+import kh.bank.dgb.ibs.configuration.security.handshake.aes.AesEncryptionUtils
 import java.io.BufferedReader
 import java.io.ByteArrayInputStream
 import java.io.InputStreamReader

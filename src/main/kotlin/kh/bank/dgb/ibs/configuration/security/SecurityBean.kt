@@ -29,9 +29,12 @@ import tools.jackson.databind.ObjectMapper
  * token, so enabling it now would break every write request. (The old XML also declared an
  * `HttpSessionCsrfTokenRepository` bean despite CSRF being off; that was dead/half-wired
  * configuration and isn't carried over.)
+ *
+ * Renamed from `SecurityConfig` to match this project's convention: a `@Configuration` class whose
+ * job is producing `@Bean`s gets a `Bean` suffix, not a `Config` one.
  */
 @Configuration
-class SecurityConfig(
+class SecurityBean(
 	private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
 	private val invalidSessionStrategyHandler: InvalidSessionStrategyHandler,
 	private val expiredSessionStrategyHandler: ExpiredSessionStrategyHandler,

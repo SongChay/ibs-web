@@ -1,6 +1,6 @@
 package kh.bank.dgb.ibs.app.local.resource_file_info
 
-import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
+import kh.bank.dgb.ibs.cbs.client.CoreBankingApiConnector
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils

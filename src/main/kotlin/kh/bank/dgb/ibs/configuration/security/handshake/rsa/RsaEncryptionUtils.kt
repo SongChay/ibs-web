@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.configuration.security.crypto
+package kh.bank.dgb.ibs.configuration.security.handshake.rsa
 
 import java.security.Key
 import java.util.Base64

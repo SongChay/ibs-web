@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.cbs
+package kh.bank.dgb.ibs.cbs.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import kh.bank.dgb.ibs.common.envelope.ResponseUserHeaderVo

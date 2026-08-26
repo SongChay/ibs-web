@@ -2,7 +2,7 @@ package kh.bank.dgb.ibs.app.cbs.oversea_transfer_final_approval
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import kh.bank.dgb.ibs.app.local.service_status.ServiceStatusSbc
-import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
+import kh.bank.dgb.ibs.cbs.client.CoreBankingApiConnector
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType

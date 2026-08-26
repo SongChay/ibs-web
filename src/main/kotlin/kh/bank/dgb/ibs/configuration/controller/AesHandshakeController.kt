@@ -2,8 +2,8 @@ package kh.bank.dgb.ibs.configuration.controller
 
 import jakarta.servlet.http.HttpSession
 import kh.bank.dgb.ibs.common.exception.UnauthorizedException
-import kh.bank.dgb.ibs.configuration.security.crypto.CryptoSessionKeys
-import kh.bank.dgb.ibs.configuration.security.crypto.RsaEncryptionUtils
+import kh.bank.dgb.ibs.configuration.security.handshake.CryptoSessionKeys
+import kh.bank.dgb.ibs.configuration.security.handshake.rsa.RsaEncryptionUtils
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController

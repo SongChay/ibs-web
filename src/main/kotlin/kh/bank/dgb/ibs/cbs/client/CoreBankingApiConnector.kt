@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.cbs
+package kh.bank.dgb.ibs.cbs.client
 
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 

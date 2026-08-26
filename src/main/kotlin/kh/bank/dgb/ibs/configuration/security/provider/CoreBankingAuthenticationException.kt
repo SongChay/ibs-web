@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.configuration.security
+package kh.bank.dgb.ibs.configuration.security.provider
 
 import org.springframework.security.core.AuthenticationException
 

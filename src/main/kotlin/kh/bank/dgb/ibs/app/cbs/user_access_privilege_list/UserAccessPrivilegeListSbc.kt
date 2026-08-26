@@ -1,6 +1,6 @@
 package kh.bank.dgb.ibs.app.cbs.user_access_privilege_list
 
-import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
+import kh.bank.dgb.ibs.cbs.client.CoreBankingApiConnector
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import org.springframework.stereotype.Service

@@ -1,8 +1,11 @@
-package kh.bank.dgb.ibs.cbs
+package kh.bank.dgb.ibs.cbs.client
 
+import kh.bank.dgb.ibs.cbs.model.Ath0001Request
+import kh.bank.dgb.ibs.cbs.model.Ath0001Response
+import kh.bank.dgb.ibs.cbs.model.Ath0001Result
 import kh.bank.dgb.ibs.common.envelope.RequestUserHeaderVo
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
-import kh.bank.dgb.ibs.configuration.security.crypto.ChannelRsaUtils
+import kh.bank.dgb.ibs.configuration.security.handshake.rsa.ChannelRsaUtils
 import org.springframework.stereotype.Component
 
 /**

@@ -2,7 +2,7 @@ package kh.bank.dgb.ibs.app.cbs.approval_by_final_approver
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import kh.bank.dgb.ibs.app.local.service_status.ServiceStatusSbc
-import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
+import kh.bank.dgb.ibs.cbs.client.CoreBankingApiConnector
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.RequestUserHeaderVo
 import kh.bank.dgb.ibs.common.envelope.ResponseData

@@ -1,6 +1,6 @@
 package kh.bank.dgb.ibs.app.cbs.account_inquiry_detail
 
-import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
+import kh.bank.dgb.ibs.cbs.client.CoreBankingApiConnector
 import kh.bank.dgb.ibs.common.envelope.RequestData
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import org.springframework.stereotype.Service

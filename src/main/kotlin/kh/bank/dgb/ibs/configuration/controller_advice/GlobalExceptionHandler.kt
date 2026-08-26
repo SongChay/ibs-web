@@ -1,8 +1,9 @@
-package kh.bank.dgb.ibs.common.exception
+package kh.bank.dgb.ibs.configuration.controller_advice
 
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils
+import kh.bank.dgb.ibs.common.exception.IbsException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler

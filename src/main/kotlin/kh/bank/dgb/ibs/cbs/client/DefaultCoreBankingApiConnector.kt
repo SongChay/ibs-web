@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.cbs
+package kh.bank.dgb.ibs.cbs.client
 
 import kh.bank.dgb.ibs.cbs.model.CommonBody
 import kh.bank.dgb.ibs.cbs.model.CommonHeader
@@ -6,6 +6,7 @@ import kh.bank.dgb.ibs.cbs.model.DataHeader
 import kh.bank.dgb.ibs.cbs.model.DataList
 import kh.bank.dgb.ibs.cbs.model.MaruMessage
 import kh.bank.dgb.ibs.cbs.model.MessageData
+import kh.bank.dgb.ibs.cbs.properties.CoreBankingProperties
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils

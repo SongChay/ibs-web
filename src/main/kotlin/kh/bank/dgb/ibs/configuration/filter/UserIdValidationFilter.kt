@@ -28,7 +28,7 @@ import tools.jackson.databind.node.ObjectNode
  *
  * Ordered at -50 — after Spring Security's own filter chain (-100) so `SecurityContextHolder`
  * already holds the request's restored `Authentication` by the time this runs, but still ahead of
- * the controller. `authorizeHttpRequests` in `SecurityConfig` already requires authentication for
+ * the controller. `authorizeHttpRequests` in `SecurityBean` already requires authentication for
  * every route not explicitly whitelisted there (all 4 of these routes are not whitelisted), so in
  * practice this filter only ever sees an authenticated, non-anonymous principal for these paths —
  * the anonymous/null check below is defensive, not load-bearing.

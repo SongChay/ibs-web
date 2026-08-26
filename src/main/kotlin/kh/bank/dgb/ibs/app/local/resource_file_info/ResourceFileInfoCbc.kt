@@ -39,7 +39,7 @@ data class UploadCompanyProfileResponse(
  *  - `CompanyProfileController.getCompanyProfile` (`GET /api/images/resources/{resID}`) — serves
  *    raw image bytes, not JSON at all. Confirmed still actively called by the real client (its
  *    homepage fetches a company logo through exactly this path) — this was a genuine gap where the
- *    old whitelist entry existed in `SecurityConfig` but no controller ever backed it.
+ *    old whitelist entry existed in `SecurityBean` but no controller ever backed it.
  *  - `DownloadController.downloadManual` (`GET /download/manual/{resID}`) — the byte-serving half
  *    of `GNB1004`, which only ever returns JSON metadata pointing at this route. Same "whitelist
  *    entry existed, no controller backed it" gap as the image endpoint above.

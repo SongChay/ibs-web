@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils
 import kh.bank.dgb.ibs.common.envelope.ResponseUserHeaderVo
-import kh.bank.dgb.ibs.configuration.security.CoreBankingAuthenticationException
+import kh.bank.dgb.ibs.configuration.security.provider.CoreBankingAuthenticationException
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.session.SessionAuthenticationException

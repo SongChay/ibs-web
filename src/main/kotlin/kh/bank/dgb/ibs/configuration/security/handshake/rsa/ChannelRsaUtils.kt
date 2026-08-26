@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.configuration.security.crypto
+package kh.bank.dgb.ibs.configuration.security.handshake.rsa
 
 import java.math.BigInteger
 import java.security.KeyFactory

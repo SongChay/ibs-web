@@ -6,7 +6,7 @@ import kh.bank.dgb.ibs.app.local.service_status.ServiceStatusSbc
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils
-import kh.bank.dgb.ibs.configuration.security.IbsAuthenticationToken
+import kh.bank.dgb.ibs.configuration.security.provider.IbsAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler

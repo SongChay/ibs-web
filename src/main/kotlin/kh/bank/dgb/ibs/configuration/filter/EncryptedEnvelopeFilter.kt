@@ -5,8 +5,8 @@ import tools.jackson.databind.node.ObjectNode
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import kh.bank.dgb.ibs.configuration.security.crypto.AesEncryptionUtils
-import kh.bank.dgb.ibs.configuration.security.crypto.CryptoSessionKeys
+import kh.bank.dgb.ibs.configuration.security.handshake.aes.AesEncryptionUtils
+import kh.bank.dgb.ibs.configuration.security.handshake.CryptoSessionKeys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component

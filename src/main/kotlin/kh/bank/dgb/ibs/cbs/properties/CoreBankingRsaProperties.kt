@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.cbs
+package kh.bank.dgb.ibs.cbs.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
