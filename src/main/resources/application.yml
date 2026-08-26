@@ -38,6 +38,22 @@ ibs:
     # Old app only enforced encryption when set.mode=PRO (a manual per-environment file swap).
     # Same intent, cleaner mechanism: default off locally/in tests, set true via env var in prod.
     encryption-required: ${IBS_ENCRYPTION_REQUIRED:false}
+  cbs:
+    rsa:
+      # CBS's OWN RSA key-exchange endpoint (real login flow) — no real value was ever in this
+      # repo, per the old app's per-environment file-swap convention (`rsa.server.address`).
+      url: ${IBS_CBS_RSA_URL:http://127.0.0.1:10210/ONLWeb/HttpCsbRsaAdapter}
+      terminal-unique-no: ${IBS_CBS_RSA_TERMINAL_UNIQUE_NO:1}
+  resource:
+    # Externally-reachable base URL embedded in `corporateUserProfileImageURL` sent to CBS on
+    # company-logo upload, so CBS can fetch the image back later. Defaults to this app's own
+    # /api/images/resources endpoint; override wherever the externally-reachable host/port differs
+    # (e.g. behind the /ibs reverse-proxy prefix in SIT/UAT/PROD).
+    image-base-url: ${IBS_RESOURCE_IMAGE_BASE_URL:http://127.0.0.1:8080/ibs/api/images/resources}
+  mci:
+    # External, non-CBS file-upload service ("MCI") that /upload/docfile proxies to. Unreachable/
+    # unverified from this environment, same as CBS and CBS's own RSA endpoint.
+    upload-url: ${IBS_MCI_UPLOAD_URL:http://127.0.0.1:9090/mci/upload}
 
 management:
   endpoints:

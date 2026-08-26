@@ -32,7 +32,12 @@ class LanguageCodeNormalizationFilter(
 ) : OncePerRequestFilter() {
 
 	override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-		if (request.method != "POST") {
+		// Multipart requests (file uploads) have no JSON `header.languageCode` to normalize, and
+		// reading their body here would drain the raw input stream before Tomcat's own multipart
+		// parser gets a chance to read it — breaking every file upload. Found live: uploading
+		// through `/upload/companyProfile` threw `MissingServletRequestPartException` until this
+		// guard was added.
+		if (request.method != "POST" || request.contentType?.startsWith("multipart/", ignoreCase = true) == true) {
 			filterChain.doFilter(request, response)
 			return
 		}

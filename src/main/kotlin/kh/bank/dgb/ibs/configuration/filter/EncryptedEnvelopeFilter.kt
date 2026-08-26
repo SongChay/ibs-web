@@ -51,6 +51,16 @@ class EncryptedEnvelopeFilter(
 ) : OncePerRequestFilter() {
 
 	override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+		// Multipart requests (file uploads) never carry an encrypted JSON body in this app — the
+		// old MainController's encryption logic only ever applied to its own JSON-dispatch adapter
+		// routes, never to the separate raw-multipart upload controllers. Reading/wrapping the body
+		// here would also break Tomcat's own multipart parsing, same class of bug fixed in
+		// LanguageCodeNormalizationFilter.
+		if (request.contentType?.startsWith("multipart/", ignoreCase = true) == true) {
+			filterChain.doFilter(request, response)
+			return
+		}
+
 		val encryptionRequested = request.getHeader(ENCRYPTION_HEADER).toBoolean()
 
 		if (!encryptionRequested) {

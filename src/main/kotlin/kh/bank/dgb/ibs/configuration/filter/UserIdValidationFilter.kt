@@ -40,7 +40,10 @@ class UserIdValidationFilter(
 ) : OncePerRequestFilter() {
 
 	override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-		if (request.servletPath !in USER_ID_CHECK_LIST) {
+		// None of the 4 checked routes are (or should ever be) multipart uploads, but guard anyway
+		// for the same reason as the other two filters: reading the body here would break Tomcat's
+		// own multipart parsing.
+		if (request.servletPath !in USER_ID_CHECK_LIST || request.contentType?.startsWith("multipart/", ignoreCase = true) == true) {
 			filterChain.doFilter(request, response)
 			return
 		}
