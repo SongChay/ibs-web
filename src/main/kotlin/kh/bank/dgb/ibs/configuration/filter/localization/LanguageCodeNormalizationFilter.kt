@@ -1,13 +1,19 @@
-package kh.bank.dgb.ibs.configuration.filter
+package kh.bank.dgb.ibs.configuration.filter.localization
 
 import jakarta.servlet.FilterChain
+import jakarta.servlet.ReadListener
+import jakarta.servlet.ServletInputStream
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequestWrapper
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import tools.jackson.databind.ObjectMapper
 import tools.jackson.databind.node.ObjectNode
+import java.io.BufferedReader
+import java.io.ByteArrayInputStream
+import java.io.InputStreamReader
 
 /**
  * Port of `MainController.localization(String)`. Every request's `header.languageCode` arrives as
@@ -68,6 +74,44 @@ class LanguageCodeNormalizationFilter(
 			"04" -> "JA"
 			"05" -> "ZH"
 			else -> "EN"
+		}
+	}
+
+	/**
+	 * Shared plumbing for the small family of request-body-inspecting filters (this one and
+	 * `UserIdValidationFilter`) that need to read the full request body once, optionally rewrite
+	 * it, and hand a fresh replayable stream to the rest of the filter chain / controller.
+	 *
+	 * Nested here (not `private`) rather than a standalone file, since this filter is its primary
+	 * owner; `UserIdValidationFilter` — in the sibling `authorization` package — reaches in via
+	 * `LanguageCodeNormalizationFilter.ReplayableBodyRequestWrapper` rather than getting its own
+	 * copy. `DecryptedBodyRequestWrapper` is a separate, unrelated class nested in
+	 * `EncryptedEnvelopeFilter` — that one has exactly one user, so it stays private there.
+	 */
+	class ReplayableBodyRequestWrapper(request: HttpServletRequest, private val body: ByteArray) : HttpServletRequestWrapper(request) {
+
+		override fun getInputStream(): ServletInputStream {
+			val byteStream = ByteArrayInputStream(body)
+			return object : ServletInputStream() {
+				override fun read(): Int {
+					return byteStream.read()
+				}
+
+				override fun isFinished(): Boolean {
+					return byteStream.available() == 0
+				}
+
+				override fun isReady(): Boolean {
+					return true
+				}
+
+				override fun setReadListener(readListener: ReadListener?) {
+				}
+			}
+		}
+
+		override fun getReader(): BufferedReader {
+			return BufferedReader(InputStreamReader(inputStream, characterEncoding ?: "UTF-8"))
 		}
 	}
 

@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.cbs.configuration
+package kh.bank.dgb.ibs.cbs.network_call
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,7 +12,10 @@ import java.time.Duration
  * apparently observed to need that much headroom.
  *
  * Renamed from `CoreBankingClientConfig` to match this project's convention: a `@Configuration`
- * class whose job is producing `@Bean`s gets a `Bean` suffix, not a `Config` one.
+ * class whose job is producing `@Bean`s gets a `Bean` suffix, not a `Config` one. Moved from
+ * `cbs.configuration` to `cbs.network_call` since that's what this bean is actually for — wiring
+ * the `RestClient` used to make the network calls to CBS — rather than a generic "configuration"
+ * bucket name.
  */
 @Configuration
 class CoreBankingClientBean {

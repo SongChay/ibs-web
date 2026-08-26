@@ -1,4 +1,4 @@
-package kh.bank.dgb.ibs.configuration.filter
+package kh.bank.dgb.ibs.configuration.filter.authentication
 
 import jakarta.servlet.http.HttpServletRequest
 import kh.bank.dgb.ibs.common.envelope.RequestData
@@ -39,9 +39,13 @@ class JsonCredentialsAuthenticationFilter(
 		setAuthenticationDetailsSource { request -> LoginRequestDetails(languageCode = parsedBody(request).header?.languageCode) }
 	}
 
-	override fun obtainUsername(request: HttpServletRequest): String? = parsedBody(request).body?.userID
+	override fun obtainUsername(request: HttpServletRequest): String? {
+		return parsedBody(request).body?.userID
+	}
 
-	override fun obtainPassword(request: HttpServletRequest): String? = parsedBody(request).body?.userPwd
+	override fun obtainPassword(request: HttpServletRequest): String? {
+		return parsedBody(request).body?.userPwd
+	}
 
 	/** The request body can only be read once — obtainUsername/obtainPassword both need it, so
 	 *  parse once and cache on the request. */

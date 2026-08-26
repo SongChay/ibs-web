@@ -1,6 +1,6 @@
 package kh.bank.dgb.ibs.configuration.security
 
-import kh.bank.dgb.ibs.configuration.filter.JsonCredentialsAuthenticationFilter
+import kh.bank.dgb.ibs.configuration.filter.authentication.JsonCredentialsAuthenticationFilter
 import kh.bank.dgb.ibs.configuration.security.handler.CustomAuthenticationEntryPoint
 import kh.bank.dgb.ibs.configuration.security.handler.CustomAuthenticationFailureHandler
 import kh.bank.dgb.ibs.configuration.security.handler.CustomAuthenticationSuccessHandler
