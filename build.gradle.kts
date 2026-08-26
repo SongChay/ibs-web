@@ -44,6 +44,11 @@ dependencies {
 	// no log line, no error). spring-boot-starter-flyway is the actual auto-configuration trigger.
 	implementation("org.springframework.boot:spring-boot-starter-flyway")
 	implementation("org.flywaydb:flyway-database-postgresql")
+	// QR code generation for /USR2001 and /generateQrCode/{userID}.png — the old app's
+	// com.google.zxing:core + :javase, added here so those two stubbed-null endpoints can finally
+	// do the real encoding instead of leaving qrCodeUrl/the image body empty.
+	implementation("com.google.zxing:core:3.5.3")
+	implementation("com.google.zxing:javase:3.5.3")
 	runtimeOnly("org.postgresql:postgresql")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 

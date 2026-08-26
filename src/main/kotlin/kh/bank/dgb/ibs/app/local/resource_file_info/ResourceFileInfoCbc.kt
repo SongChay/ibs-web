@@ -40,9 +40,12 @@ data class UploadCompanyProfileResponse(
  *    raw image bytes, not JSON at all. Confirmed still actively called by the real client (its
  *    homepage fetches a company logo through exactly this path) — this was a genuine gap where the
  *    old whitelist entry existed in `SecurityConfig` but no controller ever backed it.
+ *  - `DownloadController.downloadManual` (`GET /download/manual/{resID}`) — the byte-serving half
+ *    of `GNB1004`, which only ever returns JSON metadata pointing at this route. Same "whitelist
+ *    entry existed, no controller backed it" gap as the image endpoint above.
  *
  * Class-level `@RequestMapping` is dropped (unlike when only `GNB1004` lived here) since these
- * three routes don't share a common prefix — each method carries its own full absolute path.
+ * routes don't share a common prefix — each method carries its own full absolute path.
  */
 @RestController
 class ResourceFileInfoCbc(
@@ -64,4 +67,8 @@ class ResourceFileInfoCbc(
 	@GetMapping("/api/images/resources/{resID}")
 	fun getResourceImage(@PathVariable resID: String): ResponseEntity<ByteArray> =
 		sbc.getResourceImage(resID)
+
+	@GetMapping("/download/manual/{resID}")
+	fun downloadManualFile(@PathVariable resID: String): ResponseEntity<ByteArray> =
+		sbc.downloadManualFile(resID)
 }

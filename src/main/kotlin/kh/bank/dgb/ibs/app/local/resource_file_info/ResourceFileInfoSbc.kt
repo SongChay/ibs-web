@@ -4,6 +4,7 @@ import kh.bank.dgb.ibs.cbs.CoreBankingApiConnector
 import kh.bank.dgb.ibs.common.envelope.ResponseData
 import kh.bank.dgb.ibs.common.envelope.ResponseResultCodeType
 import kh.bank.dgb.ibs.common.envelope.ResponseResultUtils
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -162,6 +163,22 @@ class ResourceFileInfoSbc(
 			.contentType(mediaType)
 			.contentLength(bytes.size.toLong())
 			.body(bytes)
+	}
+
+	/**
+	 * Port of `DownloadController.downloadManual` (`GET /download/manual/{resID}`) — the actual
+	 * byte-serving half of `downloadManual` above, which only returns JSON metadata (a
+	 * `downloadUrl` pointing at this exact route). Old code silently did nothing on a missing
+	 * resource (200, empty body, no content-type) — kept exactly, matching `getResourceImage`'s
+	 * same convention rather than switching to a real 404.
+	 */
+	fun downloadManualFile(resId: String): ResponseEntity<ByteArray> {
+		val resource = resourceFileInfoRbc.getResourceById(resId)
+		val data = resource?.fileData ?: return ResponseEntity.ok().build()
+
+		return ResponseEntity.ok()
+			.header(HttpHeaders.CONTENT_TYPE, resource.fileContentType ?: "application/octet-stream")
+			.body(data)
 	}
 
 	private fun scaleDown(data: ByteArray, ext: String?): ByteArray = runCatching {
