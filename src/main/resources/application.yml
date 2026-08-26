@@ -50,6 +50,11 @@ ibs:
     # /api/images/resources endpoint; override wherever the externally-reachable host/port differs
     # (e.g. behind the /ibs reverse-proxy prefix in SIT/UAT/PROD).
     image-base-url: ${IBS_RESOURCE_IMAGE_BASE_URL:http://127.0.0.1:8080/ibs/api/images/resources}
+  download:
+    # Base directory /download and /download/{filename} serve files from (old app's BIZMOB_HOME
+    # system property). Every resolved path is checked to stay inside this directory — see
+    # FileDownloadSbc's security note.
+    docs-base-path: ${IBS_DOWNLOAD_DOCS_BASE_PATH:./docs}
   mci:
     # External, non-CBS file-upload service ("MCI") that /upload/docfile proxies to. Unreachable/
     # unverified from this environment, same as CBS and CBS's own RSA endpoint.
