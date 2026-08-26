@@ -30,10 +30,12 @@ data class RegisterFrequentlyUsedAccountResponse(
 @RestController
 @RequestMapping("/INF4102")
 class RegisterFrequentlyUsedAccountCbc(
-	private val sbc: RegisterFrequentlyUsedAccountSbc,
+	private val registerFrequentlyUsedAccountSbc: RegisterFrequentlyUsedAccountSbc,
 ) {
 	@PostMapping
 	fun register(
 		@RequestBody request: RequestData<RegisterFrequentlyUsedAccountRequest>,
-	): ResponseData<RegisterFrequentlyUsedAccountResponse> = sbc.register(request)
+	): ResponseData<RegisterFrequentlyUsedAccountResponse> {
+		return registerFrequentlyUsedAccountSbc.register(request)
+	}
 }

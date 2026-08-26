@@ -14,8 +14,9 @@ data class ChangePasswordRequest(
 	val newUserPw: String? = null,
 	val channelTypeCode: String? = null,
 ) {
-	override fun toString(): String =
-		"ChangePasswordRequest(customerNo=$customerNo, userID=$userID, currentUserPw=********, newUserPw=********, channelTypeCode=$channelTypeCode)"
+	override fun toString(): String {
+		return "ChangePasswordRequest(customerNo=$customerNo, userID=$userID, currentUserPw=********, newUserPw=********, channelTypeCode=$channelTypeCode)"
+	}
 }
 
 data class ChangePasswordResponse(
@@ -26,9 +27,10 @@ data class ChangePasswordResponse(
 @RestController
 @RequestMapping("/USR2101")
 class ChangePasswordCbc(
-	private val sbc: ChangePasswordSbc,
+	private val changePasswordSbc: ChangePasswordSbc,
 ) {
 	@PostMapping
-	fun change(@RequestBody request: RequestData<ChangePasswordRequest>): ResponseData<ChangePasswordResponse> =
-		sbc.change(request)
+	fun change(@RequestBody request: RequestData<ChangePasswordRequest>): ResponseData<ChangePasswordResponse> {
+		return changePasswordSbc.change(request)
+	}
 }

@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class LoanProductListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 	private val bbsBoardProductRbc: BbsBoardProductRbc,
 ) {
 	fun inquire(request: RequestData<Unit>): ResponseData<LoanProductListResponse> {
-		val result = connector.post("CIB11003811", request.header?.languageCode, request.body, LoanProductListResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11003811", request.header?.languageCode, request.body, LoanProductListResponse::class.java)
 
 		val body = result.body ?: return result
 		val enriched = body.loanProductList?.map { item ->

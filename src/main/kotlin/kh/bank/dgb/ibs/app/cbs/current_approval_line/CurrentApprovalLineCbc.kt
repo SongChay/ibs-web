@@ -30,11 +30,12 @@ data class CurrentApprovalLineItem(
 @RestController
 @RequestMapping("/TRS1101")
 class CurrentApprovalLineCbc(
-	private val sbc: CurrentApprovalLineSbc,
+	private val currentApprovalLineSbc: CurrentApprovalLineSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<CurrentApprovalLineRequest>): ResponseData<CurrentApprovalLineResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<CurrentApprovalLineRequest>): ResponseData<CurrentApprovalLineResponse> {
+		return currentApprovalLineSbc.inquire(request)
+	}
 }
 
 data class CurrentApprovalLineResponse(

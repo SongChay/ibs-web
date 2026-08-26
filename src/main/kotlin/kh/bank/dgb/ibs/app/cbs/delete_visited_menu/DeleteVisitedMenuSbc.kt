@@ -10,10 +10,10 @@ private const val CHANNEL_TYPE_CODE_CORP_BANKING = "01"
 
 @Service
 class DeleteVisitedMenuSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun delete(request: RequestData<DeleteVisitedMenuRequest>): ResponseData<DeleteVisitedMenuResponse> {
 		val body = request.body?.copy(channelTypeCode = CHANNEL_TYPE_CODE_CORP_BANKING)
-		return connector.post("CIB11300631", request.header?.languageCode, body, DeleteVisitedMenuResponse::class.java)
+		return coreBankingApiConnector.post("CIB11300631", request.header?.languageCode, body, DeleteVisitedMenuResponse::class.java)
 	}
 }

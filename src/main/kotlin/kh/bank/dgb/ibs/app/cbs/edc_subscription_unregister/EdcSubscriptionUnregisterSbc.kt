@@ -23,12 +23,12 @@ import org.springframework.stereotype.Service
  */
 @Service
 class EdcSubscriptionUnregisterSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	private val logger = LoggerFactory.getLogger(EdcSubscriptionUnregisterSbc::class.java)
 
-	fun unregister(request: RequestData<EdcSubscriptionUnregisterRequest>): ResponseData<EdcSubscriptionUnregisterResponse> =
-		try {
+	fun unregister(request: RequestData<EdcSubscriptionUnregisterRequest>): ResponseData<EdcSubscriptionUnregisterResponse> {
+		return try {
 			val verifyQrCodeVo = request.body?.verifyQRCodeVo
 			if (verifyQrCodeVo != null) {
 				val verifyResult = verifyOtpCode(request, verifyQrCodeVo)
@@ -47,21 +47,23 @@ class EdcSubscriptionUnregisterSbc(
 				body = EdcSubscriptionUnregisterResponse(),
 			)
 		}
+	}
 
-	private fun registerUnSubscribe(request: RequestData<EdcSubscriptionUnregisterRequest>): ResponseData<EdcSubscriptionUnregisterResponse> =
-		try {
-			connector.post("CIB11102541", request.header?.languageCode, request.body, EdcSubscriptionUnregisterResponse::class.java)
+	private fun registerUnSubscribe(request: RequestData<EdcSubscriptionUnregisterRequest>): ResponseData<EdcSubscriptionUnregisterResponse> {
+		return try {
+			coreBankingApiConnector.post("CIB11102541", request.header?.languageCode, request.body, EdcSubscriptionUnregisterResponse::class.java)
 		} catch (e: Exception) {
 			logger.error("Can not register transfer: ${e.message}")
 			ResponseData()
 		}
+	}
 
 	private fun verifyOtpCode(
 		request: RequestData<EdcSubscriptionUnregisterRequest>,
 		verifyQrCodeVo: VerifyQrCodeRequest,
-	): ResponseData<VerifyQrCodeResponse> =
-		try {
-			val otpResponse = connector.post(
+	): ResponseData<VerifyQrCodeResponse> {
+		return try {
+			val otpResponse = coreBankingApiConnector.post(
 				"CIB11000214",
 				request.header?.languageCode,
 				OtpCreateRequiredRequest(userID = verifyQrCodeVo.userID),
@@ -69,7 +71,7 @@ class EdcSubscriptionUnregisterSbc(
 			)
 
 			if (otpResponse.header?.result == true && otpResponse.body?.otpCreateRequiredYn?.equals("N", ignoreCase = true) == true) {
-				connector.post(
+				coreBankingApiConnector.post(
 					"CIB11000211",
 					request.header?.languageCode,
 					verifyQrCodeVo.copy(firstYn = "N"),
@@ -84,4 +86,5 @@ class EdcSubscriptionUnregisterSbc(
 			logger.error("Error verify OTP: ${e.message}")
 			ResponseData()
 		}
+	}
 }

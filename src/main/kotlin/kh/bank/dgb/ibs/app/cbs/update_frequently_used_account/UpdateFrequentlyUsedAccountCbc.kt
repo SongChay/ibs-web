@@ -31,9 +31,10 @@ data class UpdateFrequentlyUsedAccountResponse(
 @RestController
 @RequestMapping("/INF4004")
 class UpdateFrequentlyUsedAccountCbc(
-	private val sbc: UpdateFrequentlyUsedAccountSbc,
+	private val updateFrequentlyUsedAccountSbc: UpdateFrequentlyUsedAccountSbc,
 ) {
 	@PostMapping
-	fun update(@RequestBody request: RequestData<UpdateFrequentlyUsedAccountRequest>): ResponseData<UpdateFrequentlyUsedAccountResponse> =
-		sbc.update(request)
+	fun update(@RequestBody request: RequestData<UpdateFrequentlyUsedAccountRequest>): ResponseData<UpdateFrequentlyUsedAccountResponse> {
+		return updateFrequentlyUsedAccountSbc.update(request)
+	}
 }

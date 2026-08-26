@@ -20,6 +20,7 @@ object ChannelRsaUtils {
 		return KeyFactory.getInstance("RSA").generatePublic(spec)
 	}
 
-	fun encrypt(plainText: String, modulusHex: String, exponentHex: String): String =
-		RsaEncryptionUtils.encrypt(plainText, publicKeyFrom(modulusHex, exponentHex))
+	fun encrypt(plainText: String, modulusHex: String, exponentHex: String): String {
+		return RsaEncryptionUtils.encrypt(plainText, publicKeyFrom(modulusHex, exponentHex))
+	}
 }

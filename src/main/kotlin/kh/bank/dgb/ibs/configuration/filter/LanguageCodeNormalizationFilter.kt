@@ -60,13 +60,15 @@ class LanguageCodeNormalizationFilter(
 		filterChain.doFilter(ReplayableBodyRequestWrapper(request, objectMapper.writeValueAsBytes(node)), response)
 	}
 
-	private fun normalize(code: String?): String = when (code) {
-		"01" -> "EN"
-		"02" -> "KM"
-		"03" -> "KO"
-		"04" -> "JA"
-		"05" -> "ZH"
-		else -> "EN"
+	private fun normalize(code: String?): String {
+		return when (code) {
+			"01" -> "EN"
+			"02" -> "KM"
+			"03" -> "KO"
+			"04" -> "JA"
+			"05" -> "ZH"
+			else -> "EN"
+		}
 	}
 
 	companion object {

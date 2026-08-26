@@ -36,9 +36,10 @@ data class CorporatePayrollRegisterResponse(
 @RestController
 @RequestMapping("/PYR1002")
 class CorporatePayrollRegisterCbc(
-	private val sbc: CorporatePayrollRegisterSbc,
+	private val corporatePayrollRegisterSbc: CorporatePayrollRegisterSbc,
 ) {
 	@PostMapping
-	fun register(@RequestBody request: RequestData<CorporatePayrollRegisterRequest>): ResponseData<CorporatePayrollRegisterResponse> =
-		sbc.register(request)
+	fun register(@RequestBody request: RequestData<CorporatePayrollRegisterRequest>): ResponseData<CorporatePayrollRegisterResponse> {
+		return corporatePayrollRegisterSbc.register(request)
+	}
 }

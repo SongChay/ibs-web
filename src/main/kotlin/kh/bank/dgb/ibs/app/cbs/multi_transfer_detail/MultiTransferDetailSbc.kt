@@ -12,21 +12,23 @@ import org.springframework.stereotype.Service
  */
 @Service
 class MultiTransferDetailSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<MultiTransferDetailRequest>): ResponseData<MultiTransferDetailResponse> {
-		val response = connector.post("CIB11001501", request.header?.languageCode, request.body, MultiTransferDetailResponse::class.java)
+		val response = coreBankingApiConnector.post("CIB11001501", request.header?.languageCode, request.body, MultiTransferDetailResponse::class.java)
 		val enrichedList = response.body?.transferList?.map { item ->
 			item.copy(transactionStatusDesc = transactionStatusDescription(item.transactionStatus))
 		}
 		return response.copy(body = response.body?.copy(transferList = enrichedList))
 	}
 
-	private fun transactionStatusDescription(code: String?): String = when (code) {
-		"001" -> "Processing"
-		"002" -> "Failed"
-		"003" -> "Completed"
-		"000" -> "Unknown"
-		else -> ""
+	private fun transactionStatusDescription(code: String?): String {
+		return when (code) {
+			"001" -> "Processing"
+			"002" -> "Failed"
+			"003" -> "Completed"
+			"000" -> "Unknown"
+			else -> ""
+		}
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class TransferSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun transfer(request: RequestData<TransferRequest>): ResponseData<TransferResponse> {
 		val body = request.body
@@ -20,6 +20,6 @@ class TransferSbc(
 			body
 		}
 
-		return connector.post("CIB11001021", request.header?.languageCode, adjustedBody, TransferResponse::class.java)
+		return coreBankingApiConnector.post("CIB11001021", request.header?.languageCode, adjustedBody, TransferResponse::class.java)
 	}
 }

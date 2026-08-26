@@ -10,10 +10,10 @@ import java.util.Date
 
 @Service
 class InquiryApprovalDetailSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<InquiryApprovalDetailRequest>): ResponseData<InquiryApprovalDetailResponse> {
-		val response = connector.post("CIB11303111", request.header?.languageCode, request.body, InquiryApprovalDetailResponse::class.java)
+		val response = coreBankingApiConnector.post("CIB11303111", request.header?.languageCode, request.body, InquiryApprovalDetailResponse::class.java)
 		val info = response.body ?: return response
 
 		val approvalRequestDateTime = combinedDateTime(info.approvalRequestDate, info.approvalRequestTime, ::toDDMMMYYYY, ::toHHMMSSA)
@@ -57,50 +57,59 @@ class InquiryApprovalDetailSbc(
 	 *  combined date-time string in the old adapter: only formats when both parts are present,
 	 *  otherwise leaves the combined string blank (unlike `InquiryApprovalListSbc`, which had no
 	 *  such guard). */
-	private fun combinedDateTime(date: String?, time: String?, formatDate: (String?) -> String, formatTime: (String?) -> String): String =
-		if (!date.isNullOrBlank() && !time.isNullOrBlank()) formatDate(date) + ", " + formatTime(time) else ""
+	private fun combinedDateTime(date: String?, time: String?, formatDate: (String?) -> String, formatTime: (String?) -> String): String {
+		return if (!date.isNullOrBlank() && !time.isNullOrBlank()) formatDate(date) + ", " + formatTime(time) else ""
+	}
 
 	/** Port of the old adapter's private inner `TransferTypeCode` enum (`getTransferTypeDescription`). */
-	private fun transferTypeDescription(transferTypeCode: String?): String = when (transferTypeCode) {
-		"0001" -> "Account"
-		"0002" -> "Multi"
-		"0003" -> "Account & Wing"
-		"0007" -> "Overseas"
-		"0008" -> "Wing"
-		"0009" -> "Payroll Payment"
-		"0013" -> "EDC Payment"
-		"0011" -> "EDC Auto Direct Debit Subscribe"
-		"0012" -> "EDC Auto Direct Debit Unsubscribe"
-		else -> ""
+	private fun transferTypeDescription(transferTypeCode: String?): String {
+		return when (transferTypeCode) {
+			"0001" -> "Account"
+			"0002" -> "Multi"
+			"0003" -> "Account & Wing"
+			"0007" -> "Overseas"
+			"0008" -> "Wing"
+			"0009" -> "Payroll Payment"
+			"0013" -> "EDC Payment"
+			"0011" -> "EDC Auto Direct Debit Subscribe"
+			"0012" -> "EDC Auto Direct Debit Unsubscribe"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getTransactionTypeDescription` (backed by `type.TransactionTypeCode`). */
-	private fun transactionTypeDescription(transactionTypeCode: String?): String = when (transactionTypeCode) {
-		"0001" -> "Immediate"
-		"0002" -> "Schedule"
-		else -> ""
+	private fun transactionTypeDescription(transactionTypeCode: String?): String {
+		return when (transactionTypeCode) {
+			"0001" -> "Immediate"
+			"0002" -> "Schedule"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getApproverTypeDesc` (backed by `type.ApproverTypeCode`). */
-	private fun approverTypeDesc(approverTypeCode: String?): String = when (approverTypeCode) {
-		"01" -> "Requestor"
-		"02" -> "Approver"
-		"03" -> "Final Approver"
-		else -> ""
+	private fun approverTypeDesc(approverTypeCode: String?): String {
+		return when (approverTypeCode) {
+			"01" -> "Requestor"
+			"02" -> "Approver"
+			"03" -> "Final Approver"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getApprovalStatusDescription` (backed by `type.ApprovalStatusCodeType`). */
-	private fun approvalStatusDescription(approvalStatusCode: String?): String = when (approvalStatusCode) {
-		"00" -> "Requested"
-		"01" -> "Completed"
-		"02" -> "Processing"
-		"03" -> "Resubmitted"
-		"04" -> "Need My Approval"
-		"05" -> "Waiting"
-		"08" -> "Rejected"
-		"91" -> "Transaction Failed"
-		"CC" -> "Canceled"
-		else -> ""
+	private fun approvalStatusDescription(approvalStatusCode: String?): String {
+		return when (approvalStatusCode) {
+			"00" -> "Requested"
+			"01" -> "Completed"
+			"02" -> "Processing"
+			"03" -> "Resubmitted"
+			"04" -> "Need My Approval"
+			"05" -> "Waiting"
+			"08" -> "Rejected"
+			"91" -> "Transaction Failed"
+			"CC" -> "Canceled"
+			else -> ""
+		}
 	}
 
 	/** Port of `DateUtil.toDDMMMYYYY` — parses the ebanking `yyyyMMdd` date format. */

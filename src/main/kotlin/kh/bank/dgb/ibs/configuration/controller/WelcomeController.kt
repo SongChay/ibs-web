@@ -17,8 +17,12 @@ import java.time.format.DateTimeFormatter
 @RestController
 class WelcomeController {
 	@GetMapping("/")
-	fun welcome(): String = "ibs-web - New SmartBiz Server works~!"
+	fun welcome(): String {
+		return "ibs-web - New SmartBiz Server works~!"
+	}
 
 	@GetMapping("/getCurrentHHMM")
-	fun currentHHMM(): String = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"))
+	fun currentHHMM(): String {
+		return LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"))
+	}
 }

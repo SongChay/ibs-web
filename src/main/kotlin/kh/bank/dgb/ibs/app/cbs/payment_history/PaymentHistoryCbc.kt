@@ -74,9 +74,10 @@ data class PaymentHistoryResponse(
 @RestController
 @RequestMapping("/TRS1312")
 class PaymentHistoryCbc(
-	private val sbc: PaymentHistorySbc,
+	private val paymentHistorySbc: PaymentHistorySbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<PaymentHistoryRequest>): ResponseData<PaymentHistoryResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<PaymentHistoryRequest>): ResponseData<PaymentHistoryResponse> {
+		return paymentHistorySbc.inquire(request)
+	}
 }

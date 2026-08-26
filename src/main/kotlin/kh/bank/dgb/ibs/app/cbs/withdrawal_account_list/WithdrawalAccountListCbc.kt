@@ -43,11 +43,12 @@ data class WithdrawalAccountItem(
 @RestController
 @RequestMapping("/TRS1001")
 class WithdrawalAccountListCbc(
-	private val sbc: WithdrawalAccountListSbc,
+	private val withdrawalAccountListSbc: WithdrawalAccountListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<WithdrawalAccountListRequest>): ResponseData<WithdrawalAccountListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<WithdrawalAccountListRequest>): ResponseData<WithdrawalAccountListResponse> {
+		return withdrawalAccountListSbc.inquire(request)
+	}
 }
 
 data class WithdrawalAccountListResponse(

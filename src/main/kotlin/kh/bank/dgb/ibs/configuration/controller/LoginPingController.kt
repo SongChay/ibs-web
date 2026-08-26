@@ -17,5 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 class LoginPingController {
 	@PostMapping("/login")
 	@ResponseStatus(HttpStatus.OK)
-	fun login() = Unit
+	fun login() {
+		return Unit
+	}
 }

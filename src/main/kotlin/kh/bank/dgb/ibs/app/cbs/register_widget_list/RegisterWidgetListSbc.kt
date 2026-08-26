@@ -18,7 +18,7 @@ data class RegisterWidgetListCbsRequest(
 
 @Service
 class RegisterWidgetListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun register(
 		request: RequestData<RegisterWidgetListRequest>,
@@ -29,7 +29,7 @@ class RegisterWidgetListSbc(
 			grid01 = body?.widgetCodeList?.map { WidgetListItem(widgetCode = it) },
 		)
 
-		return connector.post(
+		return coreBankingApiConnector.post(
 			"CIB11300421",
 			request.header?.languageCode,
 			cbsRequest,

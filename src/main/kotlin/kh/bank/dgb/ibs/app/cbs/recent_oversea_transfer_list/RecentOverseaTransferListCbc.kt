@@ -36,9 +36,10 @@ data class RecentOverseaTransferListResponse(
 @RestController
 @RequestMapping("/TRS4103")
 class RecentOverseaTransferListCbc(
-	private val sbc: RecentOverseaTransferListSbc,
+	private val recentOverseaTransferListSbc: RecentOverseaTransferListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<RecentOverseaTransferListRequest>): ResponseData<RecentOverseaTransferListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<RecentOverseaTransferListRequest>): ResponseData<RecentOverseaTransferListResponse> {
+		return recentOverseaTransferListSbc.inquire(request)
+	}
 }

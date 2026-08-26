@@ -24,10 +24,12 @@ class DeleteWidgetListResponse
 @RestController
 @RequestMapping("/MAN1102")
 class DeleteWidgetListCbc(
-	private val sbc: DeleteWidgetListSbc,
+	private val deleteWidgetListSbc: DeleteWidgetListSbc,
 ) {
 	@PostMapping
 	fun delete(
 		@RequestBody request: RequestData<DeleteWidgetListRequest>,
-	): ResponseData<DeleteWidgetListResponse> = sbc.delete(request)
+	): ResponseData<DeleteWidgetListResponse> {
+		return deleteWidgetListSbc.delete(request)
+	}
 }

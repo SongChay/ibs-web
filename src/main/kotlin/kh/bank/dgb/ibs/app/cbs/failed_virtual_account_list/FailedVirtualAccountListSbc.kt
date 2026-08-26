@@ -16,10 +16,10 @@ data class FailedVirtualAccountListCbsResponse(
 
 @Service
 class FailedVirtualAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<FailedVirtualAccountListRequest>): ResponseData<FailedVirtualAccountListResponse> {
-		val cbsResult = connector.post(
+		val cbsResult = coreBankingApiConnector.post(
 			"CIB11002012",
 			request.header?.languageCode,
 			request.body,

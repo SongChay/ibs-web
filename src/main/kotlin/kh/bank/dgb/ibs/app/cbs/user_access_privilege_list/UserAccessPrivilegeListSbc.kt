@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserAccessPrivilegeListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<UserAccessPrivilegeListRequest>): ResponseData<UserAccessPrivilegeListResponse> =
-		connector.post("CIB11302412", request.header?.languageCode, request.body, UserAccessPrivilegeListResponse::class.java)
+	fun inquire(request: RequestData<UserAccessPrivilegeListRequest>): ResponseData<UserAccessPrivilegeListResponse> {
+		return coreBankingApiConnector.post("CIB11302412", request.header?.languageCode, request.body, UserAccessPrivilegeListResponse::class.java)
+	}
 }

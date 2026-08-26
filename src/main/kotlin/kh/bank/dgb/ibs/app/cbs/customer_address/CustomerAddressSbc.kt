@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomerAddressSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<CustomerAddressRequest>): ResponseData<CustomerAddressResponse> =
-		connector.post("CIB11302512", request.header?.languageCode, request.body, CustomerAddressResponse::class.java)
+	fun inquire(request: RequestData<CustomerAddressRequest>): ResponseData<CustomerAddressResponse> {
+		return coreBankingApiConnector.post("CIB11302512", request.header?.languageCode, request.body, CustomerAddressResponse::class.java)
+	}
 }

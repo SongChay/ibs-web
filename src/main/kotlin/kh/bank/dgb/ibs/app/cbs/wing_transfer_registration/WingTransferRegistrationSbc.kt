@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class WingTransferRegistrationSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun register(request: RequestData<WingTransferRegistrationRequest>): ResponseData<WingTransferRegistrationResponse> {
 		val body = request.body ?: WingTransferRegistrationRequest()
 		// Port of: `item.setReceiverCountryCode("KHM")` for every item in the transfer list.
 		val withKhmCountryCode = body.copy(transferList = body.transferList?.map { it.copy(receiverCountryCode = "KHM") })
-		return connector.post(OPCODE, request.header?.languageCode, withKhmCountryCode, WingTransferRegistrationResponse::class.java)
+		return coreBankingApiConnector.post(OPCODE, request.header?.languageCode, withKhmCountryCode, WingTransferRegistrationResponse::class.java)
 	}
 
 	companion object {

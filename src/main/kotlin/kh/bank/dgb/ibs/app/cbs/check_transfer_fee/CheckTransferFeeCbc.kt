@@ -29,9 +29,10 @@ data class CheckTransferFeeResponse(
 @RestController
 @RequestMapping("/TRS1005")
 class CheckTransferFeeCbc(
-	private val sbc: CheckTransferFeeSbc,
+	private val checkTransferFeeSbc: CheckTransferFeeSbc,
 ) {
 	@PostMapping
-	fun check(@RequestBody request: RequestData<CheckTransferFeeRequest>): ResponseData<CheckTransferFeeResponse> =
-		sbc.check(request)
+	fun check(@RequestBody request: RequestData<CheckTransferFeeRequest>): ResponseData<CheckTransferFeeResponse> {
+		return checkTransferFeeSbc.check(request)
+	}
 }

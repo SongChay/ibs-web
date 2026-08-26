@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CancelApprovalRequestSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun cancel(request: RequestData<CancelApprovalRequestRequest>): ResponseData<CancelApprovalRequestResponse> =
-		connector.post("CIB11003031", request.header?.languageCode, request.body, CancelApprovalRequestResponse::class.java)
+	fun cancel(request: RequestData<CancelApprovalRequestRequest>): ResponseData<CancelApprovalRequestResponse> {
+		return coreBankingApiConnector.post("CIB11003031", request.header?.languageCode, request.body, CancelApprovalRequestResponse::class.java)
+	}
 }

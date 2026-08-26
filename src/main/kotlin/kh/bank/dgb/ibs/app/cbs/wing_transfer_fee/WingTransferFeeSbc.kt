@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class WingTransferFeeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<WingTransferFeeRequest>): ResponseData<WingTransferFeeResponse> =
-		connector.post("CIB11001812", request.header?.languageCode, request.body, WingTransferFeeResponse::class.java)
+	fun inquire(request: RequestData<WingTransferFeeRequest>): ResponseData<WingTransferFeeResponse> {
+		return coreBankingApiConnector.post("CIB11001812", request.header?.languageCode, request.body, WingTransferFeeResponse::class.java)
+	}
 }

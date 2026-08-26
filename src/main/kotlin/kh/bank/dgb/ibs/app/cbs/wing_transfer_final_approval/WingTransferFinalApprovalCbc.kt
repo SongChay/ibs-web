@@ -89,9 +89,10 @@ data class WingTransferFinalApprovalResponse(
 @RestController
 @RequestMapping("/TRS5102")
 class WingTransferFinalApprovalCbc(
-	private val sbc: WingTransferFinalApprovalSbc,
+	private val wingTransferFinalApprovalSbc: WingTransferFinalApprovalSbc,
 ) {
 	@PostMapping
-	fun execute(@RequestBody request: RequestData<WingTransferFinalApprovalRequest>): ResponseData<WingTransferFinalApprovalResponse> =
-		sbc.execute(request)
+	fun execute(@RequestBody request: RequestData<WingTransferFinalApprovalRequest>): ResponseData<WingTransferFinalApprovalResponse> {
+		return wingTransferFinalApprovalSbc.execute(request)
+	}
 }

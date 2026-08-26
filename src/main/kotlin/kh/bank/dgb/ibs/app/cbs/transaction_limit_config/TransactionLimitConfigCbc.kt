@@ -26,9 +26,10 @@ data class TransactionLimitConfigResponse(
 @RestController
 @RequestMapping("/TRS2311")
 class TransactionLimitConfigCbc(
-	private val sbc: TransactionLimitConfigSbc,
+	private val transactionLimitConfigSbc: TransactionLimitConfigSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<TransactionLimitConfigRequest>): ResponseData<TransactionLimitConfigResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<TransactionLimitConfigRequest>): ResponseData<TransactionLimitConfigResponse> {
+		return transactionLimitConfigSbc.inquire(request)
+	}
 }

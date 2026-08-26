@@ -14,10 +14,10 @@ private data class CashFlowMonthlyCbsResponse(
 
 @Service
 class CashFlowMonthlyListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<CashFlowMonthlyListRequest>): ResponseData<CashFlowMonthlyListResponse> {
-		val cbsResult = connector.post("CIB11303411", request.header?.languageCode, request.body, CashFlowMonthlyCbsResponse::class.java)
+		val cbsResult = coreBankingApiConnector.post("CIB11303411", request.header?.languageCode, request.body, CashFlowMonthlyCbsResponse::class.java)
 		val items = cbsResult.body?.grid01.orEmpty()
 
 		val body = CashFlowMonthlyListResponse(

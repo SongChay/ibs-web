@@ -42,10 +42,12 @@ data class RetrieveTop3TransactionHistoryResponse(
 @RestController
 @RequestMapping("/MAN1006")
 class RetrieveTop3TransactionHistoryCbc(
-	private val sbc: RetrieveTop3TransactionHistorySbc,
+	private val retrieveTop3TransactionHistorySbc: RetrieveTop3TransactionHistorySbc,
 ) {
 	@PostMapping
 	fun retrieve(
 		@RequestBody request: RequestData<RetrieveTop3TransactionHistoryRequest>,
-	): ResponseData<RetrieveTop3TransactionHistoryResponse> = sbc.retrieve(request)
+	): ResponseData<RetrieveTop3TransactionHistoryResponse> {
+		return retrieveTop3TransactionHistorySbc.retrieve(request)
+	}
 }

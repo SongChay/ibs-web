@@ -67,9 +67,10 @@ data class UserAccessPrivilegeListResponse(
 @RestController
 @RequestMapping("/INF2102")
 class UserAccessPrivilegeListCbc(
-	private val sbc: UserAccessPrivilegeListSbc,
+	private val userAccessPrivilegeListSbc: UserAccessPrivilegeListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<UserAccessPrivilegeListRequest>): ResponseData<UserAccessPrivilegeListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<UserAccessPrivilegeListRequest>): ResponseData<UserAccessPrivilegeListResponse> {
+		return userAccessPrivilegeListSbc.inquire(request)
+	}
 }

@@ -36,8 +36,8 @@ private data class UpdateCorporateLogoResponse(
 @Service
 class ResourceFileInfoSbc(
 	private val resourceFileInfoRbc: ResourceFileInfoRbc,
-	private val connector: CoreBankingApiConnector,
-	private val resourceProps: ResourceFileProperties,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
+	private val resourceFileProperties: ResourceFileProperties,
 ) {
 	fun downloadManual(languageCode: String?): ResponseData<DownloadManualResponse> {
 		val resId = if (languageCode.equals("02", ignoreCase = true)) "corporate_manual_kh" else "corporate_manual_en"
@@ -114,14 +114,14 @@ class ResourceFileInfoSbc(
 			resourceFileInfoRbc.addCompanyProfile(resource)
 		}
 
-		val cbsResult = connector.post(
+		val cbsResult = coreBankingApiConnector.post(
 			OPCODE_UPDATE_LOGO,
 			HARDCODED_LANGUAGE_CODE,
 			UpdateCorporateLogoRequest(
 				userID = userId,
 				channelTypeCode = CHANNEL_TYPE_CODE_CORP_BANKING,
 				customerNo = customerNo,
-				corporateUserProfileImageURL = "${resourceProps.imageBaseUrl}/$resourceId",
+				corporateUserProfileImageURL = "${resourceFileProperties.imageBaseUrl}/$resourceId",
 			),
 			UpdateCorporateLogoResponse::class.java,
 		)
@@ -181,22 +181,24 @@ class ResourceFileInfoSbc(
 			.body(data)
 	}
 
-	private fun scaleDown(data: ByteArray, ext: String?): ByteArray = runCatching {
-		val original = ImageIO.read(ByteArrayInputStream(data)) ?: return data
-		val scale = TARGET_SIZE.toDouble() / maxOf(original.width, original.height)
-		if (scale >= 1.0) return data
+	private fun scaleDown(data: ByteArray, ext: String?): ByteArray {
+		return runCatching {
+			val original = ImageIO.read(ByteArrayInputStream(data)) ?: return data
+			val scale = TARGET_SIZE.toDouble() / maxOf(original.width, original.height)
+			if (scale >= 1.0) return data
 
-		val newWidth = (original.width * scale).toInt().coerceAtLeast(1)
-		val newHeight = (original.height * scale).toInt().coerceAtLeast(1)
-		val scaled = BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB)
-		val graphics = scaled.createGraphics()
-		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
-		graphics.drawImage(original, 0, 0, newWidth, newHeight, null)
-		graphics.dispose()
+			val newWidth = (original.width * scale).toInt().coerceAtLeast(1)
+			val newHeight = (original.height * scale).toInt().coerceAtLeast(1)
+			val scaled = BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB)
+			val graphics = scaled.createGraphics()
+			graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+			graphics.drawImage(original, 0, 0, newWidth, newHeight, null)
+			graphics.dispose()
 
-		val formatName = if (ext.equals("jpg", ignoreCase = true) || ext.equals("jpeg", ignoreCase = true)) "jpg" else "png"
-		ByteArrayOutputStream().also { ImageIO.write(scaled, formatName, it) }.toByteArray()
-	}.getOrDefault(data)
+			val formatName = if (ext.equals("jpg", ignoreCase = true) || ext.equals("jpeg", ignoreCase = true)) "jpg" else "png"
+			ByteArrayOutputStream().also { ImageIO.write(scaled, formatName, it) }.toByteArray()
+		}.getOrDefault(data)
+	}
 
 	companion object {
 		/** Port of `DGBEBankingServiceImpl.processUSR0102`'s opcode. */

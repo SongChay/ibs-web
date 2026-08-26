@@ -57,9 +57,10 @@ data class ApprovalByFinalApproverResponse(
 @RestController
 @RequestMapping("/APV2105")
 class ApprovalByFinalApproverCbc(
-	private val sbc: ApprovalByFinalApproverSbc,
+	private val approvalByFinalApproverSbc: ApprovalByFinalApproverSbc,
 ) {
 	@PostMapping
-	fun approve(@RequestBody request: RequestData<ApprovalByFinalApproverRequest>): ResponseData<ApprovalByFinalApproverResponse> =
-		sbc.approve(request)
+	fun approve(@RequestBody request: RequestData<ApprovalByFinalApproverRequest>): ResponseData<ApprovalByFinalApproverResponse> {
+		return approvalByFinalApproverSbc.approve(request)
+	}
 }

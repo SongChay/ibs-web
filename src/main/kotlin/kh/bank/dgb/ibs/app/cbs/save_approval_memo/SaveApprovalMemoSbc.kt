@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class SaveApprovalMemoSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun save(request: RequestData<SaveApprovalMemoRequest>): ResponseData<SaveApprovalMemoResponse> =
-		connector.post("CIB11003221", request.header?.languageCode, request.body, SaveApprovalMemoResponse::class.java)
+	fun save(request: RequestData<SaveApprovalMemoRequest>): ResponseData<SaveApprovalMemoResponse> {
+		return coreBankingApiConnector.post("CIB11003221", request.header?.languageCode, request.body, SaveApprovalMemoResponse::class.java)
+	}
 }

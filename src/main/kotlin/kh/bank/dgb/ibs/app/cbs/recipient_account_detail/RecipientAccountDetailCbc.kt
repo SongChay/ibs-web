@@ -29,9 +29,10 @@ data class RecipientAccountDetailResponse(
 @RestController
 @RequestMapping("/TRS1004")
 class RecipientAccountDetailCbc(
-	private val sbc: RecipientAccountDetailSbc,
+	private val recipientAccountDetailSbc: RecipientAccountDetailSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<RecipientAccountDetailRequest>): ResponseData<RecipientAccountDetailResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<RecipientAccountDetailRequest>): ResponseData<RecipientAccountDetailResponse> {
+		return recipientAccountDetailSbc.inquire(request)
+	}
 }

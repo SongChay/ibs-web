@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class PayrollPaymentScheduleDetailSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun detail(request: RequestData<PayrollPaymentScheduleDetailRequest>): ResponseData<PayrollPaymentScheduleDetailResponse> =
-		connector.post("CIB11300212", request.header?.languageCode, request.body, PayrollPaymentScheduleDetailResponse::class.java)
+	fun detail(request: RequestData<PayrollPaymentScheduleDetailRequest>): ResponseData<PayrollPaymentScheduleDetailResponse> {
+		return coreBankingApiConnector.post("CIB11300212", request.header?.languageCode, request.body, PayrollPaymentScheduleDetailResponse::class.java)
+	}
 }

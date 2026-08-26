@@ -14,10 +14,10 @@ data class RetrieveVirtualAccountListCbsResponse(
 
 @Service
 class RetrieveVirtualAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun retrieve(request: RequestData<RetrieveVirtualAccountListRequest>): ResponseData<RetrieveVirtualAccountListResponse> {
-		val cbsResult = connector.post(
+		val cbsResult = coreBankingApiConnector.post(
 			"CIB11302211",
 			request.header?.languageCode,
 			request.body,

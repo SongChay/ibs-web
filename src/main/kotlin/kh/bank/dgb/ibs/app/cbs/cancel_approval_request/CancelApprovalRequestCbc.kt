@@ -32,9 +32,10 @@ data class CancelApprovalRequestResponse(
 @RestController
 @RequestMapping("/APV1003")
 class CancelApprovalRequestCbc(
-	private val sbc: CancelApprovalRequestSbc,
+	private val cancelApprovalRequestSbc: CancelApprovalRequestSbc,
 ) {
 	@PostMapping
-	fun cancel(@RequestBody request: RequestData<CancelApprovalRequestRequest>): ResponseData<CancelApprovalRequestResponse> =
-		sbc.cancel(request)
+	fun cancel(@RequestBody request: RequestData<CancelApprovalRequestRequest>): ResponseData<CancelApprovalRequestResponse> {
+		return cancelApprovalRequestSbc.cancel(request)
+	}
 }

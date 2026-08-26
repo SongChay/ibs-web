@@ -59,10 +59,12 @@ data class CheckReceiverAccountInfoAndFeeListResponse(
 @RestController
 @RequestMapping("/TRS1006")
 class CheckReceiverAccountInfoAndFeeListCbc(
-	private val sbc: CheckReceiverAccountInfoAndFeeListSbc,
+	private val checkReceiverAccountInfoAndFeeListSbc: CheckReceiverAccountInfoAndFeeListSbc,
 ) {
 	@PostMapping
 	fun inquire(
 		@RequestBody request: RequestData<CheckReceiverAccountInfoAndFeeListRequest>,
-	): ResponseData<CheckReceiverAccountInfoAndFeeListResponse> = sbc.inquire(request)
+	): ResponseData<CheckReceiverAccountInfoAndFeeListResponse> {
+		return checkReceiverAccountInfoAndFeeListSbc.inquire(request)
+	}
 }

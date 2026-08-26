@@ -44,9 +44,10 @@ data class LoanProductListResponse(
 @RestController
 @RequestMapping("/ADS4001")
 class LoanProductListCbc(
-	private val sbc: LoanProductListSbc,
+	private val loanProductListSbc: LoanProductListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<Unit>): ResponseData<LoanProductListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<Unit>): ResponseData<LoanProductListResponse> {
+		return loanProductListSbc.inquire(request)
+	}
 }

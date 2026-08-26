@@ -36,7 +36,7 @@ private data class TransferCallResponse(
 
 @Service
 class ExecuteTransferFinalApproverSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 	private val serviceStatusSbc: ServiceStatusSbc,
 ) {
 
@@ -74,7 +74,7 @@ class ExecuteTransferFinalApproverSbc(
 
 	/** Port of `verifyOTPCode`: check whether OTP creation/verification is required, then verify it. */
 	private fun verifyOtp(verifyQrCode: VerifyQrCodeRequest?, languageCode: String?): ResponseData<VerifyQrCodeResponse> {
-		val otpCheck = connector.post(
+		val otpCheck = coreBankingApiConnector.post(
 			"CIB11000214",
 			languageCode,
 			OtpCreateRequiredRequest(userID = verifyQrCode?.userID),
@@ -83,7 +83,7 @@ class ExecuteTransferFinalApproverSbc(
 
 		if (otpCheck.header?.result == true && otpCheck.body?.otpCreateRequiredYn.equals("N", ignoreCase = true)) {
 			val verifyRequest = verifyQrCode?.copy(firstYn = "N")
-			return connector.post("CIB11000211", languageCode, verifyRequest, VerifyQrCodeResponse::class.java)
+			return coreBankingApiConnector.post("CIB11000211", languageCode, verifyRequest, VerifyQrCodeResponse::class.java)
 		}
 
 		return ResponseData(header = ResponseResultUtils.makeResponse(false, ResponseResultCodeType.OTP_CREATE_REQUIRED))
@@ -106,7 +106,7 @@ class ExecuteTransferFinalApproverSbc(
 			body
 		}
 
-		return connector.post("CIB11001021", languageCode, adjustedBody, TransferCallResponse::class.java)
+		return coreBankingApiConnector.post("CIB11001021", languageCode, adjustedBody, TransferCallResponse::class.java)
 	}
 
 	companion object {

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class ChangeAccountGroupSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun change(request: RequestData<ChangeAccountGroupRequest>): ResponseData<ChangeAccountGroupResponse> =
-		connector.post("CIB11002231", request.header?.languageCode, request.body, ChangeAccountGroupResponse::class.java)
+	fun change(request: RequestData<ChangeAccountGroupRequest>): ResponseData<ChangeAccountGroupResponse> {
+		return coreBankingApiConnector.post("CIB11002231", request.header?.languageCode, request.body, ChangeAccountGroupResponse::class.java)
+	}
 }

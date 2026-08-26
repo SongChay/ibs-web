@@ -27,13 +27,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class GlobalExceptionHandler {
 
 	@ExceptionHandler(IbsException::class)
-	fun handleIbsException(ex: IbsException): ResponseEntity<ResponseData<Unit>> =
-		respond(ex.resultCode)
+	fun handleIbsException(ex: IbsException): ResponseEntity<ResponseData<Unit>> {
+		return respond(ex.resultCode)
+	}
 
 	@ExceptionHandler(Exception::class)
-	fun handleUnexpected(ex: Exception): ResponseEntity<ResponseData<Unit>> =
-		respond(ResponseResultCodeType.UNKNOWN_ERROR)
+	fun handleUnexpected(ex: Exception): ResponseEntity<ResponseData<Unit>> {
+		return respond(ResponseResultCodeType.UNKNOWN_ERROR)
+	}
 
-	private fun respond(code: ResponseResultCodeType): ResponseEntity<ResponseData<Unit>> =
-		ResponseEntity.status(HttpStatus.OK).body(ResponseData(header = ResponseResultUtils.makeResponse(false, code)))
+	private fun respond(code: ResponseResultCodeType): ResponseEntity<ResponseData<Unit>> {
+		return ResponseEntity.status(HttpStatus.OK).body(ResponseData(header = ResponseResultUtils.makeResponse(false, code)))
+	}
 }

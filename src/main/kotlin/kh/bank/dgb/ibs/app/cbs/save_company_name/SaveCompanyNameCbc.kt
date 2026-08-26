@@ -22,9 +22,10 @@ class SaveCompanyNameResponse
 @RestController
 @RequestMapping("/ADS1002")
 class SaveCompanyNameCbc(
-	private val sbc: SaveCompanyNameSbc,
+	private val saveCompanyNameSbc: SaveCompanyNameSbc,
 ) {
 	@PostMapping
-	fun save(@RequestBody request: RequestData<SaveCompanyNameRequest>): ResponseData<SaveCompanyNameResponse> =
-		sbc.save(request)
+	fun save(@RequestBody request: RequestData<SaveCompanyNameRequest>): ResponseData<SaveCompanyNameResponse> {
+		return saveCompanyNameSbc.save(request)
+	}
 }

@@ -49,11 +49,12 @@ data class UploadCompanyProfileResponse(
  */
 @RestController
 class ResourceFileInfoCbc(
-	private val sbc: ResourceFileInfoSbc,
+	private val resourceFileInfoSbc: ResourceFileInfoSbc,
 ) {
 	@PostMapping("/GNB1004")
-	fun downloadManual(@RequestBody request: RequestData<DownloadManualRequest>): ResponseData<DownloadManualResponse> =
-		sbc.downloadManual(request.header?.languageCode)
+	fun downloadManual(@RequestBody request: RequestData<DownloadManualRequest>): ResponseData<DownloadManualResponse> {
+		return resourceFileInfoSbc.downloadManual(request.header?.languageCode)
+	}
 
 	@PostMapping("/upload/companyProfile")
 	fun uploadCompanyProfile(
@@ -61,14 +62,17 @@ class ResourceFileInfoCbc(
 		@RequestParam("corporateUserProfileImageURL", required = false) corporateUserProfileImageURL: String?,
 		@RequestParam("userID") userID: String,
 		@RequestParam("customerNo") customerNo: String,
-	): ResponseData<UploadCompanyProfileResponse> =
-		sbc.uploadCompanyProfile(file, corporateUserProfileImageURL, userID, customerNo)
+	): ResponseData<UploadCompanyProfileResponse> {
+		return resourceFileInfoSbc.uploadCompanyProfile(file, corporateUserProfileImageURL, userID, customerNo)
+	}
 
 	@GetMapping("/api/images/resources/{resID}")
-	fun getResourceImage(@PathVariable resID: String): ResponseEntity<ByteArray> =
-		sbc.getResourceImage(resID)
+	fun getResourceImage(@PathVariable resID: String): ResponseEntity<ByteArray> {
+		return resourceFileInfoSbc.getResourceImage(resID)
+	}
 
 	@GetMapping("/download/manual/{resID}")
-	fun downloadManualFile(@PathVariable resID: String): ResponseEntity<ByteArray> =
-		sbc.downloadManualFile(resID)
+	fun downloadManualFile(@PathVariable resID: String): ResponseEntity<ByteArray> {
+		return resourceFileInfoSbc.downloadManualFile(resID)
+	}
 }

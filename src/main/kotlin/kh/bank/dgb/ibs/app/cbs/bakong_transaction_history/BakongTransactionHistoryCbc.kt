@@ -48,11 +48,12 @@ data class BakongTransactionHistoryItem(
 @RestController
 @RequestMapping("/TRS0913")
 class BakongTransactionHistoryCbc(
-	private val sbc: BakongTransactionHistorySbc,
+	private val bakongTransactionHistorySbc: BakongTransactionHistorySbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<BakongTransactionHistoryRequest>): ResponseData<BakongTransactionHistoryResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<BakongTransactionHistoryRequest>): ResponseData<BakongTransactionHistoryResponse> {
+		return bakongTransactionHistorySbc.inquire(request)
+	}
 }
 
 data class BakongTransactionHistoryResponse(

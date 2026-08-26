@@ -39,9 +39,10 @@ class RegisterApprovalLineResponse
 @RestController
 @RequestMapping("/INF3004")
 class RegisterApprovalLineCbc(
-	private val sbc: RegisterApprovalLineSbc,
+	private val registerApprovalLineSbc: RegisterApprovalLineSbc,
 ) {
 	@PostMapping
-	fun register(@RequestBody request: RequestData<RegisterApprovalLineRequest>): ResponseData<RegisterApprovalLineResponse> =
-		sbc.register(request)
+	fun register(@RequestBody request: RequestData<RegisterApprovalLineRequest>): ResponseData<RegisterApprovalLineResponse> {
+		return registerApprovalLineSbc.register(request)
+	}
 }

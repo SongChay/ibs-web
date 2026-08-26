@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class VerifyQrCodeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun verify(request: RequestData<VerifyQrCodeRequest>): ResponseData<VerifyQrCodeResponse> =
-		connector.post("CIB11000211", request.header?.languageCode, request.body, VerifyQrCodeResponse::class.java)
+	fun verify(request: RequestData<VerifyQrCodeRequest>): ResponseData<VerifyQrCodeResponse> {
+		return coreBankingApiConnector.post("CIB11000211", request.header?.languageCode, request.body, VerifyQrCodeResponse::class.java)
+	}
 }

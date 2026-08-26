@@ -22,9 +22,10 @@ data class WingAccountInfoResponse(
 @RestController
 @RequestMapping("/TRS5002")
 class WingAccountInfoCbc(
-	private val sbc: WingAccountInfoSbc,
+	private val wingAccountInfoSbc: WingAccountInfoSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<WingAccountInfoRequest>): ResponseData<WingAccountInfoResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<WingAccountInfoRequest>): ResponseData<WingAccountInfoResponse> {
+		return wingAccountInfoSbc.inquire(request)
+	}
 }

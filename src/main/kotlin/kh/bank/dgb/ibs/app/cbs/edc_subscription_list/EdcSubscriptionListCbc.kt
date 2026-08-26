@@ -45,9 +45,10 @@ data class EdcSubscriptionListResponse(
 @RestController
 @RequestMapping("/TRS2512")
 class EdcSubscriptionListCbc(
-	private val sbc: EdcSubscriptionListSbc,
+	private val edcSubscriptionListSbc: EdcSubscriptionListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<EdcSubscriptionListRequest>): ResponseData<EdcSubscriptionListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<EdcSubscriptionListRequest>): ResponseData<EdcSubscriptionListResponse> {
+		return edcSubscriptionListSbc.inquire(request)
+	}
 }

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class RecentWingTransferListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<RecentWingTransferListRequest>): ResponseData<RecentWingTransferListResponse> =
-		connector.post("CIB11301813", request.header?.languageCode, request.body, RecentWingTransferListResponse::class.java)
+	fun inquire(request: RequestData<RecentWingTransferListRequest>): ResponseData<RecentWingTransferListResponse> {
+		return coreBankingApiConnector.post("CIB11301813", request.header?.languageCode, request.body, RecentWingTransferListResponse::class.java)
+	}
 }

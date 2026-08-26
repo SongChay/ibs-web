@@ -15,10 +15,10 @@ import java.text.SimpleDateFormat
  */
 @Service
 class TransferHistorySbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<TransferHistoryRequest>): ResponseData<TransferHistoryResponse> {
-		val response = connector.post("CIB11301311", request.header?.languageCode, request.body, TransferHistoryResponse::class.java)
+		val response = coreBankingApiConnector.post("CIB11301311", request.header?.languageCode, request.body, TransferHistoryResponse::class.java)
 		val enrichedList = response.body?.transferList?.map { item ->
 			val transactionDate = toDDMMMYYYY(item.transactionDate)
 			val transactionTime = toHHMMSSA(item.transactionTime)
@@ -33,25 +33,31 @@ class TransferHistorySbc(
 		return response.copy(body = response.body?.copy(transferList = enrichedList))
 	}
 
-	private fun transactionStatusDescription(code: String?): String = when (code) {
-		"001" -> "Processing"
-		"002" -> "Failed"
-		"003" -> "Completed"
-		"000" -> "Unknown"
-		else -> ""
+	private fun transactionStatusDescription(code: String?): String {
+		return when (code) {
+			"001" -> "Processing"
+			"002" -> "Failed"
+			"003" -> "Completed"
+			"000" -> "Unknown"
+			else -> ""
+		}
 	}
 
-	private fun transferTypeDescription(code: String?): String = when (code) {
-		"0001" -> "Domestic"
-		"0007" -> "Overseas"
-		"0008" -> "Wing"
-		else -> ""
+	private fun transferTypeDescription(code: String?): String {
+		return when (code) {
+			"0001" -> "Domestic"
+			"0007" -> "Overseas"
+			"0008" -> "Wing"
+			else -> ""
+		}
 	}
 
-	private fun transactionTypeDescription(code: String?): String = when (code) {
-		"0001" -> "Immediate"
-		"0002" -> "Schedule"
-		else -> ""
+	private fun transactionTypeDescription(code: String?): String {
+		return when (code) {
+			"0001" -> "Immediate"
+			"0002" -> "Schedule"
+			else -> ""
+		}
 	}
 
 	private fun toDDMMMYYYY(date: String?): String {

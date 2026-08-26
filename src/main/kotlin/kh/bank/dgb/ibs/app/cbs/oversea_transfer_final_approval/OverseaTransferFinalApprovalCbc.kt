@@ -102,9 +102,10 @@ class OverseaTransferFinalApprovalResponse
 @RestController
 @RequestMapping("/TRS4102")
 class OverseaTransferFinalApprovalCbc(
-	private val sbc: OverseaTransferFinalApprovalSbc,
+	private val overseaTransferFinalApprovalSbc: OverseaTransferFinalApprovalSbc,
 ) {
 	@PostMapping
-	fun execute(@RequestBody request: RequestData<OverseaTransferFinalApprovalRequest>): ResponseData<OverseaTransferFinalApprovalResponse> =
-		sbc.execute(request)
+	fun execute(@RequestBody request: RequestData<OverseaTransferFinalApprovalRequest>): ResponseData<OverseaTransferFinalApprovalResponse> {
+		return overseaTransferFinalApprovalSbc.execute(request)
+	}
 }

@@ -28,9 +28,10 @@ data class UpdateSubUserServiceStatusResponse(
 @RestController
 @RequestMapping("/INF2003")
 class UpdateSubUserServiceStatusCbc(
-	private val sbc: UpdateSubUserServiceStatusSbc,
+	private val updateSubUserServiceStatusSbc: UpdateSubUserServiceStatusSbc,
 ) {
 	@PostMapping
-	fun update(@RequestBody request: RequestData<UpdateSubUserServiceStatusRequest>): ResponseData<UpdateSubUserServiceStatusResponse> =
-		sbc.update(request)
+	fun update(@RequestBody request: RequestData<UpdateSubUserServiceStatusRequest>): ResponseData<UpdateSubUserServiceStatusResponse> {
+		return updateSubUserServiceStatusSbc.update(request)
+	}
 }

@@ -78,9 +78,10 @@ data class EdcSubscriptionUnregisterResponse(
 @RestController
 @RequestMapping("/TRS2541")
 class EdcSubscriptionUnregisterCbc(
-	private val sbc: EdcSubscriptionUnregisterSbc,
+	private val edcSubscriptionUnregisterSbc: EdcSubscriptionUnregisterSbc,
 ) {
 	@PostMapping
-	fun unregister(@RequestBody request: RequestData<EdcSubscriptionUnregisterRequest>): ResponseData<EdcSubscriptionUnregisterResponse> =
-		sbc.unregister(request)
+	fun unregister(@RequestBody request: RequestData<EdcSubscriptionUnregisterRequest>): ResponseData<EdcSubscriptionUnregisterResponse> {
+		return edcSubscriptionUnregisterSbc.unregister(request)
+	}
 }

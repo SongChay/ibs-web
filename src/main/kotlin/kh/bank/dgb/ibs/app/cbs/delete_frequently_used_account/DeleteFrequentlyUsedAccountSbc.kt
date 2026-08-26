@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeleteFrequentlyUsedAccountSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun delete(request: RequestData<DeleteFrequentlyUsedAccountRequest>): ResponseData<DeleteFrequentlyUsedAccountResponse> {
-		val result = connector.post(
+		val result = coreBankingApiConnector.post(
 			"CIB11002731",
 			request.header?.languageCode,
 			request.body,

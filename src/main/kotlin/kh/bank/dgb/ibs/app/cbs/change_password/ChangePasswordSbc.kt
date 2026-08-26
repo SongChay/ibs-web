@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service
  *  whenever the CBS call both returned a body and succeeded — replicated below. */
 @Service
 class ChangePasswordSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun change(request: RequestData<ChangePasswordRequest>): ResponseData<ChangePasswordResponse> {
-		val cbsResult = connector.post("CIB11000331", request.header?.languageCode, request.body, ChangePasswordResponse::class.java)
+		val cbsResult = coreBankingApiConnector.post("CIB11000331", request.header?.languageCode, request.body, ChangePasswordResponse::class.java)
 
 		val body = if (cbsResult.header?.result == true && cbsResult.body != null) {
 			cbsResult.body.copy(resultYn = "Y")

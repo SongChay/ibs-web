@@ -36,9 +36,10 @@ class UpdateVirtualAccountInfoResponse
 @RestController
 @RequestMapping("/VAC1004")
 class UpdateVirtualAccountInfoCbc(
-	private val sbc: UpdateVirtualAccountInfoSbc,
+	private val updateVirtualAccountInfoSbc: UpdateVirtualAccountInfoSbc,
 ) {
 	@PostMapping
-	fun update(@RequestBody request: RequestData<UpdateVirtualAccountInfoRequest>): ResponseData<UpdateVirtualAccountInfoResponse> =
-		sbc.update(request)
+	fun update(@RequestBody request: RequestData<UpdateVirtualAccountInfoRequest>): ResponseData<UpdateVirtualAccountInfoResponse> {
+		return updateVirtualAccountInfoSbc.update(request)
+	}
 }

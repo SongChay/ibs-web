@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class CorporatePayrollRegisterSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun register(request: RequestData<CorporatePayrollRegisterRequest>): ResponseData<CorporatePayrollRegisterResponse> {
-		val result = connector.post("CIB11300121", request.header?.languageCode, request.body, CorporatePayrollRegisterResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11300121", request.header?.languageCode, request.body, CorporatePayrollRegisterResponse::class.java)
 		val body = result.body ?: return result
 
 		val resultYn = if (result.header?.result == true) "Y" else "N"

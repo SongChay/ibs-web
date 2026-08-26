@@ -47,7 +47,7 @@ import java.util.concurrent.atomic.AtomicLong
 class DefaultCoreBankingApiConnector(
 	private val restClient: RestClient,
 	private val objectMapper: ObjectMapper,
-	private val props: CoreBankingProperties,
+	private val coreBankingProperties: CoreBankingProperties,
 ) : CoreBankingApiConnector {
 
 	private val logger = LoggerFactory.getLogger(DefaultCoreBankingApiConnector::class.java)
@@ -61,7 +61,7 @@ class DefaultCoreBankingApiConnector(
 
 		return try {
 			val responseNode = restClient.post()
-				.uri(props.baseUrl)
+				.uri(coreBankingProperties.baseUrl)
 				.body(message)
 				.retrieve()
 				.body(ObjectNode::class.java)
@@ -111,34 +111,34 @@ class DefaultCoreBankingApiConnector(
 		val commonHdr = CommonHeader(
 			encProcTypeCd = "0",
 			firstIPAddr = localIpAddress(),
-			firstReqSysCd = props.systemCode,
+			firstReqSysCd = coreBankingProperties.systemCode,
 			guid = generateGuid(),
 			msgReqResTypeCd = "S",
-			msgVerNo = props.messageVersionNumber,
-			totTimeoutSec = props.totalTimeoutSeconds,
-			trxTimeoutSec = props.transactionTimeoutSeconds,
+			msgVerNo = coreBankingProperties.messageVersionNumber,
+			totTimeoutSec = coreBankingProperties.totalTimeoutSeconds,
+			trxTimeoutSec = coreBankingProperties.transactionTimeoutSeconds,
 		)
 
 		val commonBody = CommonBody(
-			ctryCd = props.countryCode,
-			compIdCd = props.companyIdCode,
+			ctryCd = coreBankingProperties.countryCode,
+			compIdCd = coreBankingProperties.companyIdCode,
 			svcID = operationCode,
-			ifID = operationCode + props.systemCode,
-			trxSyncTypeCd = props.transactionSyncTypeCode,
+			ifID = operationCode + coreBankingProperties.systemCode,
+			trxSyncTypeCd = coreBankingProperties.transactionSyncTypeCode,
 			inExTypeCd = "1",
-			sysEnvTypeCd = props.systemEnvironmentTypeCode,
-			trxProcTypeCd = props.transactionProcessTypeCode,
-			orgTrxRestYN = props.originalTransactionRestoreYn,
-			bankCd = props.bankCode,
-			trxBrchCd = props.transactionBranchCode,
+			sysEnvTypeCd = coreBankingProperties.systemEnvironmentTypeCode,
+			trxProcTypeCd = coreBankingProperties.transactionProcessTypeCode,
+			orgTrxRestYN = coreBankingProperties.originalTransactionRestoreYn,
+			bankCd = coreBankingProperties.bankCode,
+			trxBrchCd = coreBankingProperties.transactionBranchCode,
 			outBrchTypeCd = "00",
-			actTrxBrchCd = props.actualTransactionBranchCode,
-			chnTypeCd = props.channelTypeCode,
-			chnDetTypeCd = props.channelDetailTypeCode,
-			trmnNo = props.terminalNumber,
+			actTrxBrchCd = coreBankingProperties.actualTransactionBranchCode,
+			chnTypeCd = coreBankingProperties.channelTypeCode,
+			chnDetTypeCd = coreBankingProperties.channelDetailTypeCode,
+			trmnNo = coreBankingProperties.terminalNumber,
 			langTypeCd = resolveLanguage(languageCode),
 			mgrApprSeqNo = 0L,
-			tellerID = props.tellerId,
+			tellerID = coreBankingProperties.tellerId,
 			msgReqDate = SimpleDateFormat("yyyyMMdd").format(now),
 			msgReqTime = SimpleDateFormat("HHmmssSSS").format(now),
 		)
@@ -155,20 +155,23 @@ class DefaultCoreBankingApiConnector(
 
 	/** Port of the old `lang.matches("km|02|KM") ? "KM" : "EN"` logic — that version NPE'd if
 	 *  `languageCode` was null before the null-check further down ever ran; this doesn't. */
-	private fun resolveLanguage(languageCode: String?): String = when {
-		languageCode == null -> props.defaultLanguageTypeCode
-		languageCode == "km" || languageCode == "02" || languageCode == "KM" -> "KM"
-		else -> "EN"
+	private fun resolveLanguage(languageCode: String?): String {
+		return when {
+			languageCode == null -> coreBankingProperties.defaultLanguageTypeCode
+			languageCode == "km" || languageCode == "02" || languageCode == "KM" -> "KM"
+			else -> "EN"
+		}
 	}
 
-	private fun localIpAddress(): String =
-		runCatching { InetAddress.getLocalHost().hostAddress }.getOrDefault("")
+	private fun localIpAddress(): String {
+		return runCatching { InetAddress.getLocalHost().hostAddress }.getOrDefault("")
+	}
 
 	/** Port of `genGuid()`. */
 	private fun generateGuid(): String {
 		val dateTime = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
 		val seq = transactionSeq.updateAndGet { current -> if (current >= 999999) 1 else current + 1 }
 		val seqPadded = seq.toString().padStart(6, '0')
-		return "${props.companyIdCode}${props.systemCode}${props.tellerId}0$dateTime$seqPadded" + "001"
+		return "${coreBankingProperties.companyIdCode}${coreBankingProperties.systemCode}${coreBankingProperties.tellerId}0$dateTime$seqPadded" + "001"
 	}
 }

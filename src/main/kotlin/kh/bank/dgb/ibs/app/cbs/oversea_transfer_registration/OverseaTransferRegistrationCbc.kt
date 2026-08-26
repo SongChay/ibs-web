@@ -87,9 +87,10 @@ data class OverseaTransferRegistrationResponse(
 @RestController
 @RequestMapping("/TRS4101")
 class OverseaTransferRegistrationCbc(
-	private val sbc: OverseaTransferRegistrationSbc,
+	private val overseaTransferRegistrationSbc: OverseaTransferRegistrationSbc,
 ) {
 	@PostMapping
-	fun register(@RequestBody request: RequestData<OverseaTransferRegistrationRequest>): ResponseData<OverseaTransferRegistrationResponse> =
-		sbc.register(request)
+	fun register(@RequestBody request: RequestData<OverseaTransferRegistrationRequest>): ResponseData<OverseaTransferRegistrationResponse> {
+		return overseaTransferRegistrationSbc.register(request)
+	}
 }

@@ -23,9 +23,10 @@ class CashFlowDeleteResponse
 @RestController
 @RequestMapping("/ABM4003")
 class CashFlowDeleteCbc(
-	private val sbc: CashFlowDeleteSbc,
+	private val cashFlowDeleteSbc: CashFlowDeleteSbc,
 ) {
 	@PostMapping
-	fun delete(@RequestBody request: RequestData<CashFlowDeleteRequest>): ResponseData<CashFlowDeleteResponse> =
-		sbc.delete(request)
+	fun delete(@RequestBody request: RequestData<CashFlowDeleteRequest>): ResponseData<CashFlowDeleteResponse> {
+		return cashFlowDeleteSbc.delete(request)
+	}
 }

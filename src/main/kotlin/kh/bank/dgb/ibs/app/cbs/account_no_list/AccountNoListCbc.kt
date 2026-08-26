@@ -39,9 +39,10 @@ data class AccountNoListResponse(
 @RestController
 @RequestMapping("/ACI1002")
 class AccountNoListCbc(
-	private val sbc: AccountNoListSbc,
+	private val accountNoListSbc: AccountNoListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<AllAccountInquiryListRequest>): ResponseData<AccountNoListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<AllAccountInquiryListRequest>): ResponseData<AccountNoListResponse> {
+		return accountNoListSbc.inquire(request)
+	}
 }

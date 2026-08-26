@@ -23,17 +23,21 @@ class FaqSbc(
 		)
 	}
 
-	fun getDetail(id: Int): FaqListItem? = faqRbc.getFaqById(id)?.toListItem()
+	fun getDetail(id: Int): FaqListItem? {
+		return faqRbc.getFaqById(id)?.toListItem()
+	}
 
-	private fun Faq.toListItem() = FaqListItem(
-		faqId = faqId,
-		categoryName = categoryName,
-		categoryNameKh = categoryNameKh,
-		categoryCode = categoryCode,
-		titleEn = titleEn,
-		contentEn = contentEn,
-		titleKh = titleKh,
-		contentKh = contentKh,
-		publishDateTime = publishDateTime?.toString(),
-	)
+	private fun Faq.toListItem(): FaqListItem {
+		return FaqListItem(
+			faqId = faqId,
+			categoryName = categoryName,
+			categoryNameKh = categoryNameKh,
+			categoryCode = categoryCode,
+			titleEn = titleEn,
+			contentEn = contentEn,
+			titleKh = titleKh,
+			contentKh = contentKh,
+			publishDateTime = publishDateTime?.toString(),
+		)
+	}
 }

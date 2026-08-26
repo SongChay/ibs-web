@@ -40,8 +40,8 @@ class NewsEventSbc(
 	 *  `contentEn`/`contentKh` commented out); the fields `NoticeListItem` carries for the paged
 	 *  `list` endpoint (`createdDate`, `viewCount`, `categoryCode`, `categoryName`) have no
 	 *  equivalent in the old MAN1005 response Vo and are left null/zero here. */
-	fun getTop3Notices(): List<NoticeListItem> =
-		newsEventRbc.getTop3Notice().map {
+	fun getTop3Notices(): List<NoticeListItem> {
+		return newsEventRbc.getTop3Notice().map {
 			NoticeListItem(
 				id = it.id,
 				titleEn = it.titleEn,
@@ -52,6 +52,7 @@ class NewsEventSbc(
 				categoryName = null,
 			)
 		}
+	}
 
 	/** Port of `ADS2101_Adapter_InquiryNoticeDetail`. Also fetches the next/previous adjacent
 	 *  notices and bumps the view count, same as the old adapter. `createdDate` is formatted

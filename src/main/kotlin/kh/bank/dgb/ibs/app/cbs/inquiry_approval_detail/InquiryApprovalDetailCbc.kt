@@ -117,9 +117,10 @@ data class InquiryApprovalDetailResponse(
 @RestController
 @RequestMapping("/APV1101")
 class InquiryApprovalDetailCbc(
-	private val sbc: InquiryApprovalDetailSbc,
+	private val inquiryApprovalDetailSbc: InquiryApprovalDetailSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<InquiryApprovalDetailRequest>): ResponseData<InquiryApprovalDetailResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<InquiryApprovalDetailRequest>): ResponseData<InquiryApprovalDetailResponse> {
+		return inquiryApprovalDetailSbc.inquire(request)
+	}
 }

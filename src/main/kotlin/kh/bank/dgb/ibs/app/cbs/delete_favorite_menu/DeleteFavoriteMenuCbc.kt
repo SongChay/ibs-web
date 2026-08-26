@@ -36,9 +36,10 @@ class DeleteFavoriteMenuResponse
 @RestController
 @RequestMapping("/GNB1001")
 class DeleteFavoriteMenuCbc(
-	private val sbc: DeleteFavoriteMenuSbc,
+	private val deleteFavoriteMenuSbc: DeleteFavoriteMenuSbc,
 ) {
 	@PostMapping
-	fun delete(@RequestBody request: RequestData<DeleteFavoriteMenuRequest>): ResponseData<DeleteFavoriteMenuResponse> =
-		sbc.delete(request)
+	fun delete(@RequestBody request: RequestData<DeleteFavoriteMenuRequest>): ResponseData<DeleteFavoriteMenuResponse> {
+		return deleteFavoriteMenuSbc.delete(request)
+	}
 }

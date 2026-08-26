@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class PayrollScheduleTransferUpdateSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun update(request: RequestData<PayrollScheduleTransferUpdateRequest>): ResponseData<PayrollScheduleTransferUpdateResponse> {
-		val result = connector.post(
+		val result = coreBankingApiConnector.post(
 			"CIB11300223",
 			request.header?.languageCode,
 			request.body,

@@ -53,7 +53,7 @@ data class UserProfileCbsResponse(
  */
 @Service
 class UploadCompanyLogoSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 	private val resourceFileInfoRbc: ResourceFileInfoRbc,
 	@Value("\${ibs.resource-url:http://localhost:8080/resource}") private val resourceUrl: String,
 ) {
@@ -72,7 +72,7 @@ class UploadCompanyLogoSbc(
 				corporateUserProfileImageURL = "$resourceUrl/$resId",
 			)
 
-			val cbsResult = connector.post(
+			val cbsResult = coreBankingApiConnector.post(
 				"CIB11002932",
 				request.header?.languageCode,
 				cbsRequest,

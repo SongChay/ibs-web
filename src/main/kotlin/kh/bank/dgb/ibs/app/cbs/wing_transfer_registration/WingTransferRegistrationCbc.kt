@@ -81,9 +81,10 @@ data class WingTransferRegistrationResponse(
 @RestController
 @RequestMapping("/TRS5101")
 class WingTransferRegistrationCbc(
-	private val sbc: WingTransferRegistrationSbc,
+	private val wingTransferRegistrationSbc: WingTransferRegistrationSbc,
 ) {
 	@PostMapping
-	fun register(@RequestBody request: RequestData<WingTransferRegistrationRequest>): ResponseData<WingTransferRegistrationResponse> =
-		sbc.register(request)
+	fun register(@RequestBody request: RequestData<WingTransferRegistrationRequest>): ResponseData<WingTransferRegistrationResponse> {
+		return wingTransferRegistrationSbc.register(request)
+	}
 }

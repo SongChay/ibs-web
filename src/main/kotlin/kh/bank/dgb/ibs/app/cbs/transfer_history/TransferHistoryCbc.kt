@@ -82,9 +82,10 @@ data class TransferHistoryResponse(
 @RestController
 @RequestMapping("/TRS3003")
 class TransferHistoryCbc(
-	private val sbc: TransferHistorySbc,
+	private val transferHistorySbc: TransferHistorySbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<TransferHistoryRequest>): ResponseData<TransferHistoryResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<TransferHistoryRequest>): ResponseData<TransferHistoryResponse> {
+		return transferHistorySbc.inquire(request)
+	}
 }

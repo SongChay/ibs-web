@@ -44,9 +44,10 @@ data class FailedVirtualAccountListResponse(
 @RestController
 @RequestMapping("/VAC1003")
 class FailedVirtualAccountListCbc(
-	private val sbc: FailedVirtualAccountListSbc,
+	private val failedVirtualAccountListSbc: FailedVirtualAccountListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<FailedVirtualAccountListRequest>): ResponseData<FailedVirtualAccountListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<FailedVirtualAccountListRequest>): ResponseData<FailedVirtualAccountListResponse> {
+		return failedVirtualAccountListSbc.inquire(request)
+	}
 }

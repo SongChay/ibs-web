@@ -27,9 +27,10 @@ data class WingTransferFeeResponse(
 @RestController
 @RequestMapping("/TRS5003")
 class WingTransferFeeCbc(
-	private val sbc: WingTransferFeeSbc,
+	private val wingTransferFeeSbc: WingTransferFeeSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<WingTransferFeeRequest>): ResponseData<WingTransferFeeResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<WingTransferFeeRequest>): ResponseData<WingTransferFeeResponse> {
+		return wingTransferFeeSbc.inquire(request)
+	}
 }

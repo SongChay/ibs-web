@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service
  */
 @Service
 class GenerateQrCodeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun generate(request: RequestData<GenerateQrCodeRequest>): ResponseData<GenerateQrCodeResponse> {
 		val forcedBody = (request.body ?: GenerateQrCodeRequest()).copy(channelTypeCode = CHANNEL_TYPE_CODE_CORP_BANKING)
 
-		val cbsResult = connector.post(OPCODE, request.header?.languageCode, forcedBody, GenerateQrCodeResponse::class.java)
+		val cbsResult = coreBankingApiConnector.post(OPCODE, request.header?.languageCode, forcedBody, GenerateQrCodeResponse::class.java)
 
 		if (cbsResult.header?.result != true || cbsResult.body == null) {
 			return ResponseData(header = cbsResult.header, body = null)
@@ -39,7 +39,7 @@ class GenerateQrCodeSbc(
 	 *  that here, since this is an image response and can't reuse the app's usual JSON error shape. */
 	fun generateImage(userId: String): ResponseEntity<ByteArray> {
 		val request = GenerateQrCodeRequest(userID = userId, channelTypeCode = CHANNEL_TYPE_CODE_CORP_BANKING)
-		val cbsResult = connector.post(OPCODE, null, request, GenerateQrCodeResponse::class.java)
+		val cbsResult = coreBankingApiConnector.post(OPCODE, null, request, GenerateQrCodeResponse::class.java)
 		val otpAuthString = cbsResult.body?.otpAuthString?.takeIf { cbsResult.header?.result == true }
 			?: return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
 

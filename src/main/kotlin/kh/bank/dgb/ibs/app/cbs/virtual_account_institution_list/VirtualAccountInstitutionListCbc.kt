@@ -24,9 +24,10 @@ data class VirtualAccountInstitutionListResponse(
 @RestController
 @RequestMapping("/VAC1005")
 class VirtualAccountInstitutionListCbc(
-	private val sbc: VirtualAccountInstitutionListSbc,
+	private val virtualAccountInstitutionListSbc: VirtualAccountInstitutionListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<VirtualAccountInstitutionListRequest>): ResponseData<VirtualAccountInstitutionListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<VirtualAccountInstitutionListRequest>): ResponseData<VirtualAccountInstitutionListResponse> {
+		return virtualAccountInstitutionListSbc.inquire(request)
+	}
 }

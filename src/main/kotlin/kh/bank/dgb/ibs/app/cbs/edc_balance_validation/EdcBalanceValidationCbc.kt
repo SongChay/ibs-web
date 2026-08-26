@@ -38,9 +38,10 @@ data class EdcBalanceValidationResponse(
 @RestController
 @RequestMapping("/TRS0816")
 class EdcBalanceValidationCbc(
-	private val sbc: EdcBalanceValidationSbc,
+	private val edcBalanceValidationSbc: EdcBalanceValidationSbc,
 ) {
 	@PostMapping
-	fun validate(@RequestBody request: RequestData<EdcBalanceValidationRequest>): ResponseData<EdcBalanceValidationResponse> =
-		sbc.validate(request)
+	fun validate(@RequestBody request: RequestData<EdcBalanceValidationRequest>): ResponseData<EdcBalanceValidationResponse> {
+		return edcBalanceValidationSbc.validate(request)
+	}
 }

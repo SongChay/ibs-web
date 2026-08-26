@@ -33,9 +33,10 @@ data class RftRecipientAccountResponse(
 @RestController
 @RequestMapping("/TRS1007")
 class RftRecipientAccountCbc(
-	private val sbc: RftRecipientAccountSbc,
+	private val rftRecipientAccountSbc: RftRecipientAccountSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<RftRecipientAccountRequest>): ResponseData<RftRecipientAccountResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<RftRecipientAccountRequest>): ResponseData<RftRecipientAccountResponse> {
+		return rftRecipientAccountSbc.inquire(request)
+	}
 }

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class EdcSubscriptionListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<EdcSubscriptionListRequest>): ResponseData<EdcSubscriptionListResponse> =
-		connector.post("CIB11102512", request.header?.languageCode, request.body, EdcSubscriptionListResponse::class.java)
+	fun inquire(request: RequestData<EdcSubscriptionListRequest>): ResponseData<EdcSubscriptionListResponse> {
+		return coreBankingApiConnector.post("CIB11102512", request.header?.languageCode, request.body, EdcSubscriptionListResponse::class.java)
+	}
 }

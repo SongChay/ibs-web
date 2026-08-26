@@ -22,9 +22,10 @@ data class CheckDuplicatedUserIdResponse(
 @RestController
 @RequestMapping("/INF2101")
 class CheckDuplicatedUserIdCbc(
-	private val sbc: CheckDuplicatedUserIdSbc,
+	private val checkDuplicatedUserIdSbc: CheckDuplicatedUserIdSbc,
 ) {
 	@PostMapping
-	fun check(@RequestBody request: RequestData<CheckDuplicatedUserIdRequest>): ResponseData<CheckDuplicatedUserIdResponse> =
-		sbc.check(request)
+	fun check(@RequestBody request: RequestData<CheckDuplicatedUserIdRequest>): ResponseData<CheckDuplicatedUserIdResponse> {
+		return checkDuplicatedUserIdSbc.check(request)
+	}
 }

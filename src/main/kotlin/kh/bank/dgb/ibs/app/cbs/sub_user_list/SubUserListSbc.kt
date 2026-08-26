@@ -11,10 +11,10 @@ import java.util.Locale
 
 @Service
 class SubUserListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<SubUserListRequest>): ResponseData<SubUserListResponse> {
-		val result = connector.post("CIB11002301", request.header?.languageCode, request.body, SubUserListResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11002301", request.header?.languageCode, request.body, SubUserListResponse::class.java)
 
 		val enrichedList = result.body?.corporateSubUserInfoList?.map { user ->
 			val lastLoginDate = toDdMmmYyyy(user.lastLoginDate)
@@ -52,11 +52,13 @@ class SubUserListSbc(
 	}
 
 	/** Port of `DataUtils.getServiceStatusDesc` / `ServiceStatusCodeType`. */
-	private fun serviceStatusDesc(code: String?): String = when (code) {
-		"00" -> "Application"
-		"01" -> "Active"
-		"08" -> "Deactivated"
-		"09" -> "Deactivated"
-		else -> ""
+	private fun serviceStatusDesc(code: String?): String {
+		return when (code) {
+			"00" -> "Application"
+			"01" -> "Active"
+			"08" -> "Deactivated"
+			"09" -> "Deactivated"
+			else -> ""
+		}
 	}
 }

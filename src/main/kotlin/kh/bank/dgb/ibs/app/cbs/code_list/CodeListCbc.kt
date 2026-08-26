@@ -38,9 +38,10 @@ data class CodeListResponse(
 @RestController
 @RequestMapping("/COM0001")
 class CodeListCbc(
-	private val sbc: CodeListSbc,
+	private val codeListSbc: CodeListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<CodeListRequest>): ResponseData<CodeListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<CodeListRequest>): ResponseData<CodeListResponse> {
+		return codeListSbc.inquire(request)
+	}
 }

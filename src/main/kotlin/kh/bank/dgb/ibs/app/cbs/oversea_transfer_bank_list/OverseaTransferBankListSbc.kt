@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service
  */
 @Service
 class OverseaTransferBankListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<OverseaTransferBankListRequest>): ResponseData<OverseaTransferBankListResponse> {
 		val body = (request.body ?: OverseaTransferBankListRequest()).copy(channelTypeCode = CHANNEL_TYPE_CODE_CORP_BANKING)
-		return connector.post("CIB11300311", request.header?.languageCode, body, OverseaTransferBankListResponse::class.java)
+		return coreBankingApiConnector.post("CIB11300311", request.header?.languageCode, body, OverseaTransferBankListResponse::class.java)
 	}
 
 	companion object {

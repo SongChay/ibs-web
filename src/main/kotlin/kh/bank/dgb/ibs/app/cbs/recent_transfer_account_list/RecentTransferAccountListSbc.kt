@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service
  */
 @Service
 class RecentTransferAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<RecentTransferAccountListRequest>): ResponseData<RecentTransferAccountListResponse> {
-		val response = connector.post(
+		val response = coreBankingApiConnector.post(
 			"CIB11301111",
 			request.header?.languageCode,
 			request.body,

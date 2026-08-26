@@ -28,9 +28,10 @@ data class AccountGroupOptionListResponse(
 @RestController
 @RequestMapping("/ACI1001")
 class AccountGroupOptionListCbc(
-	private val sbc: AccountGroupOptionListSbc,
+	private val accountGroupOptionListSbc: AccountGroupOptionListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<AccountGroupOptionListRequest>): ResponseData<AccountGroupOptionListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<AccountGroupOptionListRequest>): ResponseData<AccountGroupOptionListResponse> {
+		return accountGroupOptionListSbc.inquire(request)
+	}
 }

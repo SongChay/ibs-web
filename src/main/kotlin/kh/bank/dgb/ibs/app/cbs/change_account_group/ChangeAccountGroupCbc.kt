@@ -23,9 +23,10 @@ class ChangeAccountGroupResponse
 @RestController
 @RequestMapping("/INF1103")
 class ChangeAccountGroupCbc(
-	private val sbc: ChangeAccountGroupSbc,
+	private val changeAccountGroupSbc: ChangeAccountGroupSbc,
 ) {
 	@PostMapping
-	fun change(@RequestBody request: RequestData<ChangeAccountGroupRequest>): ResponseData<ChangeAccountGroupResponse> =
-		sbc.change(request)
+	fun change(@RequestBody request: RequestData<ChangeAccountGroupRequest>): ResponseData<ChangeAccountGroupResponse> {
+		return changeAccountGroupSbc.change(request)
+	}
 }

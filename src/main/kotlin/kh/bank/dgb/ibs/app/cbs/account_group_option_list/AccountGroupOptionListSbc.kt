@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class AccountGroupOptionListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<AccountGroupOptionListRequest>): ResponseData<AccountGroupOptionListResponse> =
-		connector.post("CIB11002712", request.header?.languageCode, request.body, AccountGroupOptionListResponse::class.java)
+	fun inquire(request: RequestData<AccountGroupOptionListRequest>): ResponseData<AccountGroupOptionListResponse> {
+		return coreBankingApiConnector.post("CIB11002712", request.header?.languageCode, request.body, AccountGroupOptionListResponse::class.java)
+	}
 }

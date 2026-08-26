@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class RegisterFrequentlyUsedAccountSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun register(request: RequestData<RegisterFrequentlyUsedAccountRequest>): ResponseData<RegisterFrequentlyUsedAccountResponse> {
-		val result = connector.post(
+		val result = coreBankingApiConnector.post(
 			"CIB11002721",
 			request.header?.languageCode,
 			request.body,

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class FrequentlyUsedAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<FrequentlyUsedAccountListRequest>): ResponseData<FrequentlyUsedAccountListResponse> =
-		connector.post("CIB11302711", request.header?.languageCode, request.body, FrequentlyUsedAccountListResponse::class.java)
+	fun inquire(request: RequestData<FrequentlyUsedAccountListRequest>): ResponseData<FrequentlyUsedAccountListResponse> {
+		return coreBankingApiConnector.post("CIB11302711", request.header?.languageCode, request.body, FrequentlyUsedAccountListResponse::class.java)
+	}
 }

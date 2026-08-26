@@ -17,13 +17,15 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 class FileDownloadCbc(
-	private val sbc: FileDownloadSbc,
+	private val fileDownloadSbc: FileDownloadSbc,
 ) {
 	@GetMapping("/download")
-	fun downloadByFilePath(@RequestParam filePath: String): ResponseEntity<ByteArray> =
-		sbc.downloadByFilePath(filePath)
+	fun downloadByFilePath(@RequestParam filePath: String): ResponseEntity<ByteArray> {
+		return fileDownloadSbc.downloadByFilePath(filePath)
+	}
 
 	@GetMapping("/download/{filename:.+}")
-	fun downloadByFilename(@PathVariable filename: String): ResponseEntity<ByteArray> =
-		sbc.downloadByFilename(filename)
+	fun downloadByFilename(@PathVariable filename: String): ResponseEntity<ByteArray> {
+		return fileDownloadSbc.downloadByFilename(filename)
+	}
 }

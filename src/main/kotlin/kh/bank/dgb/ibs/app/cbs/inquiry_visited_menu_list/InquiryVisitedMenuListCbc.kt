@@ -35,9 +35,10 @@ data class InquiryVisitedMenuListResponse(
 @RestController
 @RequestMapping("/GNB1005")
 class InquiryVisitedMenuListCbc(
-	private val sbc: InquiryVisitedMenuListSbc,
+	private val inquiryVisitedMenuListSbc: InquiryVisitedMenuListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<InquiryVisitedMenuListRequest>): ResponseData<InquiryVisitedMenuListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<InquiryVisitedMenuListRequest>): ResponseData<InquiryVisitedMenuListResponse> {
+		return inquiryVisitedMenuListSbc.inquire(request)
+	}
 }

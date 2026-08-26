@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class EdcBalanceValidationSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun validate(request: RequestData<EdcBalanceValidationRequest>): ResponseData<EdcBalanceValidationResponse> =
-		connector.post("CIB11300816", request.header?.languageCode, request.body, EdcBalanceValidationResponse::class.java)
+	fun validate(request: RequestData<EdcBalanceValidationRequest>): ResponseData<EdcBalanceValidationResponse> {
+		return coreBankingApiConnector.post("CIB11300816", request.header?.languageCode, request.body, EdcBalanceValidationResponse::class.java)
+	}
 }

@@ -9,10 +9,10 @@ import java.util.Date
 
 @Service
 class PayrollTransactionDetailSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun detail(request: RequestData<PayrollTransactionDetailRequest>): ResponseData<PayrollTransactionDetailResponse> {
-		val result = connector.post("CIB11300915", request.header?.languageCode, request.body, PayrollTransactionDetailResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11300915", request.header?.languageCode, request.body, PayrollTransactionDetailResponse::class.java)
 		val body = result.body ?: return result
 
 		val updated = body.copy(

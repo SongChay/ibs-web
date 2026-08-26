@@ -22,19 +22,19 @@ import java.math.BigDecimal
  */
 @Service
 class OverseaTransferFeeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<OverseaTransferFeeRequest>): ResponseData<OverseaTransferFeeResponse> {
 		val body = request.body ?: OverseaTransferFeeRequest()
 		val languageCode = request.header?.languageCode
 
-		val outBoundResult = connector.post(
+		val outBoundResult = coreBankingApiConnector.post(
 			OPCODE,
 			languageCode,
 			body.copy(feeTypeCode = FEE_TYPE_OUT_BOUND),
 			OverseaTransferFeeResponse::class.java,
 		)
-		val cableResult = connector.post(
+		val cableResult = coreBankingApiConnector.post(
 			OPCODE,
 			languageCode,
 			body.copy(feeTypeCode = FEE_TYPE_CABLE),

@@ -57,9 +57,10 @@ data class AccountInquiryDetailResponse(
 @RestController
 @RequestMapping("/ACI2003")
 class AccountInquiryDetailCbc(
-	private val sbc: AccountInquiryDetailSbc,
+	private val accountInquiryDetailSbc: AccountInquiryDetailSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<AccountInquiryDetailRequest>): ResponseData<AccountInquiryDetailResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<AccountInquiryDetailRequest>): ResponseData<AccountInquiryDetailResponse> {
+		return accountInquiryDetailSbc.inquire(request)
+	}
 }

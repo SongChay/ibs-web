@@ -33,10 +33,10 @@ data class VirtualAccountHistoryListCbsResponse(
  */
 @Service
 class VirtualAccountHistoryListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<VirtualAccountHistoryListRequest>): ResponseData<VirtualAccountHistoryListResponse> {
-		val cbsResult = connector.post(
+		val cbsResult = coreBankingApiConnector.post(
 			"CIB11302111",
 			request.header?.languageCode,
 			request.body,
@@ -74,10 +74,12 @@ class VirtualAccountHistoryListSbc(
 	}
 
 	/** Port of `DataUtils.getVirtualAccountReceiveStatusDescription`. */
-	private fun receiveStatusDescription(code: String?): String = when (code) {
-		"00" -> "Unpaid" // VirtualAccountReceiveStatusCode.UNPAID
-		"01" -> "Unpaid" // VirtualAccountReceiveStatusCode.RECEIEVING (sic — same text as UNPAID in the old app)
-		"02" -> "Paid" // VirtualAccountReceiveStatusCode.COMPLETE
-		else -> ""
+	private fun receiveStatusDescription(code: String?): String {
+		return when (code) {
+			"00" -> "Unpaid" // VirtualAccountReceiveStatusCode.UNPAID
+			"01" -> "Unpaid" // VirtualAccountReceiveStatusCode.RECEIEVING (sic — same text as UNPAID in the old app)
+			"02" -> "Paid" // VirtualAccountReceiveStatusCode.COMPLETE
+			else -> ""
+		}
 	}
 }

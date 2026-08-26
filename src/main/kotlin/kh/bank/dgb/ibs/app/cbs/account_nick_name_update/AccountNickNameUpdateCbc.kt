@@ -21,9 +21,10 @@ class AccountNickNameUpdateResponse
 @RestController
 @RequestMapping("/ACI1007")
 class AccountNickNameUpdateCbc(
-	private val sbc: AccountNickNameUpdateSbc,
+	private val accountNickNameUpdateSbc: AccountNickNameUpdateSbc,
 ) {
 	@PostMapping
-	fun update(@RequestBody request: RequestData<AccountNickNameUpdateRequest>): ResponseData<AccountNickNameUpdateResponse> =
-		sbc.update(request)
+	fun update(@RequestBody request: RequestData<AccountNickNameUpdateRequest>): ResponseData<AccountNickNameUpdateResponse> {
+		return accountNickNameUpdateSbc.update(request)
+	}
 }

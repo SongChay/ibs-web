@@ -31,9 +31,10 @@ class VerifyAuthenticationCodeResponse
 @RestController
 @RequestMapping("/USR2004")
 class VerifyAuthenticationCodeCbc(
-	private val sbc: VerifyAuthenticationCodeSbc,
+	private val verifyAuthenticationCodeSbc: VerifyAuthenticationCodeSbc,
 ) {
 	@PostMapping
-	fun verify(@RequestBody request: RequestData<VerifyAuthenticationCodeRequest>): ResponseData<VerifyAuthenticationCodeResponse> =
-		sbc.verify(request)
+	fun verify(@RequestBody request: RequestData<VerifyAuthenticationCodeRequest>): ResponseData<VerifyAuthenticationCodeResponse> {
+		return verifyAuthenticationCodeSbc.verify(request)
+	}
 }

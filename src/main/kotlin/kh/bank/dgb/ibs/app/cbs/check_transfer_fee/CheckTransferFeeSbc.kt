@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CheckTransferFeeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun check(request: RequestData<CheckTransferFeeRequest>): ResponseData<CheckTransferFeeResponse> =
-		connector.post("CIB11000813", request.header?.languageCode, request.body, CheckTransferFeeResponse::class.java)
+	fun check(request: RequestData<CheckTransferFeeRequest>): ResponseData<CheckTransferFeeResponse> {
+		return coreBankingApiConnector.post("CIB11000813", request.header?.languageCode, request.body, CheckTransferFeeResponse::class.java)
+	}
 }

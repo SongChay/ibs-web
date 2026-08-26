@@ -59,9 +59,10 @@ data class InquiryApprovalListResponse(
 @RestController
 @RequestMapping("/APV1001")
 class InquiryApprovalListCbc(
-	private val sbc: InquiryApprovalListSbc,
+	private val inquiryApprovalListSbc: InquiryApprovalListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<InquiryApprovalListRequest>): ResponseData<InquiryApprovalListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<InquiryApprovalListRequest>): ResponseData<InquiryApprovalListResponse> {
+		return inquiryApprovalListSbc.inquire(request)
+	}
 }

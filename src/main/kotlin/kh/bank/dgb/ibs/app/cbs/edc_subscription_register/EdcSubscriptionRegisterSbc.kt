@@ -27,12 +27,12 @@ import org.springframework.stereotype.Service
  */
 @Service
 class EdcSubscriptionRegisterSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	private val logger = LoggerFactory.getLogger(EdcSubscriptionRegisterSbc::class.java)
 
-	fun register(request: RequestData<EdcSubscriptionRegisterRequest>): ResponseData<EdcSubscriptionRegisterResponse> =
-		try {
+	fun register(request: RequestData<EdcSubscriptionRegisterRequest>): ResponseData<EdcSubscriptionRegisterResponse> {
+		return try {
 			val verifyQrCodeVo = request.body?.verifyQRCodeVo
 			if (verifyQrCodeVo != null) {
 				val verifyResult = verifyOtpCode(request, verifyQrCodeVo)
@@ -51,21 +51,23 @@ class EdcSubscriptionRegisterSbc(
 				body = EdcSubscriptionRegisterResponse(),
 			)
 		}
+	}
 
-	private fun registerSubscription(request: RequestData<EdcSubscriptionRegisterRequest>): ResponseData<EdcSubscriptionRegisterResponse> =
-		try {
-			connector.post("CIB11102521", request.header?.languageCode, request.body, EdcSubscriptionRegisterResponse::class.java)
+	private fun registerSubscription(request: RequestData<EdcSubscriptionRegisterRequest>): ResponseData<EdcSubscriptionRegisterResponse> {
+		return try {
+			coreBankingApiConnector.post("CIB11102521", request.header?.languageCode, request.body, EdcSubscriptionRegisterResponse::class.java)
 		} catch (e: Exception) {
 			logger.error("Can not register transfer: ${e.message}")
 			ResponseData()
 		}
+	}
 
 	private fun verifyOtpCode(
 		request: RequestData<EdcSubscriptionRegisterRequest>,
 		verifyQrCodeVo: VerifyQrCodeRequest,
-	): ResponseData<VerifyQrCodeResponse> =
-		try {
-			val otpResponse = connector.post(
+	): ResponseData<VerifyQrCodeResponse> {
+		return try {
+			val otpResponse = coreBankingApiConnector.post(
 				"CIB11000214",
 				request.header?.languageCode,
 				OtpCreateRequiredRequest(userID = verifyQrCodeVo.userID),
@@ -81,9 +83,10 @@ class EdcSubscriptionRegisterSbc(
 			} else {
 				verifyQrCodeVo
 			}
-			connector.post("CIB11000211", request.header?.languageCode, effectiveVerifyQrCodeVo, VerifyQrCodeResponse::class.java)
+			coreBankingApiConnector.post("CIB11000211", request.header?.languageCode, effectiveVerifyQrCodeVo, VerifyQrCodeResponse::class.java)
 		} catch (e: Exception) {
 			logger.error("Error verify OTP: ${e.message}")
 			ResponseData()
 		}
+	}
 }

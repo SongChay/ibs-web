@@ -44,9 +44,10 @@ data class RecentTransferAccountListResponse(
 @RestController
 @RequestMapping("/TRS1201")
 class RecentTransferAccountListCbc(
-	private val sbc: RecentTransferAccountListSbc,
+	private val recentTransferAccountListSbc: RecentTransferAccountListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<RecentTransferAccountListRequest>): ResponseData<RecentTransferAccountListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<RecentTransferAccountListRequest>): ResponseData<RecentTransferAccountListResponse> {
+		return recentTransferAccountListSbc.inquire(request)
+	}
 }

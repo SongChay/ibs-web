@@ -81,10 +81,12 @@ data class PayrollScheduleTransferUpdateResponse(
 @RestController
 @RequestMapping("/PYR1108")
 class PayrollScheduleTransferUpdateCbc(
-	private val sbc: PayrollScheduleTransferUpdateSbc,
+	private val payrollScheduleTransferUpdateSbc: PayrollScheduleTransferUpdateSbc,
 ) {
 	@PostMapping
 	fun update(
 		@RequestBody request: RequestData<PayrollScheduleTransferUpdateRequest>,
-	): ResponseData<PayrollScheduleTransferUpdateResponse> = sbc.update(request)
+	): ResponseData<PayrollScheduleTransferUpdateResponse> {
+		return payrollScheduleTransferUpdateSbc.update(request)
+	}
 }

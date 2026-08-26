@@ -82,10 +82,12 @@ data class ExecuteTransferFinalApproverResponse(
 @RestController
 @RequestMapping("/TRS1104")
 class ExecuteTransferFinalApproverCbc(
-	private val sbc: ExecuteTransferFinalApproverSbc,
+	private val executeTransferFinalApproverSbc: ExecuteTransferFinalApproverSbc,
 ) {
 	@PostMapping
 	fun execute(
 		@RequestBody request: RequestData<ExecuteTransferFinalApproverRequest>,
-	): ResponseData<ExecuteTransferFinalApproverResponse> = sbc.execute(request)
+	): ResponseData<ExecuteTransferFinalApproverResponse> {
+		return executeTransferFinalApproverSbc.execute(request)
+	}
 }

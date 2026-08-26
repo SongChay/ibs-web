@@ -31,9 +31,10 @@ class ApproveRequestsResponse
 @RestController
 @RequestMapping("/APV2103")
 class ApproveRequestsCbc(
-	private val sbc: ApproveRequestsSbc,
+	private val approveRequestsSbc: ApproveRequestsSbc,
 ) {
 	@PostMapping
-	fun approve(@RequestBody request: RequestData<ApproveRequestsRequest>): ResponseData<ApproveRequestsResponse> =
-		sbc.approve(request)
+	fun approve(@RequestBody request: RequestData<ApproveRequestsRequest>): ResponseData<ApproveRequestsResponse> {
+		return approveRequestsSbc.approve(request)
+	}
 }

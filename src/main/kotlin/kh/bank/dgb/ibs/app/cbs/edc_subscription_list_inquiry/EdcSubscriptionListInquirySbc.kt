@@ -15,10 +15,10 @@ import java.text.SimpleDateFormat
  */
 @Service
 class EdcSubscriptionListInquirySbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<EdcSubscriptionListInquiryRequest>): ResponseData<EdcSubscriptionListInquiryResponse> {
-		val response = connector.post(
+		val response = coreBankingApiConnector.post(
 			"CIB11102514",
 			request.header?.languageCode,
 			request.body,
@@ -37,18 +37,22 @@ class EdcSubscriptionListInquirySbc(
 		return response.copy(body = response.body?.copy(grid01 = enrichedList))
 	}
 
-	private fun transactionStatusDescription(code: String?): String = when (code) {
-		"001" -> "Processing"
-		"002" -> "Failed"
-		"003" -> "Completed"
-		"000" -> "Unknown"
-		else -> ""
+	private fun transactionStatusDescription(code: String?): String {
+		return when (code) {
+			"001" -> "Processing"
+			"002" -> "Failed"
+			"003" -> "Completed"
+			"000" -> "Unknown"
+			else -> ""
+		}
 	}
 
-	private fun eBankTransactionTypeDescription(code: String?): String = when (code) {
-		"59" -> "EDC Auto Direct Debit Subscribe"
-		"60" -> "EDC Auto Direct Debit Unsubscribe"
-		else -> ""
+	private fun eBankTransactionTypeDescription(code: String?): String {
+		return when (code) {
+			"59" -> "EDC Auto Direct Debit Subscribe"
+			"60" -> "EDC Auto Direct Debit Unsubscribe"
+			else -> ""
+		}
 	}
 
 	private fun toDDMMMYYYY(date: String?): String {

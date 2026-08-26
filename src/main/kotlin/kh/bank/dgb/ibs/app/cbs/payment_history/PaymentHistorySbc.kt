@@ -19,10 +19,10 @@ import java.text.SimpleDateFormat
  */
 @Service
 class PaymentHistorySbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<PaymentHistoryRequest>): ResponseData<PaymentHistoryResponse> {
-		val response = connector.post("CIB11301312", request.header?.languageCode, request.body, PaymentHistoryResponse::class.java)
+		val response = coreBankingApiConnector.post("CIB11301312", request.header?.languageCode, request.body, PaymentHistoryResponse::class.java)
 		val enrichedList = response.body?.paymentList?.map { item ->
 			val transactionDate = toDDMMMYYYY(item.transactionDate)
 			val transactionTime = toHHMMSSA(item.transactionTime)
@@ -37,18 +37,22 @@ class PaymentHistorySbc(
 		return response.copy(body = response.body?.copy(paymentList = enrichedList))
 	}
 
-	private fun transactionStatusDescription(code: String?): String = when (code) {
-		"001" -> "Processing"
-		"002" -> "Failed"
-		"003" -> "Completed"
-		"000" -> "Unknown"
-		else -> ""
+	private fun transactionStatusDescription(code: String?): String {
+		return when (code) {
+			"001" -> "Processing"
+			"002" -> "Failed"
+			"003" -> "Completed"
+			"000" -> "Unknown"
+			else -> ""
+		}
 	}
 
-	private fun transactionTypeDescription(code: String?): String = when (code) {
-		"0001" -> "Immediate"
-		"0002" -> "Schedule"
-		else -> ""
+	private fun transactionTypeDescription(code: String?): String {
+		return when (code) {
+			"0001" -> "Immediate"
+			"0002" -> "Schedule"
+			else -> ""
+		}
 	}
 
 	private fun toDDMMMYYYY(date: String?): String {

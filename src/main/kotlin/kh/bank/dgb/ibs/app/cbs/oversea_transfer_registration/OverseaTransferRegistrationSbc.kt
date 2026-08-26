@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class OverseaTransferRegistrationSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun register(request: RequestData<OverseaTransferRegistrationRequest>): ResponseData<OverseaTransferRegistrationResponse> =
-		connector.post(OPCODE, request.header?.languageCode, request.body, OverseaTransferRegistrationResponse::class.java)
+	fun register(request: RequestData<OverseaTransferRegistrationRequest>): ResponseData<OverseaTransferRegistrationResponse> {
+		return coreBankingApiConnector.post(OPCODE, request.header?.languageCode, request.body, OverseaTransferRegistrationResponse::class.java)
+	}
 
 	companion object {
 		const val OPCODE = "CIB11301721"

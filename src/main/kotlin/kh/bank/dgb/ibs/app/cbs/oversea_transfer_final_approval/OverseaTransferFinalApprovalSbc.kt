@@ -36,7 +36,7 @@ private data class TransferRegistrationResult(val approvalNo: Long? = null)
 @Service
 class OverseaTransferFinalApprovalSbc(
 	private val serviceStatusSbc: ServiceStatusSbc,
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	private val logger = LoggerFactory.getLogger(OverseaTransferFinalApprovalSbc::class.java)
 
@@ -73,7 +73,7 @@ class OverseaTransferFinalApprovalSbc(
 
 	private fun verifyOtp(request: RequestData<OverseaTransferFinalApprovalRequest>): ResponseData<VerifyQrCodeResponse> {
 		val verifyQrCode = request.body?.verifyQRCodeVo
-		val otpCreateRequiredResult = connector.post(
+		val otpCreateRequiredResult = coreBankingApiConnector.post(
 			OPCODE_OTP_CREATE_REQUIRED,
 			request.header?.languageCode,
 			OtpCreateRequiredRequest(userID = verifyQrCode?.userID),
@@ -84,15 +84,16 @@ class OverseaTransferFinalApprovalSbc(
 		return if (otpCreateRequiredResult.header?.result == true && otpCreateRequired.equals("N", ignoreCase = true)) {
 			logger.info(">> Start verify otp : firstYn = N ")
 			val verifyRequestBody = (verifyQrCode ?: VerifyQrCodeRequest()).copy(firstYn = "N")
-			connector.post(OPCODE_VERIFY_QR_CODE, request.header?.languageCode, verifyRequestBody, VerifyQrCodeResponse::class.java)
+			coreBankingApiConnector.post(OPCODE_VERIFY_QR_CODE, request.header?.languageCode, verifyRequestBody, VerifyQrCodeResponse::class.java)
 		} else {
 			logger.info(">> Need to do verify OTP. ")
 			ResponseData(header = ResponseResultUtils.makeResponse(false, ResponseResultCodeType.OTP_CREATE_REQUIRED))
 		}
 	}
 
-	private fun registerTransfer(request: RequestData<OverseaTransferFinalApprovalRequest>): ResponseData<TransferRegistrationResult> =
-		connector.post(OPCODE_REGISTER_TRANSFER, request.header?.languageCode, request.body, TransferRegistrationResult::class.java)
+	private fun registerTransfer(request: RequestData<OverseaTransferFinalApprovalRequest>): ResponseData<TransferRegistrationResult> {
+		return coreBankingApiConnector.post(OPCODE_REGISTER_TRANSFER, request.header?.languageCode, request.body, TransferRegistrationResult::class.java)
+	}
 
 	companion object {
 		private const val OPCODE_OTP_CREATE_REQUIRED = "CIB11000214"

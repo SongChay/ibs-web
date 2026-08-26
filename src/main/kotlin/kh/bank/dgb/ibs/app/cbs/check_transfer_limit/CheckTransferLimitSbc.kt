@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CheckTransferLimitSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun check(request: RequestData<CheckTransferLimitRequest>): ResponseData<CheckTransferLimitResponse> =
-		connector.post("CIB11812312", request.header?.languageCode, request.body, CheckTransferLimitResponse::class.java)
+	fun check(request: RequestData<CheckTransferLimitRequest>): ResponseData<CheckTransferLimitResponse> {
+		return coreBankingApiConnector.post("CIB11812312", request.header?.languageCode, request.body, CheckTransferLimitResponse::class.java)
+	}
 }

@@ -58,7 +58,7 @@ private data class VerifyQrCodeResponse(
  */
 @Service
 class PayrollPaymentRegisterSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 	private val serviceStatusSbc: ServiceStatusSbc,
 ) {
 	// Old code wrapped this whole flow in a generic `catch (Exception e)` that just logged and fell
@@ -90,7 +90,7 @@ class PayrollPaymentRegisterSbc(
 		}
 
 		// 3. Register Transfer
-		val transferResult = connector.post(OPCODE_REGISTER, languageCode, request.body, PayrollPaymentRegisterResponse::class.java)
+		val transferResult = coreBankingApiConnector.post(OPCODE_REGISTER, languageCode, request.body, PayrollPaymentRegisterResponse::class.java)
 		val resultYn = if (transferResult.header?.result == true) "Y" else "N"
 		return ResponseData(
 			header = transferResult.header,
@@ -104,7 +104,7 @@ class PayrollPaymentRegisterSbc(
 	): ResponseData<VerifyQrCodeResponse> {
 		val verifyQrCodeVo = request.body?.verifyQRCodeVo
 
-		val otpRequiredResult = connector.post(
+		val otpRequiredResult = coreBankingApiConnector.post(
 			OPCODE_OTP_CREATE_REQUIRED,
 			languageCode,
 			OtpCreateRequiredRequest(userID = verifyQrCodeVo?.userID),
@@ -117,7 +117,7 @@ class PayrollPaymentRegisterSbc(
 		}
 
 		val verifyRequestBody = verifyQrCodeVo?.copy(firstYn = "N")
-		return connector.post(OPCODE_VERIFY_QR_CODE, languageCode, verifyRequestBody, VerifyQrCodeResponse::class.java)
+		return coreBankingApiConnector.post(OPCODE_VERIFY_QR_CODE, languageCode, verifyRequestBody, VerifyQrCodeResponse::class.java)
 	}
 
 	companion object {

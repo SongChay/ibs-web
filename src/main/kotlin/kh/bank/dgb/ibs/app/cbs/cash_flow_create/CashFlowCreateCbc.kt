@@ -28,9 +28,10 @@ class CashFlowCreateResponse
 @RestController
 @RequestMapping("/ABM5001")
 class CashFlowCreateCbc(
-	private val sbc: CashFlowCreateSbc,
+	private val cashFlowCreateSbc: CashFlowCreateSbc,
 ) {
 	@PostMapping
-	fun create(@RequestBody request: RequestData<CashFlowCreateRequest>): ResponseData<CashFlowCreateResponse> =
-		sbc.create(request)
+	fun create(@RequestBody request: RequestData<CashFlowCreateRequest>): ResponseData<CashFlowCreateResponse> {
+		return cashFlowCreateSbc.create(request)
+	}
 }

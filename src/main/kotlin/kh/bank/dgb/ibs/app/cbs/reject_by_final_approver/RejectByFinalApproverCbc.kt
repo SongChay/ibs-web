@@ -48,9 +48,10 @@ data class RejectByFinalApproverResponse(
 @RestController
 @RequestMapping("/APV2104")
 class RejectByFinalApproverCbc(
-	private val sbc: RejectByFinalApproverSbc,
+	private val rejectByFinalApproverSbc: RejectByFinalApproverSbc,
 ) {
 	@PostMapping
-	fun reject(@RequestBody request: RequestData<RejectByFinalApproverRequest>): ResponseData<RejectByFinalApproverResponse> =
-		sbc.reject(request)
+	fun reject(@RequestBody request: RequestData<RejectByFinalApproverRequest>): ResponseData<RejectByFinalApproverResponse> {
+		return rejectByFinalApproverSbc.reject(request)
+	}
 }

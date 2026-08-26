@@ -21,9 +21,10 @@ data class UpdateFirstAuthenticationYnResponse(
 @RestController
 @RequestMapping("/USR2301")
 class UpdateFirstAuthenticationYnCbc(
-	private val sbc: UpdateFirstAuthenticationYnSbc,
+	private val updateFirstAuthenticationYnSbc: UpdateFirstAuthenticationYnSbc,
 ) {
 	@PostMapping
-	fun update(@RequestBody request: RequestData<UpdateFirstAuthenticationYnRequest>): ResponseData<UpdateFirstAuthenticationYnResponse> =
-		sbc.update(request)
+	fun update(@RequestBody request: RequestData<UpdateFirstAuthenticationYnRequest>): ResponseData<UpdateFirstAuthenticationYnResponse> {
+		return updateFirstAuthenticationYnSbc.update(request)
+	}
 }

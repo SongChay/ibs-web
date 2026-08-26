@@ -74,9 +74,10 @@ data class TransferResponse(
 @RestController
 @RequestMapping("/TRS1102")
 class TransferCbc(
-	private val sbc: TransferSbc,
+	private val transferSbc: TransferSbc,
 ) {
 	@PostMapping
-	fun transfer(@RequestBody request: RequestData<TransferRequest>): ResponseData<TransferResponse> =
-		sbc.transfer(request)
+	fun transfer(@RequestBody request: RequestData<TransferRequest>): ResponseData<TransferResponse> {
+		return transferSbc.transfer(request)
+	}
 }

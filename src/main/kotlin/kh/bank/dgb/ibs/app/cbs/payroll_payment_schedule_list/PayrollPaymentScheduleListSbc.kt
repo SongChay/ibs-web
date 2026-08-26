@@ -9,10 +9,10 @@ import java.util.Date
 
 @Service
 class PayrollPaymentScheduleListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun list(request: RequestData<PayrollPaymentScheduleListRequest>): ResponseData<PayrollPaymentScheduleListResponse> {
-		val result = connector.post("CIB11300211", request.header?.languageCode, request.body, PayrollPaymentScheduleListResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11300211", request.header?.languageCode, request.body, PayrollPaymentScheduleListResponse::class.java)
 		val body = result.body
 		if (result.header?.result != true || body == null) return result
 

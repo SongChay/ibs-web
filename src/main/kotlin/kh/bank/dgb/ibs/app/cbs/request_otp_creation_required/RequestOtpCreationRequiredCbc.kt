@@ -19,9 +19,10 @@ data class RequestOtpCreationRequiredResponse(
 @RestController
 @RequestMapping("/USR1003")
 class RequestOtpCreationRequiredCbc(
-	private val sbc: RequestOtpCreationRequiredSbc,
+	private val requestOtpCreationRequiredSbc: RequestOtpCreationRequiredSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<RequestOtpCreationRequiredRequest>): ResponseData<RequestOtpCreationRequiredResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<RequestOtpCreationRequiredRequest>): ResponseData<RequestOtpCreationRequiredResponse> {
+		return requestOtpCreationRequiredSbc.inquire(request)
+	}
 }

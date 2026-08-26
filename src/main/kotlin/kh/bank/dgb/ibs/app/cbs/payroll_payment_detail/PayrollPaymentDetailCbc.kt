@@ -79,9 +79,10 @@ data class PayrollPaymentDetailResponse(
 @RestController
 @RequestMapping("/PYR1202")
 class PayrollPaymentDetailCbc(
-	private val sbc: PayrollPaymentDetailSbc,
+	private val payrollPaymentDetailSbc: PayrollPaymentDetailSbc,
 ) {
 	@PostMapping
-	fun detail(@RequestBody request: RequestData<PayrollPaymentDetailRequest>): ResponseData<PayrollPaymentDetailResponse> =
-		sbc.detail(request)
+	fun detail(@RequestBody request: RequestData<PayrollPaymentDetailRequest>): ResponseData<PayrollPaymentDetailResponse> {
+		return payrollPaymentDetailSbc.detail(request)
+	}
 }

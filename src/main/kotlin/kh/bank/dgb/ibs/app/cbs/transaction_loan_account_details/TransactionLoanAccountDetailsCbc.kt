@@ -51,9 +51,10 @@ data class TransactionLoanAccountDetailsResponse(
 @RestController
 @RequestMapping("/ACI2004")
 class TransactionLoanAccountDetailsCbc(
-	private val sbc: TransactionLoanAccountDetailsSbc,
+	private val transactionLoanAccountDetailsSbc: TransactionLoanAccountDetailsSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<TransactionLoanAccountDetailsRequest>): ResponseData<TransactionLoanAccountDetailsResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<TransactionLoanAccountDetailsRequest>): ResponseData<TransactionLoanAccountDetailsResponse> {
+		return transactionLoanAccountDetailsSbc.inquire(request)
+	}
 }

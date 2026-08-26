@@ -9,10 +9,10 @@ import java.util.Date
 
 @Service
 class PayrollPaymentListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun list(request: RequestData<PayrollPaymentListRequest>): ResponseData<PayrollPaymentListResponse> {
-		val result = connector.post("CIB11300911", request.header?.languageCode, request.body, PayrollPaymentListResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11300911", request.header?.languageCode, request.body, PayrollPaymentListResponse::class.java)
 		val body = result.body ?: return result
 
 		val updated = body.copy(

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CashFlowDailyListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<CashFlowDailyListRequest>): ResponseData<CashFlowDailyListResponse> =
-		connector.post("CIB11003611", request.header?.languageCode, request.body, CashFlowDailyListResponse::class.java)
+	fun inquire(request: RequestData<CashFlowDailyListRequest>): ResponseData<CashFlowDailyListResponse> {
+		return coreBankingApiConnector.post("CIB11003611", request.header?.languageCode, request.body, CashFlowDailyListResponse::class.java)
+	}
 }

@@ -33,9 +33,10 @@ class AddFavoriteMenuResponse
 @RestController
 @RequestMapping("/GNB1002")
 class AddFavoriteMenuCbc(
-	private val sbc: AddFavoriteMenuSbc,
+	private val addFavoriteMenuSbc: AddFavoriteMenuSbc,
 ) {
 	@PostMapping
-	fun add(@RequestBody request: RequestData<AddFavoriteMenuRequest>): ResponseData<AddFavoriteMenuResponse> =
-		sbc.add(request)
+	fun add(@RequestBody request: RequestData<AddFavoriteMenuRequest>): ResponseData<AddFavoriteMenuResponse> {
+		return addFavoriteMenuSbc.add(request)
+	}
 }

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class TransactionLimitConfigSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<TransactionLimitConfigRequest>): ResponseData<TransactionLimitConfigResponse> =
-		connector.post("CIB11812311", request.header?.languageCode, request.body, TransactionLimitConfigResponse::class.java)
+	fun inquire(request: RequestData<TransactionLimitConfigRequest>): ResponseData<TransactionLimitConfigResponse> {
+		return coreBankingApiConnector.post("CIB11812311", request.header?.languageCode, request.body, TransactionLimitConfigResponse::class.java)
+	}
 }

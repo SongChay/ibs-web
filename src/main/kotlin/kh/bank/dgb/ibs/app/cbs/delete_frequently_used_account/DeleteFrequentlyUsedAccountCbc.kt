@@ -36,9 +36,10 @@ data class DeleteFrequentlyUsedAccountResponse(
 @RestController
 @RequestMapping("/INF4002")
 class DeleteFrequentlyUsedAccountCbc(
-	private val sbc: DeleteFrequentlyUsedAccountSbc,
+	private val deleteFrequentlyUsedAccountSbc: DeleteFrequentlyUsedAccountSbc,
 ) {
 	@PostMapping
-	fun delete(@RequestBody request: RequestData<DeleteFrequentlyUsedAccountRequest>): ResponseData<DeleteFrequentlyUsedAccountResponse> =
-		sbc.delete(request)
+	fun delete(@RequestBody request: RequestData<DeleteFrequentlyUsedAccountRequest>): ResponseData<DeleteFrequentlyUsedAccountResponse> {
+		return deleteFrequentlyUsedAccountSbc.delete(request)
+	}
 }

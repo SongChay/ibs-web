@@ -41,9 +41,10 @@ data class CashFlowDailyListResponse(
 @RestController
 @RequestMapping("/ABM4001")
 class CashFlowDailyListCbc(
-	private val sbc: CashFlowDailyListSbc,
+	private val cashFlowDailyListSbc: CashFlowDailyListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<CashFlowDailyListRequest>): ResponseData<CashFlowDailyListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<CashFlowDailyListRequest>): ResponseData<CashFlowDailyListResponse> {
+		return cashFlowDailyListSbc.inquire(request)
+	}
 }

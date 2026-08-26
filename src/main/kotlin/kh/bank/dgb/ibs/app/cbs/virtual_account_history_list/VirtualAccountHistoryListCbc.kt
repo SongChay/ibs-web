@@ -49,9 +49,10 @@ data class VirtualAccountHistoryListResponse(
 @RestController
 @RequestMapping("/VAC3001")
 class VirtualAccountHistoryListCbc(
-	private val sbc: VirtualAccountHistoryListSbc,
+	private val virtualAccountHistoryListSbc: VirtualAccountHistoryListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<VirtualAccountHistoryListRequest>): ResponseData<VirtualAccountHistoryListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<VirtualAccountHistoryListRequest>): ResponseData<VirtualAccountHistoryListResponse> {
+		return virtualAccountHistoryListSbc.inquire(request)
+	}
 }

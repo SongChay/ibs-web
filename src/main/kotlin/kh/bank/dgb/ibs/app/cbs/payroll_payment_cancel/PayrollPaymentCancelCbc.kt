@@ -34,9 +34,10 @@ data class PayrollPaymentCancelResponse(
 @RestController
 @RequestMapping("/PYR1104")
 class PayrollPaymentCancelCbc(
-	private val sbc: PayrollPaymentCancelSbc,
+	private val payrollPaymentCancelSbc: PayrollPaymentCancelSbc,
 ) {
 	@PostMapping
-	fun cancel(@RequestBody request: RequestData<PayrollPaymentCancelRequest>): ResponseData<PayrollPaymentCancelResponse> =
-		sbc.cancel(request)
+	fun cancel(@RequestBody request: RequestData<PayrollPaymentCancelRequest>): ResponseData<PayrollPaymentCancelResponse> {
+		return payrollPaymentCancelSbc.cancel(request)
+	}
 }

@@ -22,9 +22,10 @@ class DeleteVisitedMenuResponse
 @RestController
 @RequestMapping("/GNB1007")
 class DeleteVisitedMenuCbc(
-	private val sbc: DeleteVisitedMenuSbc,
+	private val deleteVisitedMenuSbc: DeleteVisitedMenuSbc,
 ) {
 	@PostMapping
-	fun delete(@RequestBody request: RequestData<DeleteVisitedMenuRequest>): ResponseData<DeleteVisitedMenuResponse> =
-		sbc.delete(request)
+	fun delete(@RequestBody request: RequestData<DeleteVisitedMenuRequest>): ResponseData<DeleteVisitedMenuResponse> {
+		return deleteVisitedMenuSbc.delete(request)
+	}
 }

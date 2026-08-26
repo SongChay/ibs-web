@@ -12,8 +12,8 @@ class TransferPurposeListSbc(
 	private val remarkDocumentRbc: RemarkDocumentRbc,
 ) {
 
-	fun getList(): List<TransferPurposeItem> =
-		purposeOfTransferRbc.getPurposeOfTransferList().map { purpose ->
+	fun getList(): List<TransferPurposeItem> {
+		return purposeOfTransferRbc.getPurposeOfTransferList().map { purpose ->
 			TransferPurposeItem(
 				code = purpose.code,
 				item = purpose.item,
@@ -22,4 +22,5 @@ class TransferPurposeListSbc(
 				remarkDocument = remarkDocumentRbc.getRemarkDocumentList(purpose.code).map { DocumentItem(it.code, it.item) },
 			)
 		}
+	}
 }

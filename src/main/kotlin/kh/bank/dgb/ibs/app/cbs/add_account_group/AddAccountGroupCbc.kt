@@ -23,9 +23,10 @@ data class AddAccountGroupResponse(
 @RestController
 @RequestMapping("/INF1101")
 class AddAccountGroupCbc(
-	private val sbc: AddAccountGroupSbc,
+	private val addAccountGroupSbc: AddAccountGroupSbc,
 ) {
 	@PostMapping
-	fun add(@RequestBody request: RequestData<AddAccountGroupRequest>): ResponseData<AddAccountGroupResponse> =
-		sbc.add(request)
+	fun add(@RequestBody request: RequestData<AddAccountGroupRequest>): ResponseData<AddAccountGroupResponse> {
+		return addAccountGroupSbc.add(request)
+	}
 }

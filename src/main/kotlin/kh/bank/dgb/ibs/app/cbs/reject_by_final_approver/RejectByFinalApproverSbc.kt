@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class RejectByFinalApproverSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun reject(request: RequestData<RejectByFinalApproverRequest>): ResponseData<RejectByFinalApproverResponse> =
-		connector.post("CIB11001022", request.header?.languageCode, request.body, RejectByFinalApproverResponse::class.java)
+	fun reject(request: RequestData<RejectByFinalApproverRequest>): ResponseData<RejectByFinalApproverResponse> {
+		return coreBankingApiConnector.post("CIB11001022", request.header?.languageCode, request.body, RejectByFinalApproverResponse::class.java)
+	}
 }

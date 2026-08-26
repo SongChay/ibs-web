@@ -16,10 +16,10 @@ data class OtpCreationRequiredCbsResponse(
 
 @Service
 class RequestOtpCreationRequiredSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<RequestOtpCreationRequiredRequest>): ResponseData<RequestOtpCreationRequiredResponse> {
-		val cbsResult = connector.post(
+		val cbsResult = coreBankingApiConnector.post(
 			"CIB11000214",
 			request.header?.languageCode,
 			request.body,

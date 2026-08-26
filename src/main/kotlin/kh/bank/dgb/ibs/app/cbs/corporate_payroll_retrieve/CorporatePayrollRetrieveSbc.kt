@@ -9,10 +9,10 @@ import java.util.Date
 
 @Service
 class CorporatePayrollRetrieveSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun retrieve(request: RequestData<CorporatePayrollRetrieveRequest>): ResponseData<CorporatePayrollRetrieveResponse> {
-		val result = connector.post("CIB11300111", request.header?.languageCode, request.body, CorporatePayrollRetrieveResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11300111", request.header?.languageCode, request.body, CorporatePayrollRetrieveResponse::class.java)
 		val body = result.body ?: return result
 
 		val updated = body.copy(

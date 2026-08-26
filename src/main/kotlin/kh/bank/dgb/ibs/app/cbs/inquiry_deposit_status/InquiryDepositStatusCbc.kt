@@ -60,10 +60,12 @@ data class InquiryDepositStatusResponse(
 @RestController
 @RequestMapping("/MAN1002")
 class InquiryDepositStatusCbc(
-	private val sbc: InquiryDepositStatusSbc,
+	private val inquiryDepositStatusSbc: InquiryDepositStatusSbc,
 ) {
 	@PostMapping
 	fun inquire(
 		@RequestBody request: RequestData<InquiryDepositStatusRequest>,
-	): ResponseData<InquiryDepositStatusResponse> = sbc.inquire(request)
+	): ResponseData<InquiryDepositStatusResponse> {
+		return inquiryDepositStatusSbc.inquire(request)
+	}
 }

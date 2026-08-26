@@ -24,9 +24,10 @@ data class EdcSubscriptionUpdateResponse(
 @RestController
 @RequestMapping("/TRS2531")
 class EdcSubscriptionUpdateCbc(
-	private val sbc: EdcSubscriptionUpdateSbc,
+	private val edcSubscriptionUpdateSbc: EdcSubscriptionUpdateSbc,
 ) {
 	@PostMapping
-	fun update(@RequestBody request: RequestData<EdcSubscriptionUpdateRequest>): ResponseData<EdcSubscriptionUpdateResponse> =
-		sbc.update(request)
+	fun update(@RequestBody request: RequestData<EdcSubscriptionUpdateRequest>): ResponseData<EdcSubscriptionUpdateResponse> {
+		return edcSubscriptionUpdateSbc.update(request)
+	}
 }

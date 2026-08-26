@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class UnlockScreenSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun unlock(request: RequestData<UnlockScreenRequest>): ResponseData<UnlockScreenResponse> {
-		val result = connector.post("CIB11300291", request.header?.languageCode, request.body, UnlockScreenResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11300291", request.header?.languageCode, request.body, UnlockScreenResponse::class.java)
 		val body = result.body ?: UnlockScreenResponse()
 
 		return if (result.header?.result == true) {

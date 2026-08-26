@@ -65,10 +65,12 @@ data class PayrollPaymentApprovalRegisterResponse(
 @RestController
 @RequestMapping("/PYR1107")
 class PayrollPaymentApprovalRegisterCbc(
-	private val sbc: PayrollPaymentApprovalRegisterSbc,
+	private val payrollPaymentApprovalRegisterSbc: PayrollPaymentApprovalRegisterSbc,
 ) {
 	@PostMapping
 	fun register(
 		@RequestBody request: RequestData<PayrollPaymentApprovalRegisterRequest>,
-	): ResponseData<PayrollPaymentApprovalRegisterResponse> = sbc.register(request)
+	): ResponseData<PayrollPaymentApprovalRegisterResponse> {
+		return payrollPaymentApprovalRegisterSbc.register(request)
+	}
 }

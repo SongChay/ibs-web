@@ -87,9 +87,10 @@ data class PayrollPaymentListResponse(
 @RestController
 @RequestMapping("/PYR1201")
 class PayrollPaymentListCbc(
-	private val sbc: PayrollPaymentListSbc,
+	private val payrollPaymentListSbc: PayrollPaymentListSbc,
 ) {
 	@PostMapping
-	fun list(@RequestBody request: RequestData<PayrollPaymentListRequest>): ResponseData<PayrollPaymentListResponse> =
-		sbc.list(request)
+	fun list(@RequestBody request: RequestData<PayrollPaymentListRequest>): ResponseData<PayrollPaymentListResponse> {
+		return payrollPaymentListSbc.list(request)
+	}
 }

@@ -10,7 +10,7 @@ import java.util.Date
 
 @Service
 class InquiryApprovalListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<InquiryApprovalListRequest>): ResponseData<InquiryApprovalListResponse> {
 		// Port of: if (StringUtils.isEmpty(approvalStatusCode)) approvalStatusCode = null;
@@ -18,7 +18,7 @@ class InquiryApprovalListSbc(
 			if (it.approvalStatusCode.isNullOrEmpty()) it.copy(approvalStatusCode = null) else it
 		}
 
-		val response = connector.post("CIB11303011", request.header?.languageCode, body, InquiryApprovalListResponse::class.java)
+		val response = coreBankingApiConnector.post("CIB11303011", request.header?.languageCode, body, InquiryApprovalListResponse::class.java)
 
 		val enrichedList = response.body?.approvalList?.map { item ->
 			item.copy(
@@ -33,38 +33,44 @@ class InquiryApprovalListSbc(
 	}
 
 	/** Port of the old adapter's private inner `TransactionTypeCode` enum (`getTransferTypeDescription`). */
-	private fun transferTypeDescription(transferTypeCode: String?): String = when (transferTypeCode) {
-		"0001" -> "Account"
-		"0002" -> "Multi"
-		"0003" -> "Account & Wing"
-		"0007" -> "Overseas"
-		"0008" -> "Wing"
-		"0009" -> "Payroll Payment"
-		"0013" -> "EDC Payment"
-		"0011" -> "EDC Auto Direct Debit Subscribe"
-		"0012" -> "EDC Auto Direct Debit Unsubscribe"
-		else -> ""
+	private fun transferTypeDescription(transferTypeCode: String?): String {
+		return when (transferTypeCode) {
+			"0001" -> "Account"
+			"0002" -> "Multi"
+			"0003" -> "Account & Wing"
+			"0007" -> "Overseas"
+			"0008" -> "Wing"
+			"0009" -> "Payroll Payment"
+			"0013" -> "EDC Payment"
+			"0011" -> "EDC Auto Direct Debit Subscribe"
+			"0012" -> "EDC Auto Direct Debit Unsubscribe"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getTransactionTypeDescription` (backed by `type.TransactionTypeCode`). */
-	private fun transactionTypeDescription(transactionTypeCode: String?): String = when (transactionTypeCode) {
-		"0001" -> "Immediate"
-		"0002" -> "Schedule"
-		else -> ""
+	private fun transactionTypeDescription(transactionTypeCode: String?): String {
+		return when (transactionTypeCode) {
+			"0001" -> "Immediate"
+			"0002" -> "Schedule"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getApprovalStatusDescription` (backed by `type.ApprovalStatusCodeType`). */
-	private fun approvalStatusDescription(approvalStatusCode: String?): String = when (approvalStatusCode) {
-		"00" -> "Requested"
-		"01" -> "Completed"
-		"02" -> "Processing"
-		"03" -> "Resubmitted"
-		"04" -> "Need My Approval"
-		"05" -> "Waiting"
-		"08" -> "Rejected"
-		"91" -> "Transaction Failed"
-		"CC" -> "Canceled"
-		else -> ""
+	private fun approvalStatusDescription(approvalStatusCode: String?): String {
+		return when (approvalStatusCode) {
+			"00" -> "Requested"
+			"01" -> "Completed"
+			"02" -> "Processing"
+			"03" -> "Resubmitted"
+			"04" -> "Need My Approval"
+			"05" -> "Waiting"
+			"08" -> "Rejected"
+			"91" -> "Transaction Failed"
+			"CC" -> "Canceled"
+			else -> ""
+		}
 	}
 
 	/** Port of `DateUtil.toDDMMMYYYY` — parses the ebanking `yyyyMMdd` date format. */

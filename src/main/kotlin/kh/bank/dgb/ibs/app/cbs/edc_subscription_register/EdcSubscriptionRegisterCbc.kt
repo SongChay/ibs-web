@@ -95,9 +95,10 @@ data class EdcSubscriptionRegisterResponse(
 @RestController
 @RequestMapping("/TRS2521")
 class EdcSubscriptionRegisterCbc(
-	private val sbc: EdcSubscriptionRegisterSbc,
+	private val edcSubscriptionRegisterSbc: EdcSubscriptionRegisterSbc,
 ) {
 	@PostMapping
-	fun register(@RequestBody request: RequestData<EdcSubscriptionRegisterRequest>): ResponseData<EdcSubscriptionRegisterResponse> =
-		sbc.register(request)
+	fun register(@RequestBody request: RequestData<EdcSubscriptionRegisterRequest>): ResponseData<EdcSubscriptionRegisterResponse> {
+		return edcSubscriptionRegisterSbc.register(request)
+	}
 }

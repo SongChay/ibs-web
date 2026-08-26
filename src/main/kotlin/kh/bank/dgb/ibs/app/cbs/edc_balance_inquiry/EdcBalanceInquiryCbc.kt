@@ -39,9 +39,10 @@ data class EdcBalanceInquiryResponse(
 @RestController
 @RequestMapping("/TRS0815")
 class EdcBalanceInquiryCbc(
-	private val sbc: EdcBalanceInquirySbc,
+	private val edcBalanceInquirySbc: EdcBalanceInquirySbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<EdcBalanceInquiryRequest>): ResponseData<EdcBalanceInquiryResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<EdcBalanceInquiryRequest>): ResponseData<EdcBalanceInquiryResponse> {
+		return edcBalanceInquirySbc.inquire(request)
+	}
 }

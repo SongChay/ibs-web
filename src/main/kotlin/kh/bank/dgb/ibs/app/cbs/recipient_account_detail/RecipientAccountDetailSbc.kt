@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class RecipientAccountDetailSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<RecipientAccountDetailRequest>): ResponseData<RecipientAccountDetailResponse> =
-		connector.post("CIB11000812", request.header?.languageCode, request.body, RecipientAccountDetailResponse::class.java)
+	fun inquire(request: RequestData<RecipientAccountDetailRequest>): ResponseData<RecipientAccountDetailResponse> {
+		return coreBankingApiConnector.post("CIB11000812", request.header?.languageCode, request.body, RecipientAccountDetailResponse::class.java)
+	}
 }

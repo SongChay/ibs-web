@@ -37,10 +37,12 @@ data class InquiryExchangeRateResponse(
 @RestController
 @RequestMapping("/MAN1008")
 class InquiryExchangeRateCbc(
-	private val sbc: InquiryExchangeRateSbc,
+	private val inquiryExchangeRateSbc: InquiryExchangeRateSbc,
 ) {
 	@PostMapping
 	fun inquire(
 		@RequestBody request: RequestData<InquiryExchangeRateRequest>,
-	): ResponseData<InquiryExchangeRateResponse> = sbc.inquire(request)
+	): ResponseData<InquiryExchangeRateResponse> {
+		return inquiryExchangeRateSbc.inquire(request)
+	}
 }

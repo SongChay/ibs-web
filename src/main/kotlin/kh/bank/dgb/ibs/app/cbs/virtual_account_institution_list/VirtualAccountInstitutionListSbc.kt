@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class VirtualAccountInstitutionListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<VirtualAccountInstitutionListRequest>): ResponseData<VirtualAccountInstitutionListResponse> =
-		connector.post(
+	fun inquire(request: RequestData<VirtualAccountInstitutionListRequest>): ResponseData<VirtualAccountInstitutionListResponse> {
+		return coreBankingApiConnector.post(
 			"CIB11002013",
 			request.header?.languageCode,
 			request.body,
 			VirtualAccountInstitutionListResponse::class.java,
 		)
+	}
 }

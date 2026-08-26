@@ -47,7 +47,7 @@ data class UpdateVirtualAccountListCbsRequest(
  */
 @Service
 class UpdateVirtualAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun update(request: RequestData<UpdateVirtualAccountListRequest>): ResponseData<UpdateVirtualAccountListResponse> {
 		val body = request.body
@@ -81,7 +81,7 @@ class UpdateVirtualAccountListSbc(
 			grid01 = cbsItems,
 		)
 
-		return connector.post(
+		return coreBankingApiConnector.post(
 			"CIB11302031",
 			request.header?.languageCode,
 			cbsRequest,

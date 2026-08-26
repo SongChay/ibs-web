@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class WithdrawalAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<WithdrawalAccountListRequest>): ResponseData<WithdrawalAccountListResponse> =
-		connector.post("CIB11300812", request.header?.languageCode, request.body, WithdrawalAccountListResponse::class.java)
+	fun inquire(request: RequestData<WithdrawalAccountListRequest>): ResponseData<WithdrawalAccountListResponse> {
+		return coreBankingApiConnector.post("CIB11300812", request.header?.languageCode, request.body, WithdrawalAccountListResponse::class.java)
+	}
 }

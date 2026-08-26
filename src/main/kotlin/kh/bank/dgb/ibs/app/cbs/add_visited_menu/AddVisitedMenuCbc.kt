@@ -22,9 +22,10 @@ class AddVisitedMenuResponse
 @RestController
 @RequestMapping("/GNB1006")
 class AddVisitedMenuCbc(
-	private val sbc: AddVisitedMenuSbc,
+	private val addVisitedMenuSbc: AddVisitedMenuSbc,
 ) {
 	@PostMapping
-	fun add(@RequestBody request: RequestData<AddVisitedMenuRequest>): ResponseData<AddVisitedMenuResponse> =
-		sbc.add(request)
+	fun add(@RequestBody request: RequestData<AddVisitedMenuRequest>): ResponseData<AddVisitedMenuResponse> {
+		return addVisitedMenuSbc.add(request)
+	}
 }

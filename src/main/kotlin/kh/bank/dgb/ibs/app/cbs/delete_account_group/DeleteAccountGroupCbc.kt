@@ -35,9 +35,10 @@ data class DeleteAccountGroupResponse(
 @RestController
 @RequestMapping("/INF1104")
 class DeleteAccountGroupCbc(
-	private val sbc: DeleteAccountGroupSbc,
+	private val deleteAccountGroupSbc: DeleteAccountGroupSbc,
 ) {
 	@PostMapping
-	fun delete(@RequestBody request: RequestData<DeleteAccountGroupRequest>): ResponseData<DeleteAccountGroupResponse> =
-		sbc.delete(request)
+	fun delete(@RequestBody request: RequestData<DeleteAccountGroupRequest>): ResponseData<DeleteAccountGroupResponse> {
+		return deleteAccountGroupSbc.delete(request)
+	}
 }

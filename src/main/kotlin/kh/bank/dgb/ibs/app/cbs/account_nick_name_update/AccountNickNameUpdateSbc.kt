@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class AccountNickNameUpdateSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun update(request: RequestData<AccountNickNameUpdateRequest>): ResponseData<AccountNickNameUpdateResponse> =
-		connector.post("CIB11000631", request.header?.languageCode, request.body, AccountNickNameUpdateResponse::class.java)
+	fun update(request: RequestData<AccountNickNameUpdateRequest>): ResponseData<AccountNickNameUpdateResponse> {
+		return coreBankingApiConnector.post("CIB11000631", request.header?.languageCode, request.body, AccountNickNameUpdateResponse::class.java)
+	}
 }

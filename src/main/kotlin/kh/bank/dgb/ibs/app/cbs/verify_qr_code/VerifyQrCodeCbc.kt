@@ -23,9 +23,10 @@ data class VerifyQrCodeResponse(
 @RestController
 @RequestMapping("/USR2002")
 class VerifyQrCodeCbc(
-	private val sbc: VerifyQrCodeSbc,
+	private val verifyQrCodeSbc: VerifyQrCodeSbc,
 ) {
 	@PostMapping
-	fun verify(@RequestBody request: RequestData<VerifyQrCodeRequest>): ResponseData<VerifyQrCodeResponse> =
-		sbc.verify(request)
+	fun verify(@RequestBody request: RequestData<VerifyQrCodeRequest>): ResponseData<VerifyQrCodeResponse> {
+		return verifyQrCodeSbc.verify(request)
+	}
 }

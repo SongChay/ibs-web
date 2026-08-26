@@ -31,9 +31,10 @@ data class RequestSendAuthCodeResponse(
 @RestController
 @RequestMapping("/USR2003")
 class RequestSendAuthCodeCbc(
-	private val sbc: RequestSendAuthCodeSbc,
+	private val requestSendAuthCodeSbc: RequestSendAuthCodeSbc,
 ) {
 	@PostMapping
-	fun request(@RequestBody request: RequestData<RequestSendAuthCodeRequest>): ResponseData<RequestSendAuthCodeResponse> =
-		sbc.request(request)
+	fun request(@RequestBody request: RequestData<RequestSendAuthCodeRequest>): ResponseData<RequestSendAuthCodeResponse> {
+		return requestSendAuthCodeSbc.request(request)
+	}
 }

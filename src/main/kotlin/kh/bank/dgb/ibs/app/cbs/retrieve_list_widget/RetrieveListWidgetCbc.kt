@@ -25,10 +25,12 @@ data class RetrieveListWidgetResponse(
 @RestController
 @RequestMapping("/MAN1103")
 class RetrieveListWidgetCbc(
-	private val sbc: RetrieveListWidgetSbc,
+	private val retrieveListWidgetSbc: RetrieveListWidgetSbc,
 ) {
 	@PostMapping
 	fun retrieve(
 		@RequestBody request: RequestData<RetrieveListWidgetRequest>,
-	): ResponseData<RetrieveListWidgetResponse> = sbc.retrieve(request)
+	): ResponseData<RetrieveListWidgetResponse> {
+		return retrieveListWidgetSbc.retrieve(request)
+	}
 }

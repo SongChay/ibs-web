@@ -31,9 +31,10 @@ data class WingPurposeTransferListResponse(
 @RestController
 @RequestMapping("/TRS5001")
 class WingPurposeTransferListCbc(
-	private val sbc: WingPurposeTransferListSbc,
+	private val wingPurposeTransferListSbc: WingPurposeTransferListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<WingPurposeTransferListRequest>): ResponseData<WingPurposeTransferListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<WingPurposeTransferListRequest>): ResponseData<WingPurposeTransferListResponse> {
+		return wingPurposeTransferListSbc.inquire(request)
+	}
 }

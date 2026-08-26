@@ -12,6 +12,7 @@ object RsaKeyPairGenerator {
 	private const val ALGORITHM = "RSA"
 	private const val KEY_LENGTH = 2048
 
-	fun generate(): KeyPair =
-		KeyPairGenerator.getInstance(ALGORITHM).apply { initialize(KEY_LENGTH) }.genKeyPair()
+	fun generate(): KeyPair {
+		return KeyPairGenerator.getInstance(ALGORITHM).apply { initialize(KEY_LENGTH) }.genKeyPair()
+	}
 }

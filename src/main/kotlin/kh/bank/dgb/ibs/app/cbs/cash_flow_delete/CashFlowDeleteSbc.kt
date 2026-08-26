@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CashFlowDeleteSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun delete(request: RequestData<CashFlowDeleteRequest>): ResponseData<CashFlowDeleteResponse> =
-		connector.post("CIB11003632", request.header?.languageCode, request.body, CashFlowDeleteResponse::class.java)
+	fun delete(request: RequestData<CashFlowDeleteRequest>): ResponseData<CashFlowDeleteResponse> {
+		return coreBankingApiConnector.post("CIB11003632", request.header?.languageCode, request.body, CashFlowDeleteResponse::class.java)
+	}
 }

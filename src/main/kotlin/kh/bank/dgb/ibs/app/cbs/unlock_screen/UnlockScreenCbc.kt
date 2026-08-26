@@ -26,9 +26,10 @@ data class UnlockScreenResponse(
 @RestController
 @RequestMapping("/INF2004")
 class UnlockScreenCbc(
-	private val sbc: UnlockScreenSbc,
+	private val unlockScreenSbc: UnlockScreenSbc,
 ) {
 	@PostMapping
-	fun unlock(@RequestBody request: RequestData<UnlockScreenRequest>): ResponseData<UnlockScreenResponse> =
-		sbc.unlock(request)
+	fun unlock(@RequestBody request: RequestData<UnlockScreenRequest>): ResponseData<UnlockScreenResponse> {
+		return unlockScreenSbc.unlock(request)
+	}
 }

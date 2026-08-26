@@ -35,9 +35,10 @@ data class MyAccountListResponse(
 @RestController
 @RequestMapping("/TRS1401")
 class MyAccountListCbc(
-	private val sbc: MyAccountListSbc,
+	private val myAccountListSbc: MyAccountListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<MyAccountListRequest>): ResponseData<MyAccountListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<MyAccountListRequest>): ResponseData<MyAccountListResponse> {
+		return myAccountListSbc.inquire(request)
+	}
 }

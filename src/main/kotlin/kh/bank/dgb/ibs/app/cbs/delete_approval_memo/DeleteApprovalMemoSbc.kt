@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeleteApprovalMemoSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun delete(request: RequestData<DeleteApprovalMemoRequest>): ResponseData<DeleteApprovalMemoResponse> =
-		connector.post("CIB11003231", request.header?.languageCode, request.body, DeleteApprovalMemoResponse::class.java)
+	fun delete(request: RequestData<DeleteApprovalMemoRequest>): ResponseData<DeleteApprovalMemoResponse> {
+		return coreBankingApiConnector.post("CIB11003231", request.header?.languageCode, request.body, DeleteApprovalMemoResponse::class.java)
+	}
 }

@@ -25,9 +25,10 @@ data class CheckTransferLimitResponse(
 @RestController
 @RequestMapping("/TRS1008")
 class CheckTransferLimitCbc(
-	private val sbc: CheckTransferLimitSbc,
+	private val checkTransferLimitSbc: CheckTransferLimitSbc,
 ) {
 	@PostMapping
-	fun check(@RequestBody request: RequestData<CheckTransferLimitRequest>): ResponseData<CheckTransferLimitResponse> =
-		sbc.check(request)
+	fun check(@RequestBody request: RequestData<CheckTransferLimitRequest>): ResponseData<CheckTransferLimitResponse> {
+		return checkTransferLimitSbc.check(request)
+	}
 }

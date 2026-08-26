@@ -28,9 +28,10 @@ data class CorporatePayrollRegistrationCheckResponse(
 @RestController
 @RequestMapping("/PYR1003")
 class CorporatePayrollRegistrationCheckCbc(
-	private val sbc: CorporatePayrollRegistrationCheckSbc,
+	private val corporatePayrollRegistrationCheckSbc: CorporatePayrollRegistrationCheckSbc,
 ) {
 	@PostMapping
-	fun check(@RequestBody request: RequestData<CorporatePayrollRegistrationCheckRequest>): ResponseData<CorporatePayrollRegistrationCheckResponse> =
-		sbc.check(request)
+	fun check(@RequestBody request: RequestData<CorporatePayrollRegistrationCheckRequest>): ResponseData<CorporatePayrollRegistrationCheckResponse> {
+		return corporatePayrollRegistrationCheckSbc.check(request)
+	}
 }

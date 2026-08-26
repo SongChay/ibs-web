@@ -59,7 +59,7 @@ private data class VerifyQRCodeResponse(
 
 @Service
 class ApprovalByFinalApproverSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 	private val serviceStatusSbc: ServiceStatusSbc,
 ) {
 	fun approve(request: RequestData<ApprovalByFinalApproverRequest>): ResponseData<ApprovalByFinalApproverResponse> {
@@ -99,7 +99,7 @@ class ApprovalByFinalApproverSbc(
 			approvalNo = body.approvalNo,
 			overrideScheduleTransferTime = body.overrideScheduleTransferTime,
 		)
-		val approvalResult = connector.post("CIB11001022", header?.languageCode, approvalRequestBody, FinalApproverActionResponse::class.java)
+		val approvalResult = coreBankingApiConnector.post("CIB11001022", header?.languageCode, approvalRequestBody, FinalApproverActionResponse::class.java)
 
 		return ResponseData(
 			header = approvalResult.header,
@@ -112,7 +112,7 @@ class ApprovalByFinalApproverSbc(
 
 	/** Port of the old adapter's private `verifyOTPCode` method. */
 	private fun verifyOtpCode(header: RequestUserHeaderVo?, body: ApprovalByFinalApproverRequest): ResponseData<VerifyQRCodeResponse> {
-		val otpRequiredResult = connector.post(
+		val otpRequiredResult = coreBankingApiConnector.post(
 			"CIB11000214",
 			header?.languageCode,
 			OtpCreateRequiredRequest(userID = body.userID),
@@ -126,7 +126,7 @@ class ApprovalByFinalApproverSbc(
 			return ResponseData(header = ResponseResultUtils.makeResponse(false, ResponseResultCodeType.OTP_CREATE_REQUIRED))
 		}
 
-		return connector.post(
+		return coreBankingApiConnector.post(
 			"CIB11000211",
 			header?.languageCode,
 			VerifyQRCodeRequest(

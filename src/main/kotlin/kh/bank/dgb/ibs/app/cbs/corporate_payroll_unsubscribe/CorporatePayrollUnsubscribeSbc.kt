@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class CorporatePayrollUnsubscribeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun unsubscribe(request: RequestData<CorporatePayrollUnsubscribeRequest>): ResponseData<CorporatePayrollUnsubscribeResponse> {
-		val result = connector.post("CIB11300123", request.header?.languageCode, request.body, CorporatePayrollUnsubscribeResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11300123", request.header?.languageCode, request.body, CorporatePayrollUnsubscribeResponse::class.java)
 		val body = result.body ?: return result
 
 		val resultYn = if (result.header?.result == true) "Y" else "N"

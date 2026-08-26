@@ -33,9 +33,10 @@ data class OverseaTransferCountryListResponse(
 @RestController
 @RequestMapping("/TRS4002")
 class OverseaTransferCountryListCbc(
-	private val sbc: OverseaTransferCountryListSbc,
+	private val overseaTransferCountryListSbc: OverseaTransferCountryListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<OverseaTransferCountryListRequest>): ResponseData<OverseaTransferCountryListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<OverseaTransferCountryListRequest>): ResponseData<OverseaTransferCountryListResponse> {
+		return overseaTransferCountryListSbc.inquire(request)
+	}
 }

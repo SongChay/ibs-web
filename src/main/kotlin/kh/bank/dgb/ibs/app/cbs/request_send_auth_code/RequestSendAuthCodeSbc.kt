@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service
  */
 @Service
 class RequestSendAuthCodeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun request(request: RequestData<RequestSendAuthCodeRequest>): ResponseData<RequestSendAuthCodeResponse> {
 		val forcedBody = (request.body ?: RequestSendAuthCodeRequest())
 			.copy(channelTypeCode = "01", serviceID = "10002100034")
 
-		return connector.post("CIB11000212", request.header?.languageCode, forcedBody, RequestSendAuthCodeResponse::class.java)
+		return coreBankingApiConnector.post("CIB11000212", request.header?.languageCode, forcedBody, RequestSendAuthCodeResponse::class.java)
 	}
 }

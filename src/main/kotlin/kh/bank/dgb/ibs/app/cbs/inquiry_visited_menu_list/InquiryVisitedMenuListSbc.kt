@@ -10,10 +10,10 @@ private const val CHANNEL_TYPE_CODE_CORP_BANKING = "01"
 
 @Service
 class InquiryVisitedMenuListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<InquiryVisitedMenuListRequest>): ResponseData<InquiryVisitedMenuListResponse> {
 		val body = request.body?.copy(channelTypeCode = CHANNEL_TYPE_CODE_CORP_BANKING)
-		return connector.post("CIB11300611", request.header?.languageCode, body, InquiryVisitedMenuListResponse::class.java)
+		return coreBankingApiConnector.post("CIB11300611", request.header?.languageCode, body, InquiryVisitedMenuListResponse::class.java)
 	}
 }

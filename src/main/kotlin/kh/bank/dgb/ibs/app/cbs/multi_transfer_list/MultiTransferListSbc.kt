@@ -14,10 +14,10 @@ import java.text.SimpleDateFormat
  */
 @Service
 class MultiTransferListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<MultiTransferListRequest>): ResponseData<MultiTransferListResponse> {
-		val response = connector.post("CIB11001411", request.header?.languageCode, request.body, MultiTransferListResponse::class.java)
+		val response = coreBankingApiConnector.post("CIB11001411", request.header?.languageCode, request.body, MultiTransferListResponse::class.java)
 		val enrichedList = response.body?.approvalTransferList?.map { item ->
 			val approvalRequestDate = toDDMMMYYYY(item.approvalRequestDate)
 			val approvalRequestTime = toHHMMA(item.approvalRequestTime)

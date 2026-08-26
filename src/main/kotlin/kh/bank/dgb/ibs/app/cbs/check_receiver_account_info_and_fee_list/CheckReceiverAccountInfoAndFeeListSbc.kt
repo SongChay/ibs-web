@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class CheckReceiverAccountInfoAndFeeListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<CheckReceiverAccountInfoAndFeeListRequest>): ResponseData<CheckReceiverAccountInfoAndFeeListResponse> {
-		val response = connector.post(
+		val response = coreBankingApiConnector.post(
 			"CIB11000814",
 			request.header?.languageCode,
 			request.body,
@@ -32,9 +32,11 @@ class CheckReceiverAccountInfoAndFeeListSbc(
 	}
 
 	/** Port of `DataUtils.getResultYnDesc`. */
-	private fun resultYnDesc(resultYn: String?): String = when {
-		resultYn.equals("Y", ignoreCase = false) -> "Yes"
-		resultYn.equals("N", ignoreCase = false) -> "No"
-		else -> ""
+	private fun resultYnDesc(resultYn: String?): String {
+		return when {
+			resultYn.equals("Y", ignoreCase = false) -> "Yes"
+			resultYn.equals("N", ignoreCase = false) -> "No"
+			else -> ""
+		}
 	}
 }

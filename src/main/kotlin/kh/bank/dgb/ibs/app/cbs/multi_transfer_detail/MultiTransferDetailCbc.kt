@@ -40,9 +40,10 @@ data class MultiTransferDetailResponse(
 @RestController
 @RequestMapping("/TRS3201")
 class MultiTransferDetailCbc(
-	private val sbc: MultiTransferDetailSbc,
+	private val multiTransferDetailSbc: MultiTransferDetailSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<MultiTransferDetailRequest>): ResponseData<MultiTransferDetailResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<MultiTransferDetailRequest>): ResponseData<MultiTransferDetailResponse> {
+		return multiTransferDetailSbc.inquire(request)
+	}
 }

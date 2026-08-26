@@ -32,7 +32,7 @@ import java.nio.file.Path
  */
 @Service
 class FileDownloadSbc(
-	private val props: FileDownloadProperties,
+	private val fileDownloadProperties: FileDownloadProperties,
 ) {
 	private val logger = LoggerFactory.getLogger(FileDownloadSbc::class.java)
 
@@ -72,7 +72,7 @@ class FileDownloadSbc(
 	 *  path overriding the base entirely, etc.) — callers map that to whichever "not found" shape
 	 *  their old endpoint used. */
 	private fun resolveWithinBase(path: String): Path? {
-		val base = Path.of(props.docsBasePath).toAbsolutePath().normalize()
+		val base = Path.of(fileDownloadProperties.docsBasePath).toAbsolutePath().normalize()
 		val candidate = base.resolve(path).normalize()
 
 		if (!candidate.startsWith(base)) {

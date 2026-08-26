@@ -24,9 +24,10 @@ data class CorporatePayrollUnsubscribeResponse(
 @RestController
 @RequestMapping("/PYR1004")
 class CorporatePayrollUnsubscribeCbc(
-	private val sbc: CorporatePayrollUnsubscribeSbc,
+	private val corporatePayrollUnsubscribeSbc: CorporatePayrollUnsubscribeSbc,
 ) {
 	@PostMapping
-	fun unsubscribe(@RequestBody request: RequestData<CorporatePayrollUnsubscribeRequest>): ResponseData<CorporatePayrollUnsubscribeResponse> =
-		sbc.unsubscribe(request)
+	fun unsubscribe(@RequestBody request: RequestData<CorporatePayrollUnsubscribeRequest>): ResponseData<CorporatePayrollUnsubscribeResponse> {
+		return corporatePayrollUnsubscribeSbc.unsubscribe(request)
+	}
 }

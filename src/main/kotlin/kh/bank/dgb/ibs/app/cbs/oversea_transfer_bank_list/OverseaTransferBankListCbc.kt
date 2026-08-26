@@ -25,9 +25,10 @@ data class OverseaTransferBankListResponse(
 @RestController
 @RequestMapping("/TRS4003")
 class OverseaTransferBankListCbc(
-	private val sbc: OverseaTransferBankListSbc,
+	private val overseaTransferBankListSbc: OverseaTransferBankListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<OverseaTransferBankListRequest>): ResponseData<OverseaTransferBankListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<OverseaTransferBankListRequest>): ResponseData<OverseaTransferBankListResponse> {
+		return overseaTransferBankListSbc.inquire(request)
+	}
 }

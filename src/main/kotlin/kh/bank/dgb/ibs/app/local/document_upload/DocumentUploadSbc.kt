@@ -38,7 +38,7 @@ private data class MciFileInformation(
 @Service
 class DocumentUploadSbc(
 	private val restClient: RestClient,
-	private val props: MciFileUploadProperties,
+	private val mciFileUploadProperties: MciFileUploadProperties,
 ) {
 	private val logger = LoggerFactory.getLogger(DocumentUploadSbc::class.java)
 
@@ -57,7 +57,7 @@ class DocumentUploadSbc(
 
 		return try {
 			restClient.post()
-				.uri(props.uploadUrl)
+				.uri(mciFileUploadProperties.uploadUrl)
 				.body(multipartBody)
 				.retrieve()
 				.toBodilessEntity()
@@ -93,10 +93,12 @@ class DocumentUploadSbc(
 		)
 	}
 
-	private fun failureResponse() = ResponseData(
-		header = ResponseUserHeaderVo(result = false, resultCode = RESPONSE_FAIL_CODE, resultMessage = RESPONSE_FAIL_MESSAGE),
-		body = DocumentUploadResponse(fileList = emptyList()),
-	)
+	private fun failureResponse(): ResponseData<DocumentUploadResponse> {
+		return ResponseData(
+			header = ResponseUserHeaderVo(result = false, resultCode = RESPONSE_FAIL_CODE, resultMessage = RESPONSE_FAIL_MESSAGE),
+			body = DocumentUploadResponse(fileList = emptyList()),
+		)
+	}
 
 	companion object {
 		private const val TARGET_PATH = "/CCI/send/"

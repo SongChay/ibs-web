@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class InquiryDepositStatusSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(
 		request: RequestData<InquiryDepositStatusRequest>,
 	): ResponseData<InquiryDepositStatusResponse> {
-		val result = connector.post(
+		val result = coreBankingApiConnector.post(
 			"CIB11300412",
 			request.header?.languageCode,
 			request.body,
@@ -36,41 +36,47 @@ class InquiryDepositStatusSbc(
 
 	/** Port of `DataUtils.getDepositSubjectDescription` (old `DepositSubjectCode` enum). Returns
 	 *  `""` for an unrecognized/null code, matching the old lookup-chain-with-no-else behaviour. */
-	private fun depositSubjectDescription(code: String?): String = when (code) {
-		"110" -> "Current Account"
-		"120" -> "Saving Account"
-		"130" -> "Fixed Account"
-		"140" -> "Installment Account"
-		"150" -> "Loan Account"
-		else -> ""
+	private fun depositSubjectDescription(code: String?): String {
+		return when (code) {
+			"110" -> "Current Account"
+			"120" -> "Saving Account"
+			"130" -> "Fixed Account"
+			"140" -> "Installment Account"
+			"150" -> "Loan Account"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getDepositAccountStatusDescription` (old `DepositAccountStatusCode`
 	 *  enum). Returns `""` for an unrecognized/null code. */
-	private fun depositAccountStatusDescription(code: String?): String = when (code) {
-		"01" -> "Normal"
-		"04" -> "Transaction Suspended"
-		"06" -> "Blocked"
-		"07" -> "Normally Terminated"
-		"09" -> "Terminated with other reason"
-		"10" -> "LumpsumLedger"
-		"21" -> "Terminated on maturity"
-		"22" -> "Early Termination"
-		"32" -> "Netting on maturity"
-		"40" -> "Terminated due to Branch transfer"
-		"50" -> "Account closed"
-		"99" -> "New registratoin cancelled" // sic — matches old code's typo verbatim
-		else -> ""
+	private fun depositAccountStatusDescription(code: String?): String {
+		return when (code) {
+			"01" -> "Normal"
+			"04" -> "Transaction Suspended"
+			"06" -> "Blocked"
+			"07" -> "Normally Terminated"
+			"09" -> "Terminated with other reason"
+			"10" -> "LumpsumLedger"
+			"21" -> "Terminated on maturity"
+			"22" -> "Early Termination"
+			"32" -> "Netting on maturity"
+			"40" -> "Terminated due to Branch transfer"
+			"50" -> "Account closed"
+			"99" -> "New registratoin cancelled" // sic — matches old code's typo verbatim
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getRepaymentMethodDescription` (old `RepaymentMethodCode` enum).
 	 *  Returns `""` for an unrecognized/null code. */
-	private fun repaymentMethodDescription(code: String?): String = when (code) {
-		"10" -> "Bullet"
-		"20" -> "Installment"
-		"30" -> "Amortization"
-		"40" -> "Negotiable"
-		"90" -> "Other(OD)"
-		else -> ""
+	private fun repaymentMethodDescription(code: String?): String {
+		return when (code) {
+			"10" -> "Bullet"
+			"20" -> "Installment"
+			"30" -> "Amortization"
+			"40" -> "Negotiable"
+			"90" -> "Other(OD)"
+			else -> ""
+		}
 	}
 }

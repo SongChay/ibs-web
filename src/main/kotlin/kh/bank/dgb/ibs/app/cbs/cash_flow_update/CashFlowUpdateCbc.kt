@@ -29,9 +29,10 @@ class CashFlowUpdateResponse
 @RestController
 @RequestMapping("/ABM4002")
 class CashFlowUpdateCbc(
-	private val sbc: CashFlowUpdateSbc,
+	private val cashFlowUpdateSbc: CashFlowUpdateSbc,
 ) {
 	@PostMapping
-	fun update(@RequestBody request: RequestData<CashFlowUpdateRequest>): ResponseData<CashFlowUpdateResponse> =
-		sbc.update(request)
+	fun update(@RequestBody request: RequestData<CashFlowUpdateRequest>): ResponseData<CashFlowUpdateResponse> {
+		return cashFlowUpdateSbc.update(request)
+	}
 }

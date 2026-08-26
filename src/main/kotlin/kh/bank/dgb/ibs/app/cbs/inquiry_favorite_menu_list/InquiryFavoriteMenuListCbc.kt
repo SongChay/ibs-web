@@ -36,9 +36,10 @@ data class InquiryFavoriteMenuListResponse(
 @RestController
 @RequestMapping("/GNB1003")
 class InquiryFavoriteMenuListCbc(
-	private val sbc: InquiryFavoriteMenuListSbc,
+	private val inquiryFavoriteMenuListSbc: InquiryFavoriteMenuListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<InquiryFavoriteMenuListRequest>): ResponseData<InquiryFavoriteMenuListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<InquiryFavoriteMenuListRequest>): ResponseData<InquiryFavoriteMenuListResponse> {
+		return inquiryFavoriteMenuListSbc.inquire(request)
+	}
 }

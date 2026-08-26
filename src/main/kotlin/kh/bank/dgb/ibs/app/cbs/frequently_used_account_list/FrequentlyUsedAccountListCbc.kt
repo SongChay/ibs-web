@@ -57,9 +57,10 @@ data class FrequentlyUsedAccountListResponse(
 @RestController
 @RequestMapping("/INF4001")
 class FrequentlyUsedAccountListCbc(
-	private val sbc: FrequentlyUsedAccountListSbc,
+	private val frequentlyUsedAccountListSbc: FrequentlyUsedAccountListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<FrequentlyUsedAccountListRequest>): ResponseData<FrequentlyUsedAccountListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<FrequentlyUsedAccountListRequest>): ResponseData<FrequentlyUsedAccountListResponse> {
+		return frequentlyUsedAccountListSbc.inquire(request)
+	}
 }

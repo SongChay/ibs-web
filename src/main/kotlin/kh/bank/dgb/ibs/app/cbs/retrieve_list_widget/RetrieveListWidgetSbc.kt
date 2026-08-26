@@ -19,12 +19,12 @@ data class RetrieveListWidgetCbsResponse(
 
 @Service
 class RetrieveListWidgetSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun retrieve(
 		request: RequestData<RetrieveListWidgetRequest>,
 	): ResponseData<RetrieveListWidgetResponse> {
-		val cbsResult = connector.post(
+		val cbsResult = coreBankingApiConnector.post(
 			"CIB11300411",
 			request.header?.languageCode,
 			request.body,

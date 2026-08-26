@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service
  */
 @Service
 class VerifyAuthenticationCodeSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun verify(request: RequestData<VerifyAuthenticationCodeRequest>): ResponseData<VerifyAuthenticationCodeResponse> {
 		val forcedBody = (request.body ?: VerifyAuthenticationCodeRequest())
 			.copy(channelTypeCode = "01", serviceID = "10002100034")
 
-		return connector.post("CIB11000213", request.header?.languageCode, forcedBody, VerifyAuthenticationCodeResponse::class.java)
+		return coreBankingApiConnector.post("CIB11000213", request.header?.languageCode, forcedBody, VerifyAuthenticationCodeResponse::class.java)
 	}
 }

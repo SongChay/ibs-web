@@ -47,9 +47,10 @@ data class CorporatePayrollRetrieveResponse(
 @RestController
 @RequestMapping("/PYR1001")
 class CorporatePayrollRetrieveCbc(
-	private val sbc: CorporatePayrollRetrieveSbc,
+	private val corporatePayrollRetrieveSbc: CorporatePayrollRetrieveSbc,
 ) {
 	@PostMapping
-	fun retrieve(@RequestBody request: RequestData<CorporatePayrollRetrieveRequest>): ResponseData<CorporatePayrollRetrieveResponse> =
-		sbc.retrieve(request)
+	fun retrieve(@RequestBody request: RequestData<CorporatePayrollRetrieveRequest>): ResponseData<CorporatePayrollRetrieveResponse> {
+		return corporatePayrollRetrieveSbc.retrieve(request)
+	}
 }

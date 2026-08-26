@@ -93,5 +93,7 @@ class SecurityConfig(
 	/** Lets the concurrency-control session registry hear about session destruction — same role
 	 *  as the old `HttpSessionEventPublisher` listener declared in web.xml. */
 	@Bean
-	fun httpSessionEventPublisher(): HttpSessionEventPublisher = HttpSessionEventPublisher()
+	fun httpSessionEventPublisher(): HttpSessionEventPublisher {
+		return HttpSessionEventPublisher()
+	}
 }

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class PayrollPaymentCancelSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	// TODO: opcode unverified — see the doc comment on PayrollPaymentCancelCbc.
 	fun cancel(request: RequestData<PayrollPaymentCancelRequest>): ResponseData<PayrollPaymentCancelResponse> {
-		val result = connector.post("PYR05300232", request.header?.languageCode, request.body, PayrollPaymentCancelResponse::class.java)
+		val result = coreBankingApiConnector.post("PYR05300232", request.header?.languageCode, request.body, PayrollPaymentCancelResponse::class.java)
 		val body = result.body ?: return result
 
 		val resultYn = if (result.header?.result == true) "Y" else "N"

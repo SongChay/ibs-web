@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 
 @Service
 class AllAccountInquiryListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 
 	/**
@@ -34,7 +34,7 @@ class AllAccountInquiryListSbc(
 		val filterCurrencyCode = originalBody?.currencyCode
 
 		val cbsRequestBody = originalBody?.copy(accountTypeCode = "00")
-		val cbsResult = connector.post("CIB11300612", request.header?.languageCode, cbsRequestBody, AllAccountInquiryListResponse::class.java)
+		val cbsResult = coreBankingApiConnector.post("CIB11300612", request.header?.languageCode, cbsRequestBody, AllAccountInquiryListResponse::class.java)
 
 		val filtered = cbsResult.body?.accountList?.filter { item ->
 			matchesFilter(item, filterAccountNo, filterAccountNickName, filterAccountTypeCode, filterCurrencyCode)
@@ -112,39 +112,45 @@ class AllAccountInquiryListSbc(
 	}
 
 	/** Port of `DataUtils.getDepositSubjectDescription` / `type.DepositSubjectCode`. */
-	private fun depositSubjectDescription(code: String?): String = when (code) {
-		"110" -> "Current Account"
-		"120" -> "Saving Account"
-		"130" -> "Fixed Account"
-		"140" -> "Installment Account"
-		"150" -> "Loan Account"
-		else -> ""
+	private fun depositSubjectDescription(code: String?): String {
+		return when (code) {
+			"110" -> "Current Account"
+			"120" -> "Saving Account"
+			"130" -> "Fixed Account"
+			"140" -> "Installment Account"
+			"150" -> "Loan Account"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getDepositAccountStatusDescription` / `type.DepositAccountStatusCode`. */
-	private fun depositAccountStatusDescription(code: String?): String = when (code) {
-		"01" -> "Normal"
-		"04" -> "Transaction Suspended"
-		"06" -> "Blocked"
-		"07" -> "Normally Terminated"
-		"09" -> "Terminated with other reason"
-		"10" -> "LumpsumLedger"
-		"21" -> "Terminated on maturity"
-		"22" -> "Early Termination"
-		"32" -> "Netting on maturity"
-		"40" -> "Terminated due to Branch transfer"
-		"50" -> "Account closed"
-		"99" -> "New registratoin cancelled"
-		else -> ""
+	private fun depositAccountStatusDescription(code: String?): String {
+		return when (code) {
+			"01" -> "Normal"
+			"04" -> "Transaction Suspended"
+			"06" -> "Blocked"
+			"07" -> "Normally Terminated"
+			"09" -> "Terminated with other reason"
+			"10" -> "LumpsumLedger"
+			"21" -> "Terminated on maturity"
+			"22" -> "Early Termination"
+			"32" -> "Netting on maturity"
+			"40" -> "Terminated due to Branch transfer"
+			"50" -> "Account closed"
+			"99" -> "New registratoin cancelled"
+			else -> ""
+		}
 	}
 
 	/** Port of `DataUtils.getRepaymentMethodDescription` / `type.RepaymentMethodCode`. */
-	private fun repaymentMethodDescription(code: String?): String = when (code) {
-		"10" -> "Bullet"
-		"20" -> "Installment"
-		"30" -> "Amortization"
-		"40" -> "Negotiable"
-		"90" -> "Other(OD)"
-		else -> ""
+	private fun repaymentMethodDescription(code: String?): String {
+		return when (code) {
+			"10" -> "Bullet"
+			"20" -> "Installment"
+			"30" -> "Amortization"
+			"40" -> "Negotiable"
+			"90" -> "Other(OD)"
+			else -> ""
+		}
 	}
 }

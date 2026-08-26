@@ -26,9 +26,11 @@ data class DocumentUploadResponse(
  */
 @RestController
 class DocumentUploadCbc(
-	private val sbc: DocumentUploadSbc,
+	private val documentUploadSbc: DocumentUploadSbc,
 ) {
 	@PostMapping("/upload/docfile")
-	fun upload(@RequestParam("files") files: Array<MultipartFile>): ResponseData<DocumentUploadResponse> =
-		sbc.upload(files.toList())
+	fun upload(@RequestParam("files") files: Array<MultipartFile>): ResponseData<DocumentUploadResponse> {
+		return documentUploadSbc.upload(files.toList())
+	}
+
 }

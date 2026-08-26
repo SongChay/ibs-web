@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class RetrieveTop3TransactionHistorySbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun retrieve(
 		request: RequestData<RetrieveTop3TransactionHistoryRequest>,
 	): ResponseData<RetrieveTop3TransactionHistoryResponse> =
-		connector.post(
+		coreBankingApiConnector.post(
 			"CIB11300415",
 			request.header?.languageCode,
 			request.body,

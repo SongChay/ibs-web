@@ -22,9 +22,10 @@ class DeleteApprovalMemoResponse
 @RestController
 @RequestMapping("/APV1205")
 class DeleteApprovalMemoCbc(
-	private val sbc: DeleteApprovalMemoSbc,
+	private val deleteApprovalMemoSbc: DeleteApprovalMemoSbc,
 ) {
 	@PostMapping
-	fun delete(@RequestBody request: RequestData<DeleteApprovalMemoRequest>): ResponseData<DeleteApprovalMemoResponse> =
-		sbc.delete(request)
+	fun delete(@RequestBody request: RequestData<DeleteApprovalMemoRequest>): ResponseData<DeleteApprovalMemoResponse> {
+		return deleteApprovalMemoSbc.delete(request)
+	}
 }

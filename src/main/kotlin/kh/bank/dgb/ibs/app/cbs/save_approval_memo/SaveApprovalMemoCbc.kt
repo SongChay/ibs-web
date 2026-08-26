@@ -22,9 +22,10 @@ data class SaveApprovalMemoResponse(
 @RestController
 @RequestMapping("/APV1204")
 class SaveApprovalMemoCbc(
-	private val sbc: SaveApprovalMemoSbc,
+	private val saveApprovalMemoSbc: SaveApprovalMemoSbc,
 ) {
 	@PostMapping
-	fun save(@RequestBody request: RequestData<SaveApprovalMemoRequest>): ResponseData<SaveApprovalMemoResponse> =
-		sbc.save(request)
+	fun save(@RequestBody request: RequestData<SaveApprovalMemoRequest>): ResponseData<SaveApprovalMemoResponse> {
+		return saveApprovalMemoSbc.save(request)
+	}
 }

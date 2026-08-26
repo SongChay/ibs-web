@@ -21,9 +21,10 @@ data class CustomerAddressResponse(
 @RestController
 @RequestMapping("/TRS4104")
 class CustomerAddressCbc(
-	private val sbc: CustomerAddressSbc,
+	private val customerAddressSbc: CustomerAddressSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<CustomerAddressRequest>): ResponseData<CustomerAddressResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<CustomerAddressRequest>): ResponseData<CustomerAddressResponse> {
+		return customerAddressSbc.inquire(request)
+	}
 }

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class BakongTransactionHistorySbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<BakongTransactionHistoryRequest>): ResponseData<BakongTransactionHistoryResponse> =
-		connector.post("CIB11300913", request.header?.languageCode, request.body, BakongTransactionHistoryResponse::class.java)
+	fun inquire(request: RequestData<BakongTransactionHistoryRequest>): ResponseData<BakongTransactionHistoryResponse> {
+		return coreBankingApiConnector.post("CIB11300913", request.header?.languageCode, request.body, BakongTransactionHistoryResponse::class.java)
+	}
 }

@@ -47,12 +47,12 @@ data class TermConditionDetailResponse(
  */
 @RestController
 class BbsBoardProductCbc(
-	private val sbc: BbsBoardProductSbc,
+	private val bbsBoardProductSbc: BbsBoardProductSbc,
 ) {
 	/** Port of `ADS4101_Adapter_InquiryLoanProductDetail`. */
 	@PostMapping("/ADS4101")
 	fun loanProductDetail(@RequestBody request: RequestData<LoanProductDetailRequest>): ResponseData<LoanProductDetailResponse> {
-		val result = sbc.getLoanProductDetail(request.body?.productCode)
+		val result = bbsBoardProductSbc.getLoanProductDetail(request.body?.productCode)
 		return ResponseData(header = ResponseResultUtils.makeResponse(true, ResponseResultCodeType.SUCCESS), body = result)
 	}
 
@@ -60,7 +60,7 @@ class BbsBoardProductCbc(
 	@PostMapping("/ADS4201")
 	fun termConditionDetail(@RequestBody request: RequestData<TermConditionDetailRequest>): ResponseData<TermConditionDetailResponse> {
 		val boardId = request.body?.boardId ?: 0
-		val result = sbc.getTermConditionDetail(boardId)
+		val result = bbsBoardProductSbc.getTermConditionDetail(boardId)
 		return ResponseData(header = ResponseResultUtils.makeResponse(true, ResponseResultCodeType.SUCCESS), body = result)
 	}
 }

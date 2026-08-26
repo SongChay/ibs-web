@@ -23,10 +23,12 @@ data class RequestStatusStatisticResponse(
 @RestController
 @RequestMapping("/MAN1007")
 class RequestStatusStatisticCbc(
-	private val sbc: RequestStatusStatisticSbc,
+	private val requestStatusStatisticSbc: RequestStatusStatisticSbc,
 ) {
 	@PostMapping
 	fun inquire(
 		@RequestBody request: RequestData<RequestStatusStatisticRequest>,
-	): ResponseData<RequestStatusStatisticResponse> = sbc.inquire(request)
+	): ResponseData<RequestStatusStatisticResponse> {
+		return requestStatusStatisticSbc.inquire(request)
+	}
 }

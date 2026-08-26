@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service
  */
 @Service
 class MyAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<MyAccountListRequest>): ResponseData<MyAccountListResponse> {
-		val response = connector.post("CIB11001201", request.header?.languageCode, request.body, MyAccountListResponse::class.java)
+		val response = coreBankingApiConnector.post("CIB11001201", request.header?.languageCode, request.body, MyAccountListResponse::class.java)
 		val enrichedList = response.body?.accountList?.map { item ->
 			item.copy(
 				depositSubjectDescription = depositSubjectDescription(item.depositSubjectCode),
@@ -25,28 +25,32 @@ class MyAccountListSbc(
 		return response.copy(body = response.body?.copy(accountList = enrichedList))
 	}
 
-	private fun depositSubjectDescription(code: String?): String = when (code) {
-		"110" -> "Current Account"
-		"120" -> "Saving Account"
-		"130" -> "Fixed Account"
-		"140" -> "Installment Account"
-		"150" -> "Loan Account"
-		else -> ""
+	private fun depositSubjectDescription(code: String?): String {
+		return when (code) {
+			"110" -> "Current Account"
+			"120" -> "Saving Account"
+			"130" -> "Fixed Account"
+			"140" -> "Installment Account"
+			"150" -> "Loan Account"
+			else -> ""
+		}
 	}
 
-	private fun depositAccountStatusDescription(code: String?): String = when (code) {
-		"01" -> "Normal"
-		"04" -> "Transaction Suspended"
-		"06" -> "Blocked"
-		"07" -> "Normally Terminated"
-		"09" -> "Terminated with other reason"
-		"10" -> "LumpsumLedger"
-		"21" -> "Terminated on maturity"
-		"22" -> "Early Termination"
-		"32" -> "Netting on maturity"
-		"40" -> "Terminated due to Branch transfer"
-		"50" -> "Account closed"
-		"99" -> "New registratoin cancelled"
-		else -> ""
+	private fun depositAccountStatusDescription(code: String?): String {
+		return when (code) {
+			"01" -> "Normal"
+			"04" -> "Transaction Suspended"
+			"06" -> "Blocked"
+			"07" -> "Normally Terminated"
+			"09" -> "Terminated with other reason"
+			"10" -> "LumpsumLedger"
+			"21" -> "Terminated on maturity"
+			"22" -> "Early Termination"
+			"32" -> "Netting on maturity"
+			"40" -> "Terminated due to Branch transfer"
+			"50" -> "Account closed"
+			"99" -> "New registratoin cancelled"
+			else -> ""
+		}
 	}
 }

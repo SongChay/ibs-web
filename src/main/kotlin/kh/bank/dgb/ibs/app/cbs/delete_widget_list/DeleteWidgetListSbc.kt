@@ -19,7 +19,7 @@ data class DeleteWidgetListCbsRequest(
 
 @Service
 class DeleteWidgetListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun delete(
 		request: RequestData<DeleteWidgetListRequest>,
@@ -30,7 +30,7 @@ class DeleteWidgetListSbc(
 			grid01 = body?.widgetCodeList?.map { DeleteWidgetListItem(widgetCode = it) },
 		)
 
-		return connector.post(
+		return coreBankingApiConnector.post(
 			"CIB11300431",
 			request.header?.languageCode,
 			cbsRequest,

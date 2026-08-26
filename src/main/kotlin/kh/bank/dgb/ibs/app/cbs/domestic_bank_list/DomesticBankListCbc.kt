@@ -38,9 +38,10 @@ data class DomesticBankListResponse(
 @RestController
 @RequestMapping("/TRS6001")
 class DomesticBankListCbc(
-	private val sbc: DomesticBankListSbc,
+	private val domesticBankListSbc: DomesticBankListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<DomesticBankListRequest>): ResponseData<DomesticBankListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<DomesticBankListRequest>): ResponseData<DomesticBankListResponse> {
+		return domesticBankListSbc.inquire(request)
+	}
 }

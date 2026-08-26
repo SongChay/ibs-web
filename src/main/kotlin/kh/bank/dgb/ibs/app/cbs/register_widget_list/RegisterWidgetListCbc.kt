@@ -24,10 +24,12 @@ class RegisterWidgetListResponse
 @RestController
 @RequestMapping("/MAN1101")
 class RegisterWidgetListCbc(
-	private val sbc: RegisterWidgetListSbc,
+	private val registerWidgetListSbc: RegisterWidgetListSbc,
 ) {
 	@PostMapping
 	fun register(
 		@RequestBody request: RequestData<RegisterWidgetListRequest>,
-	): ResponseData<RegisterWidgetListResponse> = sbc.register(request)
+	): ResponseData<RegisterWidgetListResponse> {
+		return registerWidgetListSbc.register(request)
+	}
 }

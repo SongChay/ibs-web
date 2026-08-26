@@ -60,9 +60,10 @@ data class SaveSubUserResponse(
 @RestController
 @RequestMapping("/INF2104")
 class SaveSubUserCbc(
-	private val sbc: SaveSubUserSbc,
+	private val saveSubUserSbc: SaveSubUserSbc,
 ) {
 	@PostMapping
-	fun save(@RequestBody request: RequestData<SaveSubUserRequest>): ResponseData<SaveSubUserResponse> =
-		sbc.save(request)
+	fun save(@RequestBody request: RequestData<SaveSubUserRequest>): ResponseData<SaveSubUserResponse> {
+		return saveSubUserSbc.save(request)
+	}
 }

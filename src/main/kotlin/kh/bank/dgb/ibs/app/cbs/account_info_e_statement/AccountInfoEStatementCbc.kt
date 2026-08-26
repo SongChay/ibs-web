@@ -45,9 +45,10 @@ data class AccountInfoEStatementResponse(
 @RestController
 @RequestMapping("/TRS0914")
 class AccountInfoEStatementCbc(
-	private val sbc: AccountInfoEStatementSbc,
+	private val accountInfoEStatementSbc: AccountInfoEStatementSbc,
 ) {
 	@PostMapping
-	fun retrieve(@RequestBody request: RequestData<AccountInfoEStatementRequest>): ResponseData<AccountInfoEStatementResponse> =
-		sbc.retrieve(request)
+	fun retrieve(@RequestBody request: RequestData<AccountInfoEStatementRequest>): ResponseData<AccountInfoEStatementResponse> {
+		return accountInfoEStatementSbc.retrieve(request)
+	}
 }

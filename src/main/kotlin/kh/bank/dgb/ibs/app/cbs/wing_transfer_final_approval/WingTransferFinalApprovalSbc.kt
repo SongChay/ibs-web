@@ -42,7 +42,7 @@ private data class WingTransferRegistrationResult(
 @Service
 class WingTransferFinalApprovalSbc(
 	private val serviceStatusSbc: ServiceStatusSbc,
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	private val logger = LoggerFactory.getLogger(WingTransferFinalApprovalSbc::class.java)
 
@@ -82,7 +82,7 @@ class WingTransferFinalApprovalSbc(
 
 	private fun verifyOtp(request: RequestData<WingTransferFinalApprovalRequest>): ResponseData<VerifyQrCodeResponse> {
 		val verifyQrCode = request.body?.verifyQRCodeVo
-		val otpCreateRequiredResult = connector.post(
+		val otpCreateRequiredResult = coreBankingApiConnector.post(
 			OPCODE_OTP_CREATE_REQUIRED,
 			request.header?.languageCode,
 			OtpCreateRequiredRequest(userID = verifyQrCode?.userID),
@@ -93,7 +93,7 @@ class WingTransferFinalApprovalSbc(
 		return if (otpCreateRequiredResult.header?.result == true && otpCreateRequired.equals("N", ignoreCase = true)) {
 			logger.info(">> Start verify otp : firstYn = N ")
 			val verifyRequestBody = (verifyQrCode ?: VerifyQrCodeRequest()).copy(firstYn = "N")
-			connector.post(OPCODE_VERIFY_QR_CODE, request.header?.languageCode, verifyRequestBody, VerifyQrCodeResponse::class.java)
+			coreBankingApiConnector.post(OPCODE_VERIFY_QR_CODE, request.header?.languageCode, verifyRequestBody, VerifyQrCodeResponse::class.java)
 		} else {
 			logger.info(">> Need to do verify OTP. ")
 			ResponseData(header = ResponseResultUtils.makeResponse(false, ResponseResultCodeType.OTP_CREATE_REQUIRED))
@@ -104,7 +104,7 @@ class WingTransferFinalApprovalSbc(
 		val body = request.body ?: WingTransferFinalApprovalRequest()
 		// Port of: `item.setReceiverCountryCode("KHM")` for every item in the transfer list.
 		val withKhmCountryCode = body.copy(transferList = body.transferList?.map { it.copy(receiverCountryCode = "KHM") })
-		return connector.post(OPCODE_REGISTER_TRANSFER, request.header?.languageCode, withKhmCountryCode, WingTransferRegistrationResult::class.java)
+		return coreBankingApiConnector.post(OPCODE_REGISTER_TRANSFER, request.header?.languageCode, withKhmCountryCode, WingTransferRegistrationResult::class.java)
 	}
 
 	companion object {

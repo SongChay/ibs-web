@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class CurrentApprovalLineSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<CurrentApprovalLineRequest>): ResponseData<CurrentApprovalLineResponse> =
-		connector.post("CIB11001001", request.header?.languageCode, request.body, CurrentApprovalLineResponse::class.java)
+	fun inquire(request: RequestData<CurrentApprovalLineRequest>): ResponseData<CurrentApprovalLineResponse> {
+		return coreBankingApiConnector.post("CIB11001001", request.header?.languageCode, request.body, CurrentApprovalLineResponse::class.java)
+	}
 }

@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class RequestStatusStatisticSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(
 		request: RequestData<RequestStatusStatisticRequest>,
 	): ResponseData<RequestStatusStatisticResponse> =
-		connector.post("CIB11302012", request.header?.languageCode, request.body, RequestStatusStatisticResponse::class.java)
+		coreBankingApiConnector.post("CIB11302012", request.header?.languageCode, request.body, RequestStatusStatisticResponse::class.java)
 }

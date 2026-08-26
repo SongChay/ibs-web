@@ -12,7 +12,7 @@ private data class CheckDuplicatedUserResponse(val resultYn: String? = null)
 
 @Service
 class SaveSubUserSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	/**
 	 * Port of `INF2104_Adapter_SaveSubUser.process`. Steps, matching the old code exactly:
@@ -42,7 +42,7 @@ class SaveSubUserSbc(
 		}
 		val effectiveBody = body?.copy(userAccountAccessInfoList = derivedAccountAccessList)
 
-		val checkDuplicateResult = connector.post(
+		val checkDuplicateResult = coreBankingApiConnector.post(
 			"CIB11002411",
 			request.header?.languageCode,
 			CheckDuplicatedUserRequest(userID = body?.userID),
@@ -51,10 +51,10 @@ class SaveSubUserSbc(
 
 		return if (checkDuplicateResult.header?.result == true) {
 			// add sub user
-			connector.post("CIB11302421", request.header?.languageCode, effectiveBody, SaveSubUserResponse::class.java)
+			coreBankingApiConnector.post("CIB11302421", request.header?.languageCode, effectiveBody, SaveSubUserResponse::class.java)
 		} else {
 			// update sub user
-			connector.post("CIB11302431", request.header?.languageCode, effectiveBody, SaveSubUserResponse::class.java)
+			coreBankingApiConnector.post("CIB11302431", request.header?.languageCode, effectiveBody, SaveSubUserResponse::class.java)
 		}
 	}
 }

@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class OverseaTransferBankSwiftListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun inquire(request: RequestData<OverseaTransferBankSwiftListRequest>): ResponseData<OverseaTransferBankSwiftListResponse> =
-		connector.post("CIB11300811", request.header?.languageCode, request.body, OverseaTransferBankSwiftListResponse::class.java)
+	fun inquire(request: RequestData<OverseaTransferBankSwiftListRequest>): ResponseData<OverseaTransferBankSwiftListResponse> {
+		return coreBankingApiConnector.post("CIB11300811", request.header?.languageCode, request.body, OverseaTransferBankSwiftListResponse::class.java)
+	}
 }

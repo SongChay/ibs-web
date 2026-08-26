@@ -53,9 +53,10 @@ data class MultiTransferListResponse(
 @RestController
 @RequestMapping("/TRS3101")
 class MultiTransferListCbc(
-	private val sbc: MultiTransferListSbc,
+	private val multiTransferListSbc: MultiTransferListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<MultiTransferListRequest>): ResponseData<MultiTransferListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<MultiTransferListRequest>): ResponseData<MultiTransferListResponse> {
+		return multiTransferListSbc.inquire(request)
+	}
 }

@@ -79,9 +79,10 @@ data class SubUserDetailResponse(
 @RestController
 @RequestMapping("/INF2201")
 class SubUserDetailCbc(
-	private val sbc: SubUserDetailSbc,
+	private val subUserDetailSbc: SubUserDetailSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<SubUserDetailRequest>): ResponseData<SubUserDetailResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<SubUserDetailRequest>): ResponseData<SubUserDetailResponse> {
+		return subUserDetailSbc.inquire(request)
+	}
 }

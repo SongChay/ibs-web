@@ -66,9 +66,10 @@ data class AccountTransactionDetailResponse(
 @RestController
 @RequestMapping("/ACI1008")
 class AccountTransactionDetailCbc(
-	private val sbc: AccountTransactionDetailSbc,
+	private val accountTransactionDetailSbc: AccountTransactionDetailSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<AccountTransactionDetailRequest>): ResponseData<AccountTransactionDetailResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<AccountTransactionDetailRequest>): ResponseData<AccountTransactionDetailResponse> {
+		return accountTransactionDetailSbc.inquire(request)
+	}
 }

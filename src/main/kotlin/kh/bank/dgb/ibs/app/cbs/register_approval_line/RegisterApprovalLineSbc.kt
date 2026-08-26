@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class RegisterApprovalLineSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun register(request: RequestData<RegisterApprovalLineRequest>): ResponseData<RegisterApprovalLineResponse> =
-		connector.post("CIB11302621", request.header?.languageCode, request.body, RegisterApprovalLineResponse::class.java)
+	fun register(request: RequestData<RegisterApprovalLineRequest>): ResponseData<RegisterApprovalLineResponse> {
+		return coreBankingApiConnector.post("CIB11302621", request.header?.languageCode, request.body, RegisterApprovalLineResponse::class.java)
+	}
 }

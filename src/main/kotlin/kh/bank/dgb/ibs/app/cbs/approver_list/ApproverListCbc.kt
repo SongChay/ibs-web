@@ -22,11 +22,12 @@ data class ApproverItem(
 @RestController
 @RequestMapping("/TRS1103")
 class ApproverListCbc(
-	private val sbc: ApproverListSbc,
+	private val approverListSbc: ApproverListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<ApproverListRequest>): ResponseData<ApproverListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<ApproverListRequest>): ResponseData<ApproverListResponse> {
+		return approverListSbc.inquire(request)
+	}
 }
 
 data class ApproverListResponse(

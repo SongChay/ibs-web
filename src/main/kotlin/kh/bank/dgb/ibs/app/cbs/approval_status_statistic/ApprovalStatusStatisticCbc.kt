@@ -22,10 +22,12 @@ data class ApprovalStatusStatisticResponse(
 @RestController
 @RequestMapping("/MAN1009")
 class ApprovalStatusStatisticCbc(
-	private val sbc: ApprovalStatusStatisticSbc,
+	private val approvalStatusStatisticSbc: ApprovalStatusStatisticSbc,
 ) {
 	@PostMapping
 	fun inquire(
 		@RequestBody request: RequestData<ApprovalStatusStatisticRequest>,
-	): ResponseData<ApprovalStatusStatisticResponse> = sbc.inquire(request)
+	): ResponseData<ApprovalStatusStatisticResponse> {
+		return approvalStatusStatisticSbc.inquire(request)
+	}
 }

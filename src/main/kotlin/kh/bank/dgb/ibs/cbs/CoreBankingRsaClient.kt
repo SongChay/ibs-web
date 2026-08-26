@@ -36,17 +36,17 @@ private data class TerminalRequest(val terminalUniqueNo: String? = null)
 @Component
 class DefaultCoreBankingRsaClient(
 	private val restClient: RestClient,
-	private val props: CoreBankingRsaProperties,
+	private val coreBankingRsaProperties: CoreBankingRsaProperties,
 ) : CoreBankingRsaClient {
 
 	private val logger = LoggerFactory.getLogger(DefaultCoreBankingRsaClient::class.java)
 
 	override fun requestPublicKey(header: RequestUserHeaderVo): ChannelRsaKeyResult? {
-		val request = RequestData(header = header, body = TerminalRequest(terminalUniqueNo = props.terminalUniqueNo))
+		val request = RequestData(header = header, body = TerminalRequest(terminalUniqueNo = coreBankingRsaProperties.terminalUniqueNo))
 
 		return try {
 			val response = restClient.post()
-				.uri(props.url)
+				.uri(coreBankingRsaProperties.url)
 				.body(request)
 				.retrieve()
 				.body(ObjectNode::class.java)

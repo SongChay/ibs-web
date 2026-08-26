@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class UpdateFrequentlyUsedAccountSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun update(request: RequestData<UpdateFrequentlyUsedAccountRequest>): ResponseData<UpdateFrequentlyUsedAccountResponse> {
-		val result = connector.post(
+		val result = coreBankingApiConnector.post(
 			"CIB11002831",
 			request.header?.languageCode,
 			request.body,

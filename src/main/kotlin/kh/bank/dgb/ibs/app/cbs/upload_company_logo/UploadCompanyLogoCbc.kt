@@ -32,9 +32,10 @@ data class UploadCompanyLogoResponse(
 @RestController
 @RequestMapping("/USR2201")
 class UploadCompanyLogoCbc(
-	private val sbc: UploadCompanyLogoSbc,
+	private val uploadCompanyLogoSbc: UploadCompanyLogoSbc,
 ) {
 	@PostMapping
-	fun upload(@RequestBody request: RequestData<UploadCompanyLogoRequest>): ResponseData<UploadCompanyLogoResponse> =
-		sbc.upload(request)
+	fun upload(@RequestBody request: RequestData<UploadCompanyLogoRequest>): ResponseData<UploadCompanyLogoResponse> {
+		return uploadCompanyLogoSbc.upload(request)
+	}
 }

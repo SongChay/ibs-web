@@ -29,9 +29,10 @@ data class RecentWingTransferListResponse(
 @RestController
 @RequestMapping("/TRS1202")
 class RecentWingTransferListCbc(
-	private val sbc: RecentWingTransferListSbc,
+	private val recentWingTransferListSbc: RecentWingTransferListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<RecentWingTransferListRequest>): ResponseData<RecentWingTransferListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<RecentWingTransferListRequest>): ResponseData<RecentWingTransferListResponse> {
+		return recentWingTransferListSbc.inquire(request)
+	}
 }

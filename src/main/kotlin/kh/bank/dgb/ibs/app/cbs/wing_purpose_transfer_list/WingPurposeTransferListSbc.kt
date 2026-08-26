@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class WingPurposeTransferListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<WingPurposeTransferListRequest>): ResponseData<WingPurposeTransferListResponse> {
-		val result = connector.post(OPCODE, request.header?.languageCode, request.body, WingPurposeTransferListResponse::class.java)
+		val result = coreBankingApiConnector.post(OPCODE, request.header?.languageCode, request.body, WingPurposeTransferListResponse::class.java)
 
 		// Port of: "In case get error from external server we will set true to header result"
 		val header = result.header

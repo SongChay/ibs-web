@@ -8,10 +8,10 @@ import java.text.SimpleDateFormat
 
 @Service
 class AccountTransactionDetailSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<AccountTransactionDetailRequest>): ResponseData<AccountTransactionDetailResponse> {
-		val result = connector.post("CIB11000712", request.header?.languageCode, request.body, AccountTransactionDetailResponse::class.java)
+		val result = coreBankingApiConnector.post("CIB11000712", request.header?.languageCode, request.body, AccountTransactionDetailResponse::class.java)
 
 		if (result.header?.result != true) {
 			return result

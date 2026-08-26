@@ -29,13 +29,15 @@ data class GenerateQrCodeResponse(
  */
 @RestController
 class GenerateQrCodeCbc(
-	private val sbc: GenerateQrCodeSbc,
+	private val generateQrCodeSbc: GenerateQrCodeSbc,
 ) {
 	@PostMapping("/USR2001")
-	fun generate(@RequestBody request: RequestData<GenerateQrCodeRequest>): ResponseData<GenerateQrCodeResponse> =
-		sbc.generate(request)
+	fun generate(@RequestBody request: RequestData<GenerateQrCodeRequest>): ResponseData<GenerateQrCodeResponse> {
+		return generateQrCodeSbc.generate(request)
+	}
 
 	@GetMapping("/generateQrCode/{userID}.png")
-	fun generateImage(@PathVariable userID: String): ResponseEntity<ByteArray> =
-		sbc.generateImage(userID)
+	fun generateImage(@PathVariable userID: String): ResponseEntity<ByteArray> {
+		return generateQrCodeSbc.generateImage(userID)
+	}
 }

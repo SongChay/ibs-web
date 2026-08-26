@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeleteSubUserSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
-	fun delete(request: RequestData<DeleteSubUserRequest>): ResponseData<DeleteSubUserResponse> =
-		connector.post("CIB11002331", request.header?.languageCode, request.body, DeleteSubUserResponse::class.java)
+	fun delete(request: RequestData<DeleteSubUserRequest>): ResponseData<DeleteSubUserResponse> {
+		return coreBankingApiConnector.post("CIB11002331", request.header?.languageCode, request.body, DeleteSubUserResponse::class.java)
+	}
 }

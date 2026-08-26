@@ -10,14 +10,14 @@ import java.text.SimpleDateFormat
 
 @Service
 class InquiryExchangeRateSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	private val logger = LoggerFactory.getLogger(InquiryExchangeRateSbc::class.java)
 
 	fun inquire(
 		request: RequestData<InquiryExchangeRateRequest>,
 	): ResponseData<InquiryExchangeRateResponse> {
-		val result = connector.post(
+		val result = coreBankingApiConnector.post(
 			"CIB11000404",
 			request.header?.languageCode,
 			request.body,

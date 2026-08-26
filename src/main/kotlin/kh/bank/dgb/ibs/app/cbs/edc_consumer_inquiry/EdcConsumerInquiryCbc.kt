@@ -28,9 +28,10 @@ data class EdcConsumerInquiryResponse(
 @RestController
 @RequestMapping("/TRS2511")
 class EdcConsumerInquiryCbc(
-	private val sbc: EdcConsumerInquirySbc,
+	private val edcConsumerInquirySbc: EdcConsumerInquirySbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<EdcConsumerInquiryRequest>): ResponseData<EdcConsumerInquiryResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<EdcConsumerInquiryRequest>): ResponseData<EdcConsumerInquiryResponse> {
+		return edcConsumerInquirySbc.inquire(request)
+	}
 }

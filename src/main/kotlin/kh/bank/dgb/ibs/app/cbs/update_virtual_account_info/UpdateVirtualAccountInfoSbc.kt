@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service
  *  what the client sent — replicated below. */
 @Service
 class UpdateVirtualAccountInfoSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun update(request: RequestData<UpdateVirtualAccountInfoRequest>): ResponseData<UpdateVirtualAccountInfoResponse> {
 		val forcedBody = request.body?.copy(depositStartHMS = "", depositEndHMS1 = "", depositEndHMS2 = "")
 
-		return connector.post(
+		return coreBankingApiConnector.post(
 			"CIB11302032",
 			request.header?.languageCode,
 			forcedBody,

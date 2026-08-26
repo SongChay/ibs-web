@@ -75,9 +75,10 @@ data class AllAccountInquiryListResponse(
 @RestController
 @RequestMapping("/ACI1006")
 class AllAccountInquiryListCbc(
-	private val sbc: AllAccountInquiryListSbc,
+	private val allAccountInquiryListSbc: AllAccountInquiryListSbc,
 ) {
 	@PostMapping
-	fun inquire(@RequestBody request: RequestData<AllAccountInquiryListRequest>): ResponseData<AllAccountInquiryListResponse> =
-		sbc.inquire(request)
+	fun inquire(@RequestBody request: RequestData<AllAccountInquiryListRequest>): ResponseData<AllAccountInquiryListResponse> {
+		return allAccountInquiryListSbc.inquire(request)
+	}
 }

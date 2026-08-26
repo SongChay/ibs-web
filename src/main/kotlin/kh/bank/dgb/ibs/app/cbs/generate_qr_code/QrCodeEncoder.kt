@@ -33,6 +33,7 @@ object QrCodeEncoder {
 		return ByteArrayOutputStream().also { ImageIO.write(image, "png", it) }.toByteArray()
 	}
 
-	fun encodePngBase64DataUrl(content: String, size: Int): String =
-		"data:image/png;base64,${Base64.getEncoder().encodeToString(encodePng(content, size))}"
+	fun encodePngBase64DataUrl(content: String, size: Int): String {
+		return "data:image/png;base64,${Base64.getEncoder().encodeToString(encodePng(content, size))}"
+	}
 }

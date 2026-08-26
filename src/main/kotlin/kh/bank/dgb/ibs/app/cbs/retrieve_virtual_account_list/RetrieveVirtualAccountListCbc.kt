@@ -24,9 +24,10 @@ data class RetrieveVirtualAccountListResponse(
 @RestController
 @RequestMapping("/VAC1007")
 class RetrieveVirtualAccountListCbc(
-	private val sbc: RetrieveVirtualAccountListSbc,
+	private val retrieveVirtualAccountListSbc: RetrieveVirtualAccountListSbc,
 ) {
 	@PostMapping
-	fun retrieve(@RequestBody request: RequestData<RetrieveVirtualAccountListRequest>): ResponseData<RetrieveVirtualAccountListResponse> =
-		sbc.retrieve(request)
+	fun retrieve(@RequestBody request: RequestData<RetrieveVirtualAccountListRequest>): ResponseData<RetrieveVirtualAccountListResponse> {
+		return retrieveVirtualAccountListSbc.retrieve(request)
+	}
 }

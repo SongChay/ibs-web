@@ -52,10 +52,10 @@ data class VirtualAccountListCbsResponse(
  */
 @Service
 class VirtualAccountListSbc(
-	private val connector: CoreBankingApiConnector,
+	private val coreBankingApiConnector: CoreBankingApiConnector,
 ) {
 	fun inquire(request: RequestData<VirtualAccountListRequest>): ResponseData<VirtualAccountListResponse> {
-		val cbsResult = connector.post(
+		val cbsResult = coreBankingApiConnector.post(
 			"CIB11302011",
 			request.header?.languageCode,
 			request.body,

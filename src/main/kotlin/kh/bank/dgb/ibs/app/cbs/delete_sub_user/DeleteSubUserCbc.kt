@@ -39,9 +39,10 @@ data class DeleteSubUserResponse(
 @RestController
 @RequestMapping("/INF2002")
 class DeleteSubUserCbc(
-	private val sbc: DeleteSubUserSbc,
+	private val deleteSubUserSbc: DeleteSubUserSbc,
 ) {
 	@PostMapping
-	fun delete(@RequestBody request: RequestData<DeleteSubUserRequest>): ResponseData<DeleteSubUserResponse> =
-		sbc.delete(request)
+	fun delete(@RequestBody request: RequestData<DeleteSubUserRequest>): ResponseData<DeleteSubUserResponse> {
+		return deleteSubUserSbc.delete(request)
+	}
 }
